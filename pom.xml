@@ -38,13 +38,18 @@
   	<dependency>
   		<groupId>org.hibernate</groupId>
   		<artifactId>hibernate-c3p0</artifactId>
-  		<version>4.3.5.Final</version>
+  		<version>4.3.4.Final</version>
   	</dependency>
   	<dependency>
   		<groupId>org.hibernate</groupId>
   		<artifactId>hibernate-core</artifactId>
-  		<version>4.3.5.Final</version>
+  		<version>4.3.4.Final</version>
   	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-ehcache</artifactId>
+		<version>4.3.4.Final</version>
+	</dependency>
 	<dependency>
 		<groupId>org.hibernate.common</groupId>
 		<artifactId>hibernate-commons-annotations</artifactId>
@@ -70,10 +75,5 @@
 		<artifactId>javassist</artifactId>
 		<version>3.12.1.GA</version>
 	</dependency>  
-	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate-ehcache</artifactId>
-		<version>4.3.4.Final</version>
-	</dependency>
   </dependencies>
 </project>
