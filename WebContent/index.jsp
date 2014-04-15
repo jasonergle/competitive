@@ -16,7 +16,7 @@ if(request.getSession().getAttribute("player")!=null){
 <body>
 	<div class="jumbotron">
 		<div class="container">
-			<h1>Competition Tracker</h1>
+			<h1>Head 2 Head</h1>
 			<h3>Please Sign In</h3>
 			<div class="container">
 				<form method="POST" action="login" class="form-signin" role="form">

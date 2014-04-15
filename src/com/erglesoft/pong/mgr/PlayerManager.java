@@ -17,6 +17,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.erglesoft.login.UserLoginData;
+import com.erglesoft.pong.dbo.League;
 import com.erglesoft.pong.dbo.Player;
 import com.erglesoft.pong.dbo.PlayerMatch;
 import com.erglesoft.pong.hibernate.HibernateUtil;
@@ -57,11 +58,11 @@ public class PlayerManager {
 		return p;
 	}
 	
-	public Set<Player> getAllPlayersForCurrentLeague(){
+	public Set<Player> getAllPlayersForLeague(League league){
 		System.out.println("Get All Players for League");
 		Criteria criteria = HibernateUtil.currentSession().createCriteria(Player.class);
 		criteria.createAlias("leagues", "playerLeagues");
-		criteria.add(Restrictions.eq("playerLeagues.id", loginData.getCurLeague().getId()));
+		criteria.add(Restrictions.eq("playerLeagues.id", league.getId()));
 		criteria.setFetchMode("wonPlayerMatches", FetchMode.JOIN);
 		criteria.setFetchMode("lostPlayerMatches", FetchMode.JOIN);
 		@SuppressWarnings("unchecked")

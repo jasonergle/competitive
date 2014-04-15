@@ -9,12 +9,15 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import com.erglesoft.login.UserLoginData;
 import com.erglesoft.pong.dbo.GameType;
+import com.erglesoft.pong.dbo.League;
 import com.erglesoft.pong.dbo.Player;
 import com.erglesoft.pong.dbo.Team;
 import com.erglesoft.pong.hibernate.HibernateUtil;
@@ -29,9 +32,20 @@ public class TeamManager {
 		loginData = UserLoginData.fromHttpSession(request);
 	}
 	
-	public TeamManager(Session session, UserLoginData loginData) {
-		this.session = session;
+	public TeamManager(UserLoginData loginData) {
+		this.session = HibernateUtil.currentSession();
 		this.loginData = loginData;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Team> getAllTeamsForLeague(League league){
+		Criteria criteria = session.createCriteria(Team.class);
+		criteria.add(Restrictions.eq("league", league));
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		criteria.setFetchMode("wonTeamMatches", FetchMode.JOIN);
+		criteria.setFetchMode("lostTeamMatches", FetchMode.JOIN);
+	
+		return criteria.list();
 	}
 
 	public Team getTeamForPlayersInCurrentOrg(GameType type, Set<Player> players, Boolean createIfNeeded){
@@ -74,6 +88,17 @@ public class TeamManager {
 			ret += p.getFirstName();
 		}
 		return ret;	
+	}
+	
+	public static Double getTeamMatchWinningPercentage(Team t){
+		Integer win= t.getWonTeamMatches().size();
+		Integer lost= t.getLostTeamMatches().size();
+		if((win + lost) == 0){
+			return 0.0;
+		}
+		else{
+			return (double)win/(win+lost);
+		}
 	}
 
 }
