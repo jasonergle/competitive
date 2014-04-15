@@ -1,4 +1,4 @@
-package com.erglesoft.pong.dbo;
+package com.erglesoft.dbo;
 
 import java.io.Serializable;
 

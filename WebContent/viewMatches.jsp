@@ -1,8 +1,8 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page import="com.erglesoft.pong.dbo.*"%>
-<%@page import="com.erglesoft.pong.mgr.*"%>
+<%@page import="com.erglesoft.dbo.*"%>
+<%@page import="com.erglesoft.mgr.*"%>
 <%@page import="java.util.*"%>
 <%
 PlayerManager pMgr = new PlayerManager(request);

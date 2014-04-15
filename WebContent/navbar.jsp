@@ -1,5 +1,5 @@
-<%@page import="com.erglesoft.pong.dbo.Player"%>
-<%@page import="com.erglesoft.pong.mgr.*"%>
+<%@page import="com.erglesoft.dbo.Player"%>
+<%@page import="com.erglesoft.mgr.*"%>
 <%@page import="com.erglesoft.login.*"%>
 <%@page import="java.util.*"%>
 <%
@@ -12,13 +12,14 @@ List<Player> players = null;
 <div class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
+			<button type="button" class="navbar-toggle" 
+				data-toggle="collapse"
 				data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Head2Head</a>
+			<span class="navbar-brand">Head2Head</span>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
@@ -30,15 +31,15 @@ List<Player> players = null;
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%if(curPlayer!=null){ %>
-				<span>
+				<div>
 					<strong>
 						<a class="" href="viewStats.jsp?player=<%=curPlayer.getId() %>"> 
-							<%=PlayerManager.getLabelForPlayer(curPlayer) %>
+							<%=PlayerManager.getNameForPlayer(curPlayer) %> @ <%=curPlayer.getCurrentLeague().getName() %>
 						</a>
 					</strong>
 					&nbsp;
 					<a class="btn btn-danger" href="logout">Logout</a>
-				</span>
+				</div>
 				<%}else{ %>
 				<span>Not Logged In</span>
 				<%} %>

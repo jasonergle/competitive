@@ -1,9 +1,11 @@
-package com.erglesoft.pong.mgr;
+package com.erglesoft.mgr;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +17,13 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
+import com.erglesoft.dbo.GameType;
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.TeamMatch;
+import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.pong.dbo.GameType;
-import com.erglesoft.pong.dbo.League;
-import com.erglesoft.pong.dbo.Player;
-import com.erglesoft.pong.dbo.Team;
-import com.erglesoft.pong.hibernate.HibernateUtil;
 
 public class TeamManager {
 
@@ -37,6 +40,16 @@ public class TeamManager {
 		this.loginData = loginData;
 	}
 	
+	public TeamManager(Session session, UserLoginData loginData) {
+		this.session = session;
+		this.loginData = loginData;
+	}
+	
+	public Team getTeamById(Integer teamId) {
+		Team t = (Team) session.get(Team.class, teamId);
+		return t;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Team> getAllTeamsForLeague(League league){
 		Criteria criteria = session.createCriteria(Team.class);
@@ -99,6 +112,36 @@ public class TeamManager {
 		else{
 			return (double)win/(win+lost);
 		}
+	}
+	
+	public static Map<String, Integer> getPointsScoredAndAllowed(Team t){
+		Map<String, Integer> ret = new HashMap<String,Integer>();
+		Integer scored = 0;
+		Integer allowed = 0;
+		for(TeamMatch won:t.getWonTeamMatches()){
+			scored+=won.getWinnerScore();
+			allowed+=won.getLoserScore();
+		}
+		for(TeamMatch lost:t.getLostTeamMatches()){
+			scored+=lost.getLoserScore();
+			allowed+=lost.getWinnerScore();
+		}
+		ret.put("scored", scored);
+		ret.put("allowed", allowed);
+		return ret;
+	}
+	
+	public static Map<String, VersusRecord> getOpponentInfo(Team t){
+		Map<String, VersusRecord> ret = new HashMap<String, VersusRecord>();
+		for(TeamMatch match: t.getWonTeamMatches()){
+			if(ret.get(match.getLoser())==null)
+				ret.put(match.getLoser().getName(), new VersusRecord(t, match.getLoser()));
+		}
+		for(TeamMatch match: t.getLostTeamMatches()){
+			if(ret.get(match.getWinner())==null)
+				ret.put(match.getWinner().getName(), new VersusRecord(t, match.getWinner()));
+		}
+		return ret;
 	}
 
 }

@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.erglesoft.pong.dbo.GameType;
-import com.erglesoft.pong.dbo.Player;
-import com.erglesoft.pong.mgr.MatchManager;
-import com.erglesoft.pong.mgr.PlayerManager;
+import com.erglesoft.dbo.GameType;
+import com.erglesoft.dbo.Player;
+import com.erglesoft.mgr.MatchManager;
+import com.erglesoft.mgr.PlayerManager;
 
 /**
  * Servlet implementation class SubmitMatchServlet

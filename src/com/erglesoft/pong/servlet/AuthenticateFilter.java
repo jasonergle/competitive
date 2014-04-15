@@ -12,8 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.pong.hibernate.HibernateUtil;
 
 /**
  * Servlet Filter implementation class AuthenticateFilter

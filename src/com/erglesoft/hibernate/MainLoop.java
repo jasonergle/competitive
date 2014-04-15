@@ -1,4 +1,4 @@
-package com.erglesoft.pong.hibernate;
+package com.erglesoft.hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,12 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
-import com.erglesoft.pong.dbo.Game;
-import com.erglesoft.pong.dbo.League;
-import com.erglesoft.pong.dbo.Player;
-import com.erglesoft.pong.dbo.PlayerMatch;
-import com.erglesoft.pong.dbo.Team;
-import com.erglesoft.pong.dbo.TeamMatch;
+import com.erglesoft.dbo.Game;
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.PlayerMatch;
+import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.TeamMatch;
 
 @SuppressWarnings("rawtypes")
 public class MainLoop {

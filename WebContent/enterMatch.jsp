@@ -1,12 +1,14 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page import="com.erglesoft.pong.dbo.*"%>
-<%@page import="com.erglesoft.pong.mgr.*"%>
+<%@page import="com.erglesoft.dbo.*"%>
+<%@page import="com.erglesoft.mgr.*"%>
+<%@page import="com.erglesoft.login.*"%>
 <%@page import="java.util.*"%>
 <%
+UserLoginData data = UserLoginData.fromHttpSession(request);
 PlayerManager pMgr = new PlayerManager(request);
-Set<Player> players = pMgr.getAllPlayersForCurrentLeague();
+Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>

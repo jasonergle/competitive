@@ -4,7 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import com.erglesoft.pong.hibernate.HibernateUtil;
+import com.erglesoft.hibernate.HibernateUtil;
 
 
 /**

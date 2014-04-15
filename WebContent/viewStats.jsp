@@ -1,25 +1,20 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page import="com.erglesoft.pong.dbo.*"%>
-<%@page import="com.erglesoft.pong.mgr.*"%>
+<%@page import="com.erglesoft.jspmodel.*"%>
+<%@page import="com.erglesoft.mgr.*"%>
 <%@page import="java.util.*"%>
 <%
-Integer playerId = Integer.parseInt(request.getParameter("player"));
-PlayerManager pMgr = new PlayerManager(request);
-Player player = pMgr.getPlayerById(playerId);
-Double playerWinPerc =PlayerManager.getPlayerMatchWinningPercentage(player);
-Map<String, Integer> scoredAndAllowed = PlayerManager.getPointsScoredAndAllowed(player);
-Map<Player, VersusRecord> opponentInfo = PlayerManager.getOpponentInfo(player);
+ViewStatsJspModel model = new ViewStatsJspModel(request);
 %>
 <html>
 	<head>
-		<title>Pong Score Tracking - Main Page</title>
+		<title>Head 2 Head Score Tracking - Main Page</title>
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>
 		<jsp:include page="navbar.jsp"></jsp:include>
-		<div>Viewing Data For <strong><%=PlayerManager.getLabelForPlayer(player) %></strong></div>
+		<div>Stats For <strong><%=model.getTargetLabel() %></strong></div>
 		<br/>
 		<h3>Results</h3>
 		<table class="table table-striped">
@@ -36,11 +31,11 @@ Map<Player, VersusRecord> opponentInfo = PlayerManager.getOpponentInfo(player);
 			<tbody>
 				<tr>
 					<td>Ping Pong</td>
-					<td><%=player.getWonPlayerMatches().size()%></td>
-					<td><%=player.getLostPlayerMatches().size()%></td>
-					<td><%=String.format("%1.2f",playerWinPerc)%></td>
-					<td><%=String.format("%2.2f",scoredAndAllowed.get("scored")/((double)player.getWonPlayerMatches().size()+player.getLostPlayerMatches().size())) %></td>
-					<td><%=String.format("%2.2f",scoredAndAllowed.get("allowed")/((double)player.getWonPlayerMatches().size()+player.getLostPlayerMatches().size())) %></td>
+					<td><%=model.getWonMatchCnt()%></td>
+					<td><%=model.getLostMatchCnt()%></td>
+					<td><%=String.format("%1.2f",model.getWinPerc())%></td>
+					<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("scored")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
+					<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("allowed")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
 				</tr>
 			</tbody>
 		</table>
@@ -59,14 +54,14 @@ Map<Player, VersusRecord> opponentInfo = PlayerManager.getOpponentInfo(player);
 				</tr>
 			</thead>
 			<tbody>
-				<%for(Player opponent: opponentInfo.keySet()){ 
-					VersusRecord record = opponentInfo.get(opponent);
+				<%for(String opponent: model.getOpponentInfo().keySet()){ 
+					VersusRecord record = model.getOpponentInfo().get(opponent);
 				%>
 					<tr>
-						<td><a class="" href="viewStats.jsp?player=<%=opponent.getId() %>"> <%=PlayerManager.getLabelForPlayer(opponent) %></a></td>
+						<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=opponent %></a></td>
 						<td><%=record.getWinCnt() %></td>
 						<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
-						<td><%=(double)record.getWinCnt()/record.getMatchCnt()%></td>
+						<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
 						<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
 						<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
 						<td><%=record.getHandycap() %></td>

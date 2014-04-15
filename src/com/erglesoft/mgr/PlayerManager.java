@@ -1,4 +1,4 @@
-package com.erglesoft.pong.mgr;
+package com.erglesoft.mgr;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,11 +16,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.PlayerMatch;
+import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.pong.dbo.League;
-import com.erglesoft.pong.dbo.Player;
-import com.erglesoft.pong.dbo.PlayerMatch;
-import com.erglesoft.pong.hibernate.HibernateUtil;
 
 public class PlayerManager {
 
@@ -108,15 +108,15 @@ public class PlayerManager {
 		return ret;
 	}
 	
-	public static Map<Player, VersusRecord> getOpponentInfo(Player player){
-		Map<Player, VersusRecord> ret = new HashMap<Player, VersusRecord>();
+	public static Map<String, VersusRecord> getOpponentInfo(Player player){
+		Map<String, VersusRecord> ret = new HashMap<String, VersusRecord>();
 		for(PlayerMatch match: player.getWonPlayerMatches()){
 			if(ret.get(match.getLoser())==null)
-				ret.put(match.getLoser(), new VersusRecord(player, match.getLoser()));
+				ret.put(PlayerManager.getLabelForPlayer(match.getLoser()), new VersusRecord(player, match.getLoser()));
 		}
 		for(PlayerMatch match: player.getLostPlayerMatches()){
 			if(ret.get(match.getWinner())==null)
-				ret.put(match.getWinner(), new VersusRecord(player, match.getWinner()));
+				ret.put(PlayerManager.getLabelForPlayer(match.getWinner()), new VersusRecord(player, match.getWinner()));
 		}
 		return ret;
 	}

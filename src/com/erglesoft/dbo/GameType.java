@@ -1,4 +1,4 @@
-package com.erglesoft.pong.dbo;
+package com.erglesoft.dbo;
 
 public enum GameType {
 	PING_PONG,

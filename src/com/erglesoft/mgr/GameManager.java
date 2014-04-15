@@ -1,4 +1,4 @@
-package com.erglesoft.pong.mgr;
+package com.erglesoft.mgr;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,10 +6,10 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.erglesoft.dbo.Game;
+import com.erglesoft.dbo.GameType;
+import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.pong.dbo.Game;
-import com.erglesoft.pong.dbo.GameType;
-import com.erglesoft.pong.hibernate.HibernateUtil;
 
 public class GameManager {
 

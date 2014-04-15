@@ -1,4 +1,4 @@
-package com.erglesoft.pong.hibernate;
+package com.erglesoft.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,12 +8,12 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.ServiceRegistry;
 
-import com.erglesoft.pong.dbo.Game;
-import com.erglesoft.pong.dbo.League;
-import com.erglesoft.pong.dbo.Player;
-import com.erglesoft.pong.dbo.PlayerMatch;
-import com.erglesoft.pong.dbo.Team;
-import com.erglesoft.pong.dbo.TeamMatch;
+import com.erglesoft.dbo.Game;
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.PlayerMatch;
+import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.TeamMatch;
 
 public class HibernateUtil {
 

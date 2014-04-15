@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.erglesoft.pong.mgr.MatchManager;
+import com.erglesoft.mgr.MatchManager;
 
 /**
  * Servlet implementation class DeleteMatchServlet

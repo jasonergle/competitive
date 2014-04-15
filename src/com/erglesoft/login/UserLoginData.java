@@ -4,9 +4,9 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.erglesoft.pong.dbo.Game;
-import com.erglesoft.pong.dbo.League;
-import com.erglesoft.pong.dbo.Player;
+import com.erglesoft.dbo.Game;
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Player;
 
 public class UserLoginData {
 	

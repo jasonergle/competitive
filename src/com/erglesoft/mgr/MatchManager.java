@@ -1,4 +1,4 @@
-package com.erglesoft.pong.mgr;
+package com.erglesoft.mgr;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
 
+import com.erglesoft.dbo.GameType;
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.PlayerMatch;
+import com.erglesoft.dbo.TeamMatch;
+import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.pong.dbo.GameType;
-import com.erglesoft.pong.dbo.League;
-import com.erglesoft.pong.dbo.PlayerMatch;
-import com.erglesoft.pong.dbo.Player;
-import com.erglesoft.pong.dbo.TeamMatch;
-import com.erglesoft.pong.hibernate.HibernateUtil;
 
 public class MatchManager {
 
