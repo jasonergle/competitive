@@ -6,19 +6,14 @@
 <%@page import="com.erglesoft.login.*"%>
 <%@page import="java.util.*"%>
 <%
-System.out.println("main.jsp BEGIN");
 UserLoginData data = UserLoginData.fromHttpSession(request);
-System.out.println("main.jsp 1");
 PlayerManager pMgr = new PlayerManager(data);
-System.out.println("main.jsp 2");
 Set<Player> players = pMgr.getAllPlayersForCurrentLeague();
-System.out.println("main.jsp 3");
 Player curPlayer = data.getPlayer();
-System.out.println("main.jsp 4");
 %>
 <html>
 	<head>
-		<title>Pong Score Tracking - Main Page</title>
+		<title>Competition Tracker - Main Page</title>
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>
@@ -39,7 +34,7 @@ System.out.println("main.jsp 4");
 					<td><a class="" href="viewStats.jsp?player=<%=player.getId() %>"> <%=PlayerManager.getLabelForPlayer(player) %></a></td>
 					<td><%=player.getWonPlayerMatches().size()%></td>
 					<td><%=player.getLostPlayerMatches().size()%></td>
-					<td><%=PlayerManager.getPlayerMatchWinningPercentage(player)%></td>
+					<td><%=String.format("%.3f",PlayerManager.getPlayerMatchWinningPercentage(player))%></td>
 				</tr>
 				<%} %>
 			</tbody>

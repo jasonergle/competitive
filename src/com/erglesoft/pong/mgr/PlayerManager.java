@@ -1,17 +1,22 @@
 package com.erglesoft.pong.mgr;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.pong.dbo.League;
 import com.erglesoft.pong.dbo.Player;
 import com.erglesoft.pong.dbo.PlayerMatch;
 import com.erglesoft.pong.hibernate.HibernateUtil;
@@ -32,10 +37,18 @@ public class PlayerManager {
 	}
 	
 	public static Player getPlayerByLogin(String login, String password){
-		Criteria criteria = HibernateUtil.currentSession().createCriteria(Player.class);
+		Session staticSession = HibernateUtil.currentSession();
+		Criteria criteria = staticSession.createCriteria(Player.class);
 		criteria.add(Restrictions.eq("login", login));
 		criteria.add(Restrictions.eq("password", password));
 		Player p = (Player) criteria.uniqueResult();
+		if(p!=null){
+			Transaction tx = staticSession.beginTransaction();
+			p.setLastLoginDate(new Timestamp(new Date().getTime()));
+			staticSession.save(p);
+			tx.commit();
+		}
+			
 		return p;
 	}
 	
@@ -45,13 +58,17 @@ public class PlayerManager {
 	}
 	
 	public Set<Player> getAllPlayersForCurrentLeague(){
-		System.out.println(loginData);
-		System.out.println(loginData.getCurLeague());
-		System.out.println(session);
-		League refreshedLeague = (League)session.load(League.class, loginData.getCurLeague().getId());
-		System.out.println("loaded");
-		System.out.println(refreshedLeague);
-		return refreshedLeague.getPlayers();
+		System.out.println("Get All Players for League");
+		Criteria criteria = HibernateUtil.currentSession().createCriteria(Player.class);
+		criteria.createAlias("leagues", "playerLeagues");
+		criteria.add(Restrictions.eq("playerLeagues.id", loginData.getCurLeague().getId()));
+		criteria.setFetchMode("wonPlayerMatches", FetchMode.JOIN);
+		criteria.setFetchMode("lostPlayerMatches", FetchMode.JOIN);
+		@SuppressWarnings("unchecked")
+		List<Player> players = criteria.list();
+		HashSet<Player> ret = new HashSet<Player>();
+		ret.addAll(players);
+		return ret;
 	}
 	
 	public static String getLabelForPlayer(Player p){

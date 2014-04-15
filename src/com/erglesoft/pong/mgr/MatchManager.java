@@ -49,12 +49,12 @@ public class MatchManager {
 	}
 	
 	public Set<PlayerMatch> getPlayerMatchesForCurrentLeague(){
-		League refreshedLeague = (League) session.load(League.class, loginData.getCurLeague().getId());
+		League refreshedLeague = (League) session.get(League.class, loginData.getCurLeague().getId());
 		return refreshedLeague.getPlayerMatches();
 	}
 	
 	public Set<TeamMatch> getTeamMatchesForCurrentLeague(){
-		League refreshedLeague = (League) session.load(League.class, loginData.getCurLeague().getId());
+		League refreshedLeague = (League) session.get(League.class, loginData.getCurLeague().getId());
 		return refreshedLeague.getTeamMatches();
 	}
 	

@@ -1,7 +1,10 @@
 package com.erglesoft.pong.dbo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import java.sql.Timestamp;
 import java.util.Set;
 
 
@@ -86,6 +89,12 @@ public class Player implements Serializable {
 	//bi-directional many-to-one association to TeamMatch
 	@OneToMany(mappedBy="creator")
 	private Set<TeamMatch> teamMatches;
+	
+	@Column(name="create_date")
+	private Timestamp createDate;
+	
+	@Column(name="last_login_date")
+	private Timestamp lastLoginDate;
 
 	public Player() {
 	}
@@ -349,6 +358,22 @@ public class Player implements Serializable {
 	@Override
 	public String toString() {
 		return "Player [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", login=" + login + "]";
+	}
+
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
+	public Timestamp getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Timestamp lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
 	}
 
 }
