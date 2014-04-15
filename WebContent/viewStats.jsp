@@ -13,62 +13,64 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>
-		<jsp:include page="navbar.jsp"></jsp:include>
-		<div>Stats For <strong><%=model.getTargetLabel() %></strong></div>
-		<br/>
-		<h3>Results</h3>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Type</th>
-					<th>Wins</th>
-					<th>Losses</th>
-					<th>Win %</th>
-					<th>PS</th>
-					<th>PA</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Ping Pong</td>
-					<td><%=model.getWonMatchCnt()%></td>
-					<td><%=model.getLostMatchCnt()%></td>
-					<td><%=String.format("%1.2f",model.getWinPerc())%></td>
-					<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("scored")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
-					<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("allowed")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
-				</tr>
-			</tbody>
-		</table>
-		
-		<h3>vs Others</h3>
-		<table id="versusSinglesTable" class="table table-striped">
-			<thead>
-				<tr>
-					<th>Opponent</th>
-					<th>Wins</th>
-					<th>Losses</th>
-					<th>Win %</th>
-					<th>PS</th>
-					<th>PA</th>
-					<th>Handycap</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%for(String opponent: model.getOpponentInfo().keySet()){ 
-					VersusRecord record = model.getOpponentInfo().get(opponent);
-				%>
+		<div class="container">
+			<jsp:include page="navbar.jsp"></jsp:include>
+			<div>Stats For <strong><%=model.getTargetLabel() %></strong></div>
+			<br/>
+			<h3>Results</h3>
+			<table class="table table-striped">
+				<thead>
 					<tr>
-						<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=opponent %></a></td>
-						<td><%=record.getWinCnt() %></td>
-						<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
-						<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
-						<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
-						<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
-						<td><%=record.getHandycap() %></td>
+						<th>Type</th>
+						<th>Wins</th>
+						<th>Losses</th>
+						<th>Win %</th>
+						<th>PS</th>
+						<th>PA</th>
 					</tr>
-				<%} %>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ping Pong</td>
+						<td><%=model.getWonMatchCnt()%></td>
+						<td><%=model.getLostMatchCnt()%></td>
+						<td><%=String.format("%1.2f",model.getWinPerc())%></td>
+						<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("scored")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
+						<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("allowed")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<h3>vs Others</h3>
+			<table id="versusSinglesTable" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Opponent</th>
+						<th>Wins</th>
+						<th>Losses</th>
+						<th>Win %</th>
+						<th>PS</th>
+						<th>PA</th>
+						<th>Handycap</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%for(String opponent: model.getOpponentInfo().keySet()){ 
+						VersusRecord record = model.getOpponentInfo().get(opponent);
+					%>
+						<tr>
+							<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=opponent %></a></td>
+							<td><%=record.getWinCnt() %></td>
+							<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
+							<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
+							<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
+							<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
+							<td><%=record.getHandycap() %></td>
+						</tr>
+					<%} %>
+				</tbody>
+			</table>
+		</div>
 	</body>
 </html>
 

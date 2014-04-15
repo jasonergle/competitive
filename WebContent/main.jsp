@@ -19,49 +19,51 @@ Player curPlayer = data.getPlayer();
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>
-		<jsp:include page="navbar.jsp"></jsp:include>
-		<h3>Player Leaderboards</h3>
-		<table id="statTablePlayers" class="table table-striped">
-			<thead>
-				<tr>
-					<th>Player Name</th>
-					<th>Wins</th>
-					<th>Losses</th>
-					<th>Win %</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%for(Player player : players){%>
-				<tr>
-					<td><a class="" href="viewStats.jsp?player=<%=player.getId() %>"> <%=PlayerManager.getLabelForPlayer(player) %></a></td>
-					<td><%=player.getWonPlayerMatches().size()%></td>
-					<td><%=player.getLostPlayerMatches().size()%></td>
-					<td><%=String.format("%.3f",PlayerManager.getPlayerMatchWinningPercentage(player))%></td>
-				</tr>
-				<%} %>
-			</tbody>
-		</table>
-		<h3>Team Leaderboards</h3>
-		<table id="statTableTeams" class="table table-striped">
-			<thead>
-				<tr>
-					<th>Team Name</th>
-					<th>Wins</th>
-					<th>Losses</th>
-					<th>Win %</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%for(Team team : teams){%>
-				<tr>
-					<td><a class="" href="viewStats.jsp?team=<%=team.getId() %>"> <%=team.getName() %></a></td>
-					<td><%=team.getWonTeamMatches().size()%></td>
-					<td><%=team.getLostTeamMatches().size()%></td>
-					<td><%=String.format("%.3f",TeamManager.getTeamMatchWinningPercentage(team))%></td>
-				</tr>
-				<%} %>
-			</tbody>
-		</table>
+		<div class="container">
+			<jsp:include page="navbar.jsp"></jsp:include>
+			<h3><strong><%=data.getCurLeague().getName() %></strong> Player Leaderboards</h3>
+			<table id="statTablePlayers" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Player Name</th>
+						<th>Wins</th>
+						<th>Losses</th>
+						<th>Win %</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%for(Player player : players){%>
+					<tr>
+						<td><a class="" href="viewStats.jsp?player=<%=player.getId() %>"> <%=PlayerManager.getLabelForPlayer(player) %></a></td>
+						<td><%=player.getWonPlayerMatches().size()%></td>
+						<td><%=player.getLostPlayerMatches().size()%></td>
+						<td><%=String.format("%.3f",PlayerManager.getPlayerMatchWinningPercentage(player))%></td>
+					</tr>
+					<%} %>
+				</tbody>
+			</table>
+			<h3><strong><%=data.getCurLeague().getName() %></strong> Team Leaderboards</h3>
+			<table id="statTableTeams" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Team Name</th>
+						<th>Wins</th>
+						<th>Losses</th>
+						<th>Win %</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%for(Team team : teams){%>
+					<tr>
+						<td><a class="" href="viewStats.jsp?team=<%=team.getId() %>"> <%=team.getName() %></a></td>
+						<td><%=team.getWonTeamMatches().size()%></td>
+						<td><%=team.getLostTeamMatches().size()%></td>
+						<td><%=String.format("%.3f",TeamManager.getTeamMatchWinningPercentage(team))%></td>
+					</tr>
+					<%} %>
+				</tbody>
+			</table>
+		</div>
 	</body>
 </html>
 
