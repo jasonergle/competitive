@@ -24,7 +24,7 @@ List<Player> players = null;
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<%if(curPlayer!=null){ %>
-				<li><a href="main.jsp">Main</a></li>
+				<li><a href="leaderboards.jsp">Leaderboards</a></li>
 				<li><a href="enterMatch.jsp">Enter Match</a></li>
 				<li><a href="viewMatches.jsp">See Matches</a></li>
 				<%} %>

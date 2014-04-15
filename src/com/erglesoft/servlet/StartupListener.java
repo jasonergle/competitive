@@ -1,4 +1,4 @@
-package com.erglesoft.pong.servlet;
+package com.erglesoft.servlet;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

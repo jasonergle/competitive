@@ -24,14 +24,14 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 				<div class="row">
 					<div class="form-group col-sm-3">
 						<label for="winners"><i class="fa fa-thumbs-o-up"></i> Winner(s)</label>
-						<select name="winner" class="form-control pmPlayer1">
+						<select id="winnerSelect" name="winner" class="form-control pmPlayer1">
 							<option value="-1"></option>
 							<%for(Player p: players){ %>
 							<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
 							<%} %>
 						</select>
-						<select name="winner2" class="form-control pmPlayer2">
-							<option value="-1">N/A</option>
+						<select id="winnerSelect2" name="winner2" class="form-control pmPlayer2">
+							<option value="-1"></option>
 							<%for(Player p: players){ %>
 							<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p) %></option>
 							<%} %>
@@ -42,14 +42,14 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 
 					<div class="form-group col-sm-3">
 						<label for="losers"><i class="fa fa-thumbs-o-down"></i> Loser(s)</label>
-						<select name="loser" class="form-control pmPlayer1">
+						<select id="loserSelect" name="loser" class="form-control pmPlayer1">
 							<option value="-1"></option>
 							<%for(Player p: players){ %>
 							<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p) %></option>
 							<%} %>
 						</select>
-						<select name="loser2" class="form-control pmPlayer2">
-							<option value="-1">N/A</option>
+						<select id="loserSelect2" name="loser2" class="form-control pmPlayer2">
+							<option value="-1"></option>
 							<%for(Player p: players){ %>
 							<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p)%></option>
 							<%} %>
@@ -89,6 +89,11 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 				, $otherPlayer = $(this).siblings('.pmPlayer2');
 				DisableOtherGuys(player, $otherPlayer);
 			});
+			
+			$('#winnerSelect').sort_select_box();
+			$('#winnerSelect2').sort_select_box();
+			$('#loserSelect').sort_select_box();
+			$('#loserSelect2').sort_select_box();
 		});
 	</script>
 

@@ -1,4 +1,4 @@
-package com.erglesoft.pong.servlet;
+package com.erglesoft.servlet;
 
 import java.io.IOException;
 

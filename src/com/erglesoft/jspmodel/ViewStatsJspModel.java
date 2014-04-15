@@ -10,7 +10,7 @@ import com.erglesoft.mgr.PlayerManager;
 import com.erglesoft.mgr.TeamManager;
 import com.erglesoft.mgr.VersusRecord;
 
-public class ViewStatsJspModel {
+public class ViewStatsJspModel extends JspModel {
 	private Boolean playerMode;
 	private Integer playerId;
 	private Integer teamId;
@@ -26,6 +26,7 @@ public class ViewStatsJspModel {
 	private Integer lostMatchCnt;
 	
 	public ViewStatsJspModel(HttpServletRequest request) {
+		super(request);
 		pMgr = new PlayerManager(request);
 		tMgr = new TeamManager(request);
 		if(request.getParameter("player")!=null){

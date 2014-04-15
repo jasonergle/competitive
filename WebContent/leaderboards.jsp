@@ -2,16 +2,10 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="com.erglesoft.dbo.*"%>
+<%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="com.erglesoft.mgr.*"%>
-<%@page import="com.erglesoft.login.*"%>
-<%@page import="java.util.*"%>
 <%
-UserLoginData data = UserLoginData.fromHttpSession(request);
-PlayerManager pMgr = new PlayerManager(data);
-TeamManager tMgr = new TeamManager(data);
-Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
-List<Team> teams = tMgr.getAllTeamsForLeague(data.getCurLeague());
-Player curPlayer = data.getPlayer();
+LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 %>
 <html>
 	<head>
@@ -21,7 +15,7 @@ Player curPlayer = data.getPlayer();
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
-			<h3><strong><%=data.getCurLeague().getName() %></strong> Player Leaderboards</h3>
+			<h3><strong><%=model.getLoginData().getCurLeague().getName() %></strong> Player Leaderboards</h3>
 			<table id="statTablePlayers" class="table table-striped">
 				<thead>
 					<tr>
@@ -32,7 +26,7 @@ Player curPlayer = data.getPlayer();
 					</tr>
 				</thead>
 				<tbody>
-					<%for(Player player : players){%>
+					<%for(Player player : model.getPlayers()){%>
 					<tr>
 						<td><a class="" href="viewStats.jsp?player=<%=player.getId() %>"> <%=PlayerManager.getLabelForPlayer(player) %></a></td>
 						<td><%=player.getWonPlayerMatches().size()%></td>
@@ -42,7 +36,7 @@ Player curPlayer = data.getPlayer();
 					<%} %>
 				</tbody>
 			</table>
-			<h3><strong><%=data.getCurLeague().getName() %></strong> Team Leaderboards</h3>
+			<h3><strong><%=model.getLoginData().getCurLeague().getName() %></strong> Team Leaderboards</h3>
 			<table id="statTableTeams" class="table table-striped">
 				<thead>
 					<tr>
@@ -53,7 +47,7 @@ Player curPlayer = data.getPlayer();
 					</tr>
 				</thead>
 				<tbody>
-					<%for(Team team : teams){%>
+					<%for(Team team : model.getTeams()){%>
 					<tr>
 						<td><a class="" href="viewStats.jsp?team=<%=team.getId() %>"> <%=team.getName() %></a></td>
 						<td><%=team.getWonTeamMatches().size()%></td>

@@ -10,6 +10,7 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="assets/libs/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
 <script src="assets/libs/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script src="assets/js/erglesoft.js"></script>
 
 <style>
 body {
