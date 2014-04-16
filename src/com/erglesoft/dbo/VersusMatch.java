@@ -3,21 +3,22 @@ package com.erglesoft.dbo;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 
 /**
- * The persistent class for the player_match database table.
+ * The persistent class for the versus_match database table.
  * 
  */
 @Entity
-@Table(name="player_match")
-@NamedQuery(name="PlayerMatch.findAll", query="SELECT p FROM PlayerMatch p")
-public class PlayerMatch implements Serializable, Match {
+@Table(name="versus_match")
+@NamedQuery(name="VersusMatch.findAll", query="SELECT v FROM VersusMatch v")
+public class VersusMatch implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	@Column(name="create_date")
 	private Timestamp createDate;
@@ -25,16 +26,14 @@ public class PlayerMatch implements Serializable, Match {
 	@Column(name="is_complete")
 	private Boolean isComplete;
 
-	@Column(name="loser_score")
-	private Integer loserScore;
-
 	@Column(name="match_date")
 	private Timestamp matchDate;
 
 	private String title;
 
-	@Column(name="winner_score")
-	private Integer winnerScore;
+	//bi-directional many-to-one association to VersusEntry
+	@OneToMany(mappedBy="versusMatch")
+	private Set<VersusEntry> versusEntries;
 
 	//bi-directional many-to-one association to Game
 	@ManyToOne
@@ -48,22 +47,14 @@ public class PlayerMatch implements Serializable, Match {
 	@ManyToOne
 	private Player creator;
 
-	//bi-directional many-to-one association to Player
-	@ManyToOne
-	private Player loser;
-
-	//bi-directional many-to-one association to Player
-	@ManyToOne
-	private Player winner;
-
-	public PlayerMatch() {
+	public VersusMatch() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -83,14 +74,6 @@ public class PlayerMatch implements Serializable, Match {
 		this.isComplete = isComplete;
 	}
 
-	public Integer getLoserScore() {
-		return this.loserScore;
-	}
-
-	public void setLoserScore(Integer loserScore) {
-		this.loserScore = loserScore;
-	}
-
 	public Timestamp getMatchDate() {
 		return this.matchDate;
 	}
@@ -107,12 +90,26 @@ public class PlayerMatch implements Serializable, Match {
 		this.title = title;
 	}
 
-	public Integer getWinnerScore() {
-		return this.winnerScore;
+	public Set<VersusEntry> getVersusEntries() {
+		return this.versusEntries;
 	}
 
-	public void setWinnerScore(Integer winnerScore) {
-		this.winnerScore = winnerScore;
+	public void setVersusEntries(Set<VersusEntry> versusEntries) {
+		this.versusEntries = versusEntries;
+	}
+
+	public VersusEntry addVersusEntry(VersusEntry versusEntry) {
+		getVersusEntries().add(versusEntry);
+		versusEntry.setVersusMatch(this);
+
+		return versusEntry;
+	}
+
+	public VersusEntry removeVersusEntry(VersusEntry versusEntry) {
+		getVersusEntries().remove(versusEntry);
+		versusEntry.setVersusMatch(null);
+
+		return versusEntry;
 	}
 
 	public Game getGame() {
@@ -137,22 +134,6 @@ public class PlayerMatch implements Serializable, Match {
 
 	public void setCreator(Player creator) {
 		this.creator = creator;
-	}
-
-	public Player getLoser() {
-		return this.loser;
-	}
-
-	public void setLoser(Player loser) {
-		this.loser = loser;
-	}
-
-	public Player getWinner() {
-		return this.winner;
-	}
-
-	public void setWinner(Player winner) {
-		this.winner = winner;
 	}
 
 }

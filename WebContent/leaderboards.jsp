@@ -15,48 +15,30 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
-			<h3><strong><%=model.getLoginData().getCurLeague().getName() %></strong> Player Leaderboards</h3>
-			<table id="statTablePlayers" class="table table-striped">
-				<thead>
-					<tr>
-						<th>Player Name</th>
-						<th>Wins</th>
-						<th>Losses</th>
-						<th>Win %</th>
-					</tr>
-				</thead>
-				<tbody>
-					<%for(Player player : model.getPlayers()){%>
-					<tr>
-						<td><a class="" href="viewStats.jsp?player=<%=player.getId() %>"> <%=PlayerManager.getLabelForPlayer(player) %></a></td>
-						<td><%=player.getWonPlayerMatches().size()%></td>
-						<td><%=player.getLostPlayerMatches().size()%></td>
-						<td><%=String.format("%.3f",PlayerManager.getPlayerMatchWinningPercentage(player))%></td>
-					</tr>
-					<%} %>
-				</tbody>
-			</table>
-			<h3><strong><%=model.getLoginData().getCurLeague().getName() %></strong> Team Leaderboards</h3>
-			<table id="statTableTeams" class="table table-striped">
-				<thead>
-					<tr>
-						<th>Team Name</th>
-						<th>Wins</th>
-						<th>Losses</th>
-						<th>Win %</th>
-					</tr>
-				</thead>
-				<tbody>
-					<%for(Team team : model.getTeams()){%>
-					<tr>
-						<td><a class="" href="viewStats.jsp?team=<%=team.getId() %>"> <%=team.getName() %></a></td>
-						<td><%=team.getWonTeamMatches().size()%></td>
-						<td><%=team.getLostTeamMatches().size()%></td>
-						<td><%=String.format("%.3f",TeamManager.getTeamMatchWinningPercentage(team))%></td>
-					</tr>
-					<%} %>
-				</tbody>
-			</table>
+			<%for(Game g: model.getAllowedGames()){ %>
+				<h3><strong><%=model.getLoginData().getCurLeague().getName() %></strong> <%=g.getName() %> Leaderboards</h3>
+				<table id="statTablePlayers" class="statTable table table-striped">
+					<thead>
+						<tr>
+							<th>Player Name</th>
+							<th>Wins</th>
+							<th>Losses</th>
+							<th>Win %</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%for(Player player : model.getPlayers()){%>
+						<tr>
+							<td><a class="" href="viewStats.jsp?player=<%=player.getId() %>"> <%=PlayerManager.getLabelForPlayer(player) %></a></td>
+							<td></td>
+							<td></td>
+							<td><%=PlayerManager.getWinningPercentage(player, g) %></td>
+						</tr>
+						<%} %>
+					</tbody>
+				</table>
+				<br/>
+			<%} %>
 		</div>
 	</body>
 </html>
@@ -64,16 +46,11 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 <script>
 $( document ).ready(function() {
 	
-	$('#statTablePlayers').DataTable({
+	$('.statTable').DataTable({
 					bFilter: false, 
 					bLengthChange: false,
 					bPaginate: true,
 					aaSorting:[[1, "desc"],[3,"desc"]] });
 	
-	$('#statTableTeams').DataTable({
-		bFilter: false, 
-		bLengthChange: false,
-		bPaginate: true,
-		aaSorting:[[1, "desc"],[3,"desc"]] });
 });
 </script>

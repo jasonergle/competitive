@@ -1,10 +1,7 @@
 package com.erglesoft.login;
 
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 
-import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Player;
 
@@ -12,12 +9,10 @@ public class UserLoginData {
 	
 	private Player player;
 	private League curLeague;
-	private Set<Game> allowedGames;
 
 	public UserLoginData(Player player) {
 		this.player = player;
 		this.curLeague = player.getCurrentLeague();
-		this.allowedGames = curLeague.getGames();
 	}
 	
 	public static UserLoginData fromHttpSession(HttpServletRequest request){
@@ -34,10 +29,6 @@ public class UserLoginData {
 
 	public League getCurLeague() {
 		return curLeague;
-	}
-
-	public Set<Game> getAllowedGames() {
-		return allowedGames;
 	}
 
 	@Override

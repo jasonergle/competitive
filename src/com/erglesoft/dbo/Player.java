@@ -1,12 +1,9 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.sql.Timestamp;
 import java.util.Set;
-
 
 /**
  * The persistent class for the player database table.
@@ -19,13 +16,19 @@ public class Player implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	@Column(name="active_flag")
 	private Boolean activeFlag;
 
+	@Column(name="create_date")
+	private Timestamp createDate;
+
 	@Column(name="first_name")
 	private String firstName;
+
+	@Column(name="last_login_date")
+	private Timestamp lastLoginDate;
 
 	@Column(name="last_name")
 	private String lastName;
@@ -66,18 +69,6 @@ public class Player implements Serializable {
 		)
 	private Set<Team> teams;
 
-	//bi-directional many-to-one association to PlayerMatch
-	@OneToMany(mappedBy="creator")
-	private Set<PlayerMatch> createdPlayerMatches;
-
-	//bi-directional many-to-one association to PlayerMatch
-	@OneToMany(mappedBy="loser")
-	private Set<PlayerMatch> lostPlayerMatches;
-
-	//bi-directional many-to-one association to PlayerMatch
-	@OneToMany(mappedBy="winner")
-	private Set<PlayerMatch> wonPlayerMatches;
-
 	//bi-directional many-to-one association to Team
 	@OneToMany(mappedBy="creator")
 	private Set<Team> createdTeams;
@@ -86,24 +77,22 @@ public class Player implements Serializable {
 	@OneToMany(mappedBy="captain")
 	private Set<Team> teamsCaptainOf;
 
-	//bi-directional many-to-one association to TeamMatch
+	//bi-directional many-to-one association to VersusEntry
+	@OneToMany(mappedBy="player")
+	private Set<VersusEntry> versusEntries;
+
+	//bi-directional many-to-one association to VersusMatch
 	@OneToMany(mappedBy="creator")
-	private Set<TeamMatch> teamMatches;
-	
-	@Column(name="create_date")
-	private Timestamp createDate;
-	
-	@Column(name="last_login_date")
-	private Timestamp lastLoginDate;
+	private Set<VersusMatch> versusMatches;
 
 	public Player() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -115,12 +104,28 @@ public class Player implements Serializable {
 		this.activeFlag = activeFlag;
 	}
 
+	public Timestamp getCreateDate() {
+		return this.createDate;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
 	public String getFirstName() {
 		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public Timestamp getLastLoginDate() {
+		return this.lastLoginDate;
+	}
+
+	public void setLastLoginDate(Timestamp lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
 	}
 
 	public String getLastName() {
@@ -223,72 +228,6 @@ public class Player implements Serializable {
 		this.teams = teams;
 	}
 
-	public Set<PlayerMatch> getCreatedPlayerMatches() {
-		return this.createdPlayerMatches;
-	}
-
-	public void setCreatedPlayerMatches(Set<PlayerMatch> createdPlayerMatches) {
-		this.createdPlayerMatches = createdPlayerMatches;
-	}
-
-	public PlayerMatch addCreatedPlayerMatch(PlayerMatch createdPlayerMatch) {
-		getCreatedPlayerMatches().add(createdPlayerMatch);
-		createdPlayerMatch.setCreator(this);
-
-		return createdPlayerMatch;
-	}
-
-	public PlayerMatch removeCreatedPlayerMatch(PlayerMatch createdPlayerMatch) {
-		getCreatedPlayerMatches().remove(createdPlayerMatch);
-		createdPlayerMatch.setCreator(null);
-
-		return createdPlayerMatch;
-	}
-
-	public Set<PlayerMatch> getLostPlayerMatches() {
-		return this.lostPlayerMatches;
-	}
-
-	public void setLostPlayerMatches(Set<PlayerMatch> lostPlayerMatches) {
-		this.lostPlayerMatches = lostPlayerMatches;
-	}
-
-	public PlayerMatch addLostPlayerMatch(PlayerMatch lostPlayerMatch) {
-		getLostPlayerMatches().add(lostPlayerMatch);
-		lostPlayerMatch.setLoser(this);
-
-		return lostPlayerMatch;
-	}
-
-	public PlayerMatch removeLostPlayerMatch(PlayerMatch lostPlayerMatch) {
-		getLostPlayerMatches().remove(lostPlayerMatch);
-		lostPlayerMatch.setLoser(null);
-
-		return lostPlayerMatch;
-	}
-
-	public Set<PlayerMatch> getWonPlayerMatches() {
-		return this.wonPlayerMatches;
-	}
-
-	public void setWonPlayerMatches(Set<PlayerMatch> wonPlayerMatches) {
-		this.wonPlayerMatches = wonPlayerMatches;
-	}
-
-	public PlayerMatch addWonPlayerMatch(PlayerMatch wonPlayerMatch) {
-		getWonPlayerMatches().add(wonPlayerMatch);
-		wonPlayerMatch.setWinner(this);
-
-		return wonPlayerMatch;
-	}
-
-	public PlayerMatch removeWonPlayerMatch(PlayerMatch wonPlayerMatch) {
-		getWonPlayerMatches().remove(wonPlayerMatch);
-		wonPlayerMatch.setWinner(null);
-
-		return wonPlayerMatch;
-	}
-
 	public Set<Team> getCreatedTeams() {
 		return this.createdTeams;
 	}
@@ -333,47 +272,48 @@ public class Player implements Serializable {
 		return teamsCaptainOf;
 	}
 
-	public Set<TeamMatch> getTeamMatches() {
-		return this.teamMatches;
+	public Set<VersusEntry> getVersusEntries() {
+		return this.versusEntries;
 	}
 
-	public void setTeamMatches(Set<TeamMatch> teamMatches) {
-		this.teamMatches = teamMatches;
+	public void setVersusEntries(Set<VersusEntry> versusEntries) {
+		this.versusEntries = versusEntries;
 	}
 
-	public TeamMatch addTeamMatch(TeamMatch teamMatch) {
-		getTeamMatches().add(teamMatch);
-		teamMatch.setCreator(this);
+	public VersusEntry addVersusEntry(VersusEntry versusEntry) {
+		getVersusEntries().add(versusEntry);
+		versusEntry.setPlayer(this);
 
-		return teamMatch;
+		return versusEntry;
 	}
 
-	public TeamMatch removeTeamMatch(TeamMatch teamMatch) {
-		getTeamMatches().remove(teamMatch);
-		teamMatch.setCreator(null);
+	public VersusEntry removeVersusEntry(VersusEntry versusEntry) {
+		getVersusEntries().remove(versusEntry);
+		versusEntry.setPlayer(null);
 
-		return teamMatch;
+		return versusEntry;
 	}
 
-	@Override
-	public String toString() {
-		return "Player [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", login=" + login + "]";
+	public Set<VersusMatch> getVersusMatches() {
+		return this.versusMatches;
 	}
 
-	public Timestamp getCreateDate() {
-		return createDate;
+	public void setVersusMatches(Set<VersusMatch> versusMatches) {
+		this.versusMatches = versusMatches;
 	}
 
-	public void setCreateDate(Timestamp createDate) {
-		this.createDate = createDate;
+	public VersusMatch addVersusMatch(VersusMatch versusMatch) {
+		getVersusMatches().add(versusMatch);
+		versusMatch.setCreator(this);
+
+		return versusMatch;
 	}
 
-	public Timestamp getLastLoginDate() {
-		return lastLoginDate;
-	}
+	public VersusMatch removeVersusMatch(VersusMatch versusMatch) {
+		getVersusMatches().remove(versusMatch);
+		versusMatch.setCreator(null);
 
-	public void setLastLoginDate(Timestamp lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
+		return versusMatch;
 	}
 
 }

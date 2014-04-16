@@ -16,7 +16,7 @@ public class Game implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	@Column(name="max_players")
 	private Integer maxPlayers;
@@ -26,8 +26,7 @@ public class Game implements Serializable {
 
 	private String name;
 
-	@Enumerated(EnumType.STRING)
-	private GameType type;
+	private String type;
 
 	@Column(name="uses_teams")
 	private Boolean usesTeams;
@@ -45,26 +44,26 @@ public class Game implements Serializable {
 		)
 	private Set<League> leagues;
 
-	//bi-directional many-to-one association to PlayerMatch
+	//bi-directional many-to-one association to LeagueGame
 	@OneToMany(mappedBy="game")
-	private Set<PlayerMatch> playerMatches;
+	private Set<LeagueGame> leagueGames;
 
 	//bi-directional many-to-one association to Team
 	@OneToMany(mappedBy="game")
 	private Set<Team> teams;
 
-	//bi-directional many-to-one association to TeamMatch
+	//bi-directional many-to-one association to VersusMatch
 	@OneToMany(mappedBy="game")
-	private Set<TeamMatch> teamMatches;
+	private Set<VersusMatch> versusMatches;
 
 	public Game() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -92,11 +91,11 @@ public class Game implements Serializable {
 		this.name = name;
 	}
 
-	public GameType getType() {
+	public String getType() {
 		return this.type;
 	}
 
-	public void setType(GameType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -116,26 +115,26 @@ public class Game implements Serializable {
 		this.leagues = leagues;
 	}
 
-	public Set<PlayerMatch> getPlayerMatches() {
-		return this.playerMatches;
+	public Set<LeagueGame> getLeagueGames() {
+		return this.leagueGames;
 	}
 
-	public void setPlayerMatches(Set<PlayerMatch> playerMatches) {
-		this.playerMatches = playerMatches;
+	public void setLeagueGames(Set<LeagueGame> leagueGames) {
+		this.leagueGames = leagueGames;
 	}
 
-	public PlayerMatch addPlayerMatch(PlayerMatch playerMatch) {
-		getPlayerMatches().add(playerMatch);
-		playerMatch.setGame(this);
+	public LeagueGame addLeagueGame(LeagueGame leagueGame) {
+		getLeagueGames().add(leagueGame);
+		leagueGame.setGame(this);
 
-		return playerMatch;
+		return leagueGame;
 	}
 
-	public PlayerMatch removePlayerMatch(PlayerMatch playerMatch) {
-		getPlayerMatches().remove(playerMatch);
-		playerMatch.setGame(null);
+	public LeagueGame removeLeagueGame(LeagueGame leagueGame) {
+		getLeagueGames().remove(leagueGame);
+		leagueGame.setGame(null);
 
-		return playerMatch;
+		return leagueGame;
 	}
 
 	public Set<Team> getTeams() {
@@ -160,26 +159,26 @@ public class Game implements Serializable {
 		return team;
 	}
 
-	public Set<TeamMatch> getTeamMatches() {
-		return this.teamMatches;
+	public Set<VersusMatch> getVersusMatches() {
+		return this.versusMatches;
 	}
 
-	public void setTeamMatches(Set<TeamMatch> teamMatches) {
-		this.teamMatches = teamMatches;
+	public void setVersusMatches(Set<VersusMatch> versusMatches) {
+		this.versusMatches = versusMatches;
 	}
 
-	public TeamMatch addTeamMatch(TeamMatch teamMatch) {
-		getTeamMatches().add(teamMatch);
-		teamMatch.setGame(this);
+	public VersusMatch addVersusMatch(VersusMatch versusMatch) {
+		getVersusMatches().add(versusMatch);
+		versusMatch.setGame(this);
 
-		return teamMatch;
+		return versusMatch;
 	}
 
-	public TeamMatch removeTeamMatch(TeamMatch teamMatch) {
-		getTeamMatches().remove(teamMatch);
-		teamMatch.setGame(null);
+	public VersusMatch removeVersusMatch(VersusMatch versusMatch) {
+		getVersusMatches().remove(versusMatch);
+		versusMatch.setGame(null);
 
-		return teamMatch;
+		return versusMatch;
 	}
 
 }

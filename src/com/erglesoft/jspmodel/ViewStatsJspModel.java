@@ -33,23 +33,19 @@ public class ViewStatsJspModel extends JspModel {
 			playerId = Integer.parseInt(request.getParameter("player"));
 			player = pMgr.getPlayerById(playerId);
 			playerMode = true;
-			winPerc =PlayerManager.getPlayerMatchWinningPercentage(player);
 			scoredAndAllowed = PlayerManager.getPointsScoredAndAllowed(player);
 			opponentInfo = PlayerManager.getOpponentInfo(player);
 			targetLabel = PlayerManager.getNameForPlayer(player);
-			wonMatchCnt = player.getWonPlayerMatches().size();
-			lostMatchCnt = player.getLostPlayerMatches().size();
+			wonMatchCnt = 0;//player.getWonPlayerMatches().size();
+			lostMatchCnt = 0;//player.getLostPlayerMatches().size();
 		}
 		if(request.getParameter("team")!=null){
 			teamId = Integer.parseInt(request.getParameter("team"));
 			team = tMgr.getTeamById(teamId);
 			playerMode = false;
-			winPerc = TeamManager.getTeamMatchWinningPercentage(team);
-			scoredAndAllowed = TeamManager.getPointsScoredAndAllowed(team);
-			opponentInfo = TeamManager.getOpponentInfo(team);
 			targetLabel = team.getName();
-			wonMatchCnt = team.getWonTeamMatches().size();
-			lostMatchCnt = team.getLostTeamMatches().size();
+			wonMatchCnt = 0;//team.getWonTeamMatches().size();
+			lostMatchCnt = 0;//team.getLostTeamMatches().size();
 		}
 
 	}

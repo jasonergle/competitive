@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.erglesoft.mgr.MatchManager;
+import com.erglesoft.mgr.VersusMatchManager;
 
 /**
  * Servlet implementation class DeleteMatchServlet
@@ -36,8 +36,8 @@ public class DeleteMatchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		MatchManager mgr = new MatchManager(request);
-		mgr.deletePlayerMatchById(id);
+		VersusMatchManager mgr = new VersusMatchManager(request);
+		mgr.deleteMatchById(id);
 		response.sendRedirect("viewMatches.jsp");
 	}
 

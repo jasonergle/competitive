@@ -17,7 +17,7 @@ public class Team implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	@Column(name="create_date")
 	private Timestamp createDate;
@@ -44,22 +44,18 @@ public class Team implements Serializable {
 	@ManyToOne
 	private Player captain;
 
-	//bi-directional many-to-one association to TeamMatch
-	@OneToMany(mappedBy="loser")
-	private Set<TeamMatch> lostTeamMatches;
-
-	//bi-directional many-to-one association to TeamMatch
-	@OneToMany(mappedBy="winner")
-	private Set<TeamMatch> wonTeamMatches;
+	//bi-directional many-to-one association to VersusEntry
+	@OneToMany(mappedBy="team")
+	private Set<VersusEntry> versusEntries;
 
 	public Team() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -119,48 +115,26 @@ public class Team implements Serializable {
 		this.captain = captain;
 	}
 
-	public Set<TeamMatch> getLostTeamMatches() {
-		return this.lostTeamMatches;
+	public Set<VersusEntry> getVersusEntries() {
+		return this.versusEntries;
 	}
 
-	public void setLostTeamMatches(Set<TeamMatch> lostTeamMatches) {
-		this.lostTeamMatches = lostTeamMatches;
+	public void setVersusEntries(Set<VersusEntry> versusEntries) {
+		this.versusEntries = versusEntries;
 	}
 
-	public TeamMatch addLostTeamMatch(TeamMatch lostTeamMatch) {
-		getLostTeamMatches().add(lostTeamMatch);
-		lostTeamMatch.setLoser(this);
+	public VersusEntry addVersusEntry(VersusEntry versusEntry) {
+		getVersusEntries().add(versusEntry);
+		versusEntry.setTeam(this);
 
-		return lostTeamMatch;
+		return versusEntry;
 	}
 
-	public TeamMatch removeLostTeamMatch(TeamMatch lostTeamMatch) {
-		getLostTeamMatches().remove(lostTeamMatch);
-		lostTeamMatch.setLoser(null);
+	public VersusEntry removeVersusEntry(VersusEntry versusEntry) {
+		getVersusEntries().remove(versusEntry);
+		versusEntry.setTeam(null);
 
-		return lostTeamMatch;
-	}
-
-	public Set<TeamMatch> getWonTeamMatches() {
-		return this.wonTeamMatches;
-	}
-
-	public void setWonTeamMatches(Set<TeamMatch> wonTeamMatches) {
-		this.wonTeamMatches = wonTeamMatches;
-	}
-
-	public TeamMatch addWonTeamMatch(TeamMatch wonTeamMatch) {
-		getWonTeamMatches().add(wonTeamMatch);
-		wonTeamMatch.setWinner(this);
-
-		return wonTeamMatch;
-	}
-
-	public TeamMatch removeWonTeamMatch(TeamMatch wonTeamMatch) {
-		getWonTeamMatches().remove(wonTeamMatch);
-		wonTeamMatch.setWinner(null);
-
-		return wonTeamMatch;
+		return versusEntry;
 	}
 
 }

@@ -16,10 +16,10 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 		<title>Pong Score Tracking - Enter Match</title>
 	</head>
 	<body>
-		<jsp:include page="navbar.jsp"></jsp:include>
-		
-		<form role="form" action="submitMatch">
-			<div class="container">
+		<div class="container">
+			<jsp:include page="navbar.jsp"></jsp:include>
+			
+			<form role="form" action="submitMatch">
 				<h3>Singles Match</h3>
 				<div class="row">
 					<div class="form-group col-sm-3">
@@ -63,11 +63,10 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
-	</form>
-
-	<script>
+	</body>
+		<script>
 
 		$(document).ready(function() {
 			var DisableOtherGuys = function(playerVal, $otherPlayer) {
@@ -96,6 +95,4 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 			$('#loserSelect2').sort_select_box();
 		});
 	</script>
-
-	</body>
 </html>

@@ -6,9 +6,8 @@
 <%@page import="java.util.*"%>
 <%
 PlayerManager pMgr = new PlayerManager(request);
-MatchManager mMgr = new MatchManager(request);
-Set<PlayerMatch> matches = mMgr.getPlayerMatchesForCurrentLeague();
-Set<TeamMatch> teamMatches = mMgr.getTeamMatchesForCurrentLeague();
+VersusMatchManager mMgr = new VersusMatchManager(request);
+Set<VersusMatch> matches = mMgr.getMatchesForCurrentLeague();
 %>
 <html>
 	<head>
@@ -32,29 +31,33 @@ Set<TeamMatch> teamMatches = mMgr.getTeamMatchesForCurrentLeague();
 					</tr>
 				</thead>
 				<tbody>
-					<%for(PlayerMatch match : matches){%>
+					<%
+					for(VersusMatch match : matches){
+					%>
 					<tr>
-						<td><%=MatchManager.getFormattedDate(match.getMatchDate()) %></td>
-						<td><%=match.getGame().getName() %></td>
-						<td><a class="" href="viewStats.jsp?player=<%=match.getWinner().getId() %>"> <%=PlayerManager.getLabelForPlayer(match.getWinner()) %></a></td>
-						<td><a class="" href="viewStats.jsp?player=<%=match.getLoser().getId() %>"> <%=PlayerManager.getLabelForPlayer(match.getLoser()) %></a></td>
-						<td><%=match.getWinnerScore()%>/<%=match.getLoserScore()%></td>
-						<td><a class="" href="viewStats.jsp?player=<%=match.getCreator().getId() %>"> <%=PlayerManager.getNameForPlayer(match.getCreator()) %></a></td>
-						<td><a class="btn btn-danger btn-xs" href="deleteMatch?id=<%=match.getId() %>">Delete</a></td>
+						<td><%=VersusMatchManager.getFormattedDate(match.getMatchDate())%></td>
+						<td><%=match.getGame().getName()%></td>
+						<td>
+							<a class="" href="viewStats.jsp?player=<%=VersusMatchManager.getWinningEntry(match).getId()%>"> 
+								<%=mMgr.getLabelForEntry(VersusMatchManager.getWinningEntry(match)) %>
+							</a>
+						</td>
+						<td>
+							<a class="" href="viewStats.jsp?player=-1>"> 
+								Loser Set
+							</a>
+						</td>
+						<td><%=VersusMatchManager.getWinningEntry(match)==null?"N/A":VersusMatchManager.getWinningEntry(match).getScore()%></td>
+						<td>
+							<a class="" href="viewStats.jsp?player=<%=match.getCreator().getId()%>"> 
+								<%=PlayerManager.getNameForPlayer(match.getCreator())%>
+							</a>
+						</td>
+						<td><a class="btn btn-danger btn-xs" href="deleteMatch?id=<%=match.getId()%>">Delete</a></td>
 					</tr>
-					<%} %>
-					
-					<%for(TeamMatch match : teamMatches){%>
-					<tr>
-						<td><%=MatchManager.getFormattedDate(match.getMatchDate()) %></td>
-						<td><%=match.getGame().getName() %></td>
-						<td><a class="" href="viewStats.jsp?team=<%=match.getWinner().getId() %>"> <%=match.getWinner().getName() %></a></td>
-						<td><a class="" href="viewStats.jsp?team=<%=match.getLoser().getId() %>"> <%=match.getLoser().getName()%></a></td>
-						<td><%=match.getWinnerScore()%>/<%=match.getLoserScore()%></td>
-						<td><a class="" href="viewStats.jsp?player=<%=match.getCreator().getId() %>"> <%=PlayerManager.getNameForPlayer(match.getCreator()) %></a></td>
-						<td><a class="btn btn-danger btn-xs" href="deleteMatch?id=<%=match.getId() %>">Delete</a></td>
-					</tr>
-					<%} %>
+					<%
+						}
+					%>
 				</tbody>
 			</table>
 		</div>

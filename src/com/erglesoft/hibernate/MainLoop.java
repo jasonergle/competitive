@@ -12,9 +12,9 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Player;
-import com.erglesoft.dbo.PlayerMatch;
 import com.erglesoft.dbo.Team;
-import com.erglesoft.dbo.TeamMatch;
+import com.erglesoft.dbo.VersusEntry;
+import com.erglesoft.dbo.VersusMatch;
 
 @SuppressWarnings("rawtypes")
 public class MainLoop {
@@ -59,9 +59,9 @@ public class MainLoop {
 		MainLoop ml = new MainLoop();
 		
 		// Initialize Session Factory and with Annotated Classes
-		ml.initSessionFactory(Player.class, Game.class, League.class, PlayerMatch.class, TeamMatch.class,  Team.class);
+		ml.initSessionFactory(Player.class, Game.class, League.class, VersusMatch.class, VersusEntry.class,  Team.class);
 		
-		ml.createTables(Player.class, Game.class, League.class, PlayerMatch.class, TeamMatch.class,  Team.class);
+		ml.createTables(Player.class, Game.class, League.class, VersusMatch.class, VersusEntry.class,  Team.class);
 		
 		// Insert Employees into the DB via creating the objects first in Java
 		ml.createPlayers();

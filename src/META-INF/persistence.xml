@@ -4,8 +4,9 @@
 		<class>com.erglesoft.dbo.Game</class>
 		<class>com.erglesoft.dbo.League</class>
 		<class>com.erglesoft.dbo.Player</class>
-		<class>com.erglesoft.dbo.PlayerMatch</class>
 		<class>com.erglesoft.dbo.Team</class>
-		<class>com.erglesoft.dbo.TeamMatch</class>
+		<class>com.erglesoft.dbo.LeagueGame</class>
+		<class>com.erglesoft.dbo.VersusEntry</class>
+		<class>com.erglesoft.dbo.VersusMatch</class>
 	</persistence-unit>
 </persistence>

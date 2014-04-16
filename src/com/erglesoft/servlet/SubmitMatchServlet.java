@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.erglesoft.dbo.GameType;
 import com.erglesoft.dbo.Player;
-import com.erglesoft.mgr.MatchManager;
+import com.erglesoft.game.GameType;
+import com.erglesoft.mgr.VersusMatchManager;
 import com.erglesoft.mgr.PlayerManager;
 
 /**
@@ -41,7 +41,7 @@ public class SubmitMatchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PlayerManager pMgr = new PlayerManager(request);
-		MatchManager mMgr = new MatchManager(request);
+		VersusMatchManager mMgr = new VersusMatchManager(request);
 		Player winner = pMgr.getPlayerById(Integer.parseInt(request.getParameter("winner")));
 		Player loser = pMgr.getPlayerById(Integer.parseInt(request.getParameter("loser")));
 		Player winner2 = null;
@@ -55,7 +55,7 @@ public class SubmitMatchServlet extends HttpServlet {
 		Integer winnerScore = Integer.parseInt(request.getParameter("winnerScore"));
 		Integer loserScore = Integer.parseInt(request.getParameter("loserScore"));
 		if(winner2==null)
-			mMgr.createNewMatchPlayers(GameType.PING_PONG,winner, winnerScore, loser, loserScore);
+			mMgr.createNewVersusMatch(GameType.PING_PONG,null);
 		else{
 			Set<Player> winners = new HashSet<Player>();
 			winners.add(winner);
@@ -63,7 +63,7 @@ public class SubmitMatchServlet extends HttpServlet {
 			Set<Player> losers = new HashSet<Player>();
 			losers.add(loser);
 			losers.add(loser2);
-			mMgr.createNewMatchTeams(GameType.PING_PONG_DOUBLES,winners, winnerScore, losers, loserScore);
+			mMgr.createNewVersusMatch(GameType.PING_PONG_DOUBLES,null);
 		}
 		response.sendRedirect("main.jsp");
 	}
