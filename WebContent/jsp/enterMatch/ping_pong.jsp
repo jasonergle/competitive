@@ -77,7 +77,7 @@ $(document).ready(function() {
 		validateForm();
 	});
 	
-	$("#pingPongForm :input").change(function() {
+	$("#pingPongForm :input").on('input', function(e) {
 		 validateForm();
 	});
 	var validateForm = function(){
