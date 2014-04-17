@@ -5,44 +5,33 @@
 EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 %>
 <form role="form" action="submitMatch">
-	<h3>Ping Pong Match</h3>
+	<h3>Ping Pong Doubles</h3>
 	<div class="row">
 		<div class="form-group col-sm-3">
-			<label for="winners"><i class="fa fa-thumbs-o-up"></i> Winner(s)</label>
-			<select id="winnerSelect" name="winner" class="form-control pmPlayer1">
+			<label for="entry1"><i class="fa fa-thumbs-o-up"></i> Player 1</label>
+			<select id="entry1" name="entry1" class="form-control pmPlayer1">
 				<option value="-1"></option>
 				<%for(Player p: model.getPlayers()){ %>
 				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
 				<%} %>
 			</select>
-			<select id="winnerSelect2" name="winner2" class="form-control pmPlayer2">
-				<option value="-1"></option>
-				<%for(Player p: model.getPlayers()){ %>
-				<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p) %></option>
-				<%} %>
-			</select>
-			<label for="winners">Winner Score</label>
-			<input id="winnerScore" type="number" name="winnerScore" size="2" min="0" max="99" value="21"/>
+			<label for="entry1">Score</label>
+			<input id="score1" type="number" name="score1" size="2" min="0" max="22" value="0"/>
 		</div>
 
 		<div class="form-group col-sm-3">
-			<label for="losers"><i class="fa fa-thumbs-o-down"></i> Loser(s)</label>
-			<select id="loserSelect" name="loser" class="form-control pmPlayer1">
+			<label for="entry2"><i class="fa fa-thumbs-o-up"></i> Player 2</label>
+			<select id="entry2" name="entry2" class="form-control pmPlayer2">
 				<option value="-1"></option>
 				<%for(Player p: model.getPlayers()){ %>
-				<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p) %></option>
+				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
 				<%} %>
 			</select>
-			<select id="loserSelect2" name="loser2" class="form-control pmPlayer2">
-				<option value="-1"></option>
-				<%for(Player p: model.getPlayers()){ %>
-				<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p)%></option>
-				<%} %>
-			</select>
-			<label for="loserScore">Loser Score</label>
-			<input id="loserScore" type="number" name="loserScore" size="2" min="0" max="99" value=""/>
+			<label for="entry2">Score</label>
+			<input id="score2" type="number" name="score2" size="2" min="0" max="22" value="0"/>
 		</div>
 	</div>
+	<input type="hidden" name="gameType" value="PING_PONG"/>
 	<div class="row">
 		<div class="form-group col-md-3">
 			<button type="submit" class="btn btn-primary">Submit</button>

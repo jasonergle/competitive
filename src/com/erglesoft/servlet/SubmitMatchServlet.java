@@ -51,8 +51,8 @@ public class SubmitMatchServlet extends HttpServlet {
 			double score1 = Double.parseDouble(request.getParameter("score1"));
 			double score2 = Double.parseDouble(request.getParameter("score2"));
 			Set<VersusEntry> entries = new HashSet<VersusEntry>();
-			entries.add(mMgr.getNewVersusEntry(p1, score1));
-			entries.add(mMgr.getNewVersusEntry(p2, score2));
+			entries.add(mMgr.createNewVersusEntry(p1, score1));
+			entries.add(mMgr.createNewVersusEntry(p2, score2));
 			mMgr.createNewVersusMatch(type, entries);
 			break;
 		default:

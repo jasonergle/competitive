@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
@@ -55,7 +56,7 @@ public class VersusMatchManager extends BaseManager {
 		session.getTransaction().commit();
 	}
 	
-	public VersusEntry getNewVersusEntry(MatchParticipant participant, Double score){
+	public VersusEntry createNewVersusEntry(MatchParticipant participant, Double score){
 		VersusEntry ret = new VersusEntry();
 		ret.setScore(score);
 		if(participant instanceof Player){
@@ -78,6 +79,19 @@ public class VersusMatchManager extends BaseManager {
 		c.add(Restrictions.eq("league", league));
 		c.createAlias("versusEntries", "entries");
 		c.setFetchMode("entries", FetchMode.JOIN);
+		return c.list();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<VersusEntry> getAllPlayerEntriesForGame(League league, Game game, Player p){
+		Criteria c = session.createCriteria(VersusEntry.class);
+		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		c.createAlias("versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("match.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
+		c.add(Restrictions.eq("match.game", game));
+		c.add(Restrictions.eq("match.league", league));
+		c.add(Restrictions.eq("player", p));
 		return c.list();
 	}
 	
@@ -120,6 +134,10 @@ public class VersusMatchManager extends BaseManager {
 			}
 			return winner;
 		}
+	}
+	
+	public static Boolean didEntryWin(VersusEntry entry){
+		return getWinningEntry(entry.getVersusMatch()).getId().equals(entry.getId());
 	}
 	
 	public String getLabelForEntry(VersusEntry entry){

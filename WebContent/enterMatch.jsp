@@ -20,31 +20,4 @@ request.setAttribute("model", model);
 			<jsp:include page="jsp/enterMatch/ping_pong.jsp"></jsp:include>
 		</div>
 	</body>
-		<script>
-
-		$(document).ready(function() {
-			var DisableOtherGuys = function(playerVal, $otherPlayer) {
-				// Reset the other box if already selected this user.
-				if ($otherPlayer.val() == playerVal)
-					$otherPlayer.val('-1');
-				// Clear disabled state.
-				$otherPlayer
-					.find('option')
-					.prop("disabled", false);
-				// Disable the chosen player from second player options
-				$otherPlayer
-					.find('option[value=' + playerVal + ']')
-					.prop("disabled", true);
-			};
-
-			$('body').on('change', '.pmPlayer1', function() {
-				var player = $(this).val()
-				, $otherPlayer = $(this).siblings('.pmPlayer2');
-				DisableOtherGuys(player, $otherPlayer);
-			});
-			
-			$('#entry1').sort_select_box();
-			$('#entry2').sort_select_box();
-		});
-	</script>
 </html>

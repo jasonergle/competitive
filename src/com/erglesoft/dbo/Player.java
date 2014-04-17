@@ -24,6 +24,9 @@ public class Player implements Serializable, MatchParticipant {
 
 	@Column(name="active_flag")
 	private Boolean activeFlag;
+	
+	@Column(name="super_user_flag")
+	private Boolean superUserFlag;
 
 	@Column(name="create_date")
 	private Timestamp createDate;
@@ -328,6 +331,14 @@ public class Player implements Serializable, MatchParticipant {
 	@Override
 	public String getParameterType() {
 		return "player";
+	}
+
+	public Boolean getSuperUserFlag() {
+		return superUserFlag;
+	}
+
+	public void setSuperUserFlag(Boolean superUserFlag) {
+		this.superUserFlag = superUserFlag;
 	}
 
 }

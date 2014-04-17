@@ -38,10 +38,9 @@ public class ViewMatchesJspModel extends JspModel {
 	
 	public String getWinnerLabel(VersusMatch match){
 		VersusEntry winner = VersusMatchManager.getWinningEntry(match);
-		if(winner==null)
+		if(winner==null || getMatchParticipant(winner)==null)
 			return "N/A";
 		else{
-
 			return String.format("%s (%s)",getMatchParticipant(winner).getName(), winner.getScore());
 		}
 	}
@@ -56,13 +55,16 @@ public class ViewMatchesJspModel extends JspModel {
 		for(VersusEntry loser: losers){
 			if(!ret.equals(""))
 				ret+=", ";
-			ret+=String.format("%s (%s)",getMatchParticipant(loser).getName(), loser.getScore());
+			if(getMatchParticipant(loser)==null)
+				ret+="N/A";
+			else
+				ret+=String.format("%s (%s)",getMatchParticipant(loser).getName(), loser.getScore());
 		}
 		return ret;
 	}
 	
 	public static MatchParticipant getMatchParticipant(VersusEntry entry){
-		MatchParticipant part;
+		MatchParticipant part = null;
 		if(entry.getPlayer()==null)
 			part = (MatchParticipant)entry.getTeam();
 		else

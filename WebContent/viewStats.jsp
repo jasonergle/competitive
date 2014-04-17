@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="com.erglesoft.mgr.*"%>
+<%@page import="com.erglesoft.dbo.*"%>
 <%@page import="java.util.*"%>
 <%
 ViewStatsJspModel model = new ViewStatsJspModel(request);
@@ -15,9 +16,9 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
-			<div>Stats For <strong><%=model.getTargetLabel() %></strong></div>
+			<div class="italic">Stats For <strong><%=model.getTargetLabel() %></strong></div>
 			<br/>
-			<h3>Results</h3>
+			<h4>Individual Results</h4>
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -30,18 +31,21 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 					</tr>
 				</thead>
 				<tbody>
+					<%for(Game game: model.getAllowedGames()){ 
+						Map<String, Integer> wlData = model.getWonLossData(game);%>
 					<tr>
-						<td>Ping Pong</td>
-						<td><%=model.getWonMatchCnt()%></td>
-						<td><%=model.getLostMatchCnt()%></td>
-						<td><%=String.format("%1.2f",model.getWinPerc())%></td>
-						<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("scored")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
-						<td><%=String.format("%2.2f",model.getScoredAndAllowed().get("allowed")/((double)model.getWonMatchCnt()+model.getLostMatchCnt())) %></td>
+						<td><%=game.getName() %></td>
+						<td><%=wlData.get("winCnt") %></td>
+						<td><%=wlData.get("lossCnt")%></td>
+						<td><%=model.getFormattedWinningPercentage(wlData)%></td>
+						<td><%=wlData.get("ps")  %></td>
+						<td><%=wlData.get("pa") %></td>
 					</tr>
+					<%} %>
 				</tbody>
 			</table>
 			
-			<h3>vs Others</h3>
+			<h4>Head 2 Head</h4>
 			<table id="versusSinglesTable" class="table table-striped">
 				<thead>
 					<tr>
