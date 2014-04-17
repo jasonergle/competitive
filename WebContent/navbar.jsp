@@ -5,7 +5,7 @@
 <%
 UserLoginData userData = UserLoginData.fromHttpSession(request);
 Player curPlayer = userData.getPlayer();
-PlayerManager pMgr = new PlayerManager(request);
+PlayerManager pMgr = new PlayerManager();
 List<Player> players = null; 
 %>
 

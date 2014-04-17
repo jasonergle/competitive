@@ -1,7 +1,11 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.erglesoft.game.GameType;
+
 import java.util.Set;
 
 
@@ -26,7 +30,8 @@ public class Game implements Serializable {
 
 	private String name;
 
-	private String type;
+	@Enumerated(EnumType.STRING)
+	private GameType type;
 
 	@Column(name="uses_teams")
 	private Boolean usesTeams;
@@ -91,11 +96,11 @@ public class Game implements Serializable {
 		this.name = name;
 	}
 
-	public String getType() {
+	public GameType getType() {
 		return this.type;
 	}
 
-	public void setType(String type) {
+	public void setType(GameType type) {
 		this.type = type;
 	}
 

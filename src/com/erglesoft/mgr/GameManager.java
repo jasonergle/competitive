@@ -2,7 +2,6 @@ package com.erglesoft.mgr;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,27 +14,20 @@ import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.LeagueGame;
 import com.erglesoft.game.GameType;
-import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
 
-public class GameManager {
-
-	private Session session;
-	private UserLoginData loginData;
+public class GameManager extends BaseManager{
 	
 	public GameManager(HttpServletRequest request) {
-		session = HibernateUtil.currentSession();
-		loginData = UserLoginData.fromHttpSession(request);
+		super(request);
 	}
 	
 	public GameManager(Session session, UserLoginData loginData) {
-		this.session = session;
-		this.loginData = loginData;
+		super(session, loginData);
 	}
 
 	public GameManager(UserLoginData loginData) {
-		this.session = HibernateUtil.currentSession();
-		this.loginData = loginData;
+		super(loginData);
 	}
 
 	public Game getGameByType(GameType type){

@@ -1,14 +1,12 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="com.erglesoft.dbo.*"%>
 <%@page import="com.erglesoft.mgr.*"%>
-<%@page import="com.erglesoft.login.*"%>
 <%@page import="java.util.*"%>
 <%
-UserLoginData data = UserLoginData.fromHttpSession(request);
-PlayerManager pMgr = new PlayerManager(request);
-Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
+EnterMatchJspModel model = new EnterMatchJspModel(request);
+request.setAttribute("model", model);
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -19,51 +17,7 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
 			
-			<form role="form" action="submitMatch">
-				<h3>Singles Match</h3>
-				<div class="row">
-					<div class="form-group col-sm-3">
-						<label for="winners"><i class="fa fa-thumbs-o-up"></i> Winner(s)</label>
-						<select id="winnerSelect" name="winner" class="form-control pmPlayer1">
-							<option value="-1"></option>
-							<%for(Player p: players){ %>
-							<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
-							<%} %>
-						</select>
-						<select id="winnerSelect2" name="winner2" class="form-control pmPlayer2">
-							<option value="-1"></option>
-							<%for(Player p: players){ %>
-							<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p) %></option>
-							<%} %>
-						</select>
-						<label for="winners">Winner Score</label>
-						<input id="winnerScore" type="number" name="winnerScore" size="2" min="0" max="99" value="21"/>
-					</div>
-
-					<div class="form-group col-sm-3">
-						<label for="losers"><i class="fa fa-thumbs-o-down"></i> Loser(s)</label>
-						<select id="loserSelect" name="loser" class="form-control pmPlayer1">
-							<option value="-1"></option>
-							<%for(Player p: players){ %>
-							<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p) %></option>
-							<%} %>
-						</select>
-						<select id="loserSelect2" name="loser2" class="form-control pmPlayer2">
-							<option value="-1"></option>
-							<%for(Player p: players){ %>
-							<option value="<%=p.getId() %>"><%=PlayerManager.getNameForPlayer(p)%></option>
-							<%} %>
-						</select>
-						<label for="loserScore">Loser Score</label>
-						<input id="loserScore" type="number" name="loserScore" size="2" min="0" max="99" value=""/>
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-3">
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</div>
-				</div>
-			</form>
+			<jsp:include page="jsp/enterMatch/ping_pong.jsp"></jsp:include>
 		</div>
 	</body>
 		<script>
@@ -89,10 +43,8 @@ Set<Player> players = pMgr.getAllPlayersForLeague(data.getCurLeague());
 				DisableOtherGuys(player, $otherPlayer);
 			});
 			
-			$('#winnerSelect').sort_select_box();
-			$('#winnerSelect2').sort_select_box();
-			$('#loserSelect').sort_select_box();
-			$('#loserSelect2').sort_select_box();
+			$('#entry1').sort_select_box();
+			$('#entry2').sort_select_box();
 		});
 	</script>
 </html>

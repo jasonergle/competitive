@@ -27,7 +27,7 @@ public class ViewStatsJspModel extends JspModel {
 	
 	public ViewStatsJspModel(HttpServletRequest request) {
 		super(request);
-		pMgr = new PlayerManager(request);
+		pMgr = new PlayerManager();
 		tMgr = new TeamManager(request);
 		if(request.getParameter("player")!=null){
 			playerId = Integer.parseInt(request.getParameter("player"));

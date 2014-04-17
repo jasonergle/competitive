@@ -1,36 +1,35 @@
 package com.erglesoft.jspmodel;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.Player;
-import com.erglesoft.dbo.Team;
+import com.erglesoft.game.Leaderboard;
+import com.erglesoft.mgr.GameManager;
 import com.erglesoft.mgr.PlayerManager;
 import com.erglesoft.mgr.TeamManager;
-import com.erglesoft.mgr.GameManager;
 
 public class LeaderboardsJspModel extends JspModel{
 
 	protected PlayerManager pMgr;
 	protected TeamManager tMgr;
 	protected GameManager gMgr;
-	protected Set<Player> players;
-	protected List<Team> teams;
 	protected Player curPlayer;
 	protected List<Game> allowedGames;
+	protected List<Leaderboard> leaderboards;
 	
 	public LeaderboardsJspModel(HttpServletRequest request) {
 		super(request);
-		pMgr = new PlayerManager(loginData);
-		tMgr = new TeamManager(loginData);
-		gMgr = new GameManager(loginData);
-		players =  pMgr.getAllPlayersForLeague(loginData.getCurLeague());
-		teams = tMgr.getAllTeamsForLeague(loginData.getCurLeague());
 		curPlayer = loginData.getPlayer();
+		gMgr = new GameManager(request);
 		allowedGames = gMgr.getAllowedGames(loginData.getCurLeague());
+		leaderboards = new ArrayList<Leaderboard>();
+		for(Game game: allowedGames){
+			leaderboards.add(new Leaderboard(loginData.getCurLeague(), game));
+		}
 	}
 
 	public PlayerManager getpMgr() {
@@ -41,20 +40,16 @@ public class LeaderboardsJspModel extends JspModel{
 		return tMgr;
 	}
 
-	public Set<Player> getPlayers() {
-		return players;
-	}
-
-	public List<Team> getTeams() {
-		return teams;
-	}
-
 	public Player getCurPlayer() {
 		return curPlayer;
 	}
 
 	public List<Game> getAllowedGames() {
 		return allowedGames;
+	}
+
+	public List<Leaderboard> getLeaderboards() {
+		return leaderboards;
 	}
 
 	

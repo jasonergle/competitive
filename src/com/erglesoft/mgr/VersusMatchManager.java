@@ -3,28 +3,36 @@ package com.erglesoft.mgr;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
+import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.game.GameType;
-import com.erglesoft.hibernate.HibernateUtil;
+import com.erglesoft.game.MatchParticipant;
 import com.erglesoft.login.UserLoginData;
 
-public class VersusMatchManager {
-
-	private Session session;
-	private UserLoginData loginData;
+public class VersusMatchManager extends BaseManager {
 	
 	public VersusMatchManager(HttpServletRequest request) {
-		session = HibernateUtil.currentSession();
-		loginData = UserLoginData.fromHttpSession(request);
+		super(request);
+	}
+	
+	public VersusMatchManager(Session session, UserLoginData loginData) {
+		super(session, loginData);
 	}
 	
 	public void createNewVersusMatch(GameType type,Set<VersusEntry> entries){
@@ -39,13 +47,53 @@ public class VersusMatchManager {
 		vm.setCreateDate(new Timestamp(new Date().getTime()));
 		vm.setVersusEntries(entries); 
 		session.save(vm);
+		for(VersusEntry entry: entries){
+			entry.setVersusMatch(vm);
+			session.save(entry);
+		}
 		
 		session.getTransaction().commit();
 	}
 	
-	public Set<VersusMatch> getMatchesForCurrentLeague(){
-		League refreshedLeague = (League) session.get(League.class, loginData.getCurLeague().getId());
-		return refreshedLeague.getVersusMatches();
+	public VersusEntry getNewVersusEntry(MatchParticipant participant, Double score){
+		VersusEntry ret = new VersusEntry();
+		ret.setScore(score);
+		if(participant instanceof Player){
+			PlayerManager pMgr = new PlayerManager();
+			Player player = pMgr.getPlayerById(participant.getId());
+			ret.setPlayer(player);
+		}
+		else if(participant instanceof Team){
+			TeamManager tMgr = new TeamManager(session, loginData);
+			Team team = tMgr.getTeamById(participant.getId());
+			ret.setTeam(team);
+		}
+		return ret;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<VersusMatch> getAllMatchesForGame(League league, Game game){
+		Criteria c = session.createCriteria(VersusMatch.class);
+		c.add(Restrictions.eq("game", game));
+		c.add(Restrictions.eq("league", league));
+		c.createAlias("versusEntries", "entries");
+		c.setFetchMode("entries", FetchMode.JOIN);
+		return c.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<VersusMatch> getAllMatches(League league){
+		Criteria c = session.createCriteria(VersusMatch.class);
+		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		c.add(Restrictions.eq("league", league));
+		c.setFetchMode("versusEntries", FetchMode.JOIN);
+		c.addOrder(Order.desc("matchDate"));
+		List<VersusMatch> ret = c.list();
+		return ret;
+	}
+	
+	public List<VersusMatch> getAllMatchesForCurrentLeague(){
+		return getAllMatches(loginData.getCurLeague());
 	}
 	
 	public static String getFormattedDate(Date d){
@@ -75,7 +123,9 @@ public class VersusMatchManager {
 	}
 	
 	public String getLabelForEntry(VersusEntry entry){
-		if(entry.getPlayer()!=null)
+		if(entry==null)
+			return "null entry";
+		else if(entry.getPlayer()!=null)
 			return PlayerManager.getLabelForPlayer(entry.getPlayer());
 		else if(entry.getTeam()!=null)
 			return entry.getTeam().getName();

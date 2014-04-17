@@ -3,15 +3,14 @@
 <!DOCTYPE html>
 <%@page import="com.erglesoft.dbo.*"%>
 <%@page import="com.erglesoft.mgr.*"%>
+<%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="java.util.*"%>
 <%
-PlayerManager pMgr = new PlayerManager(request);
-VersusMatchManager mMgr = new VersusMatchManager(request);
-Set<VersusMatch> matches = mMgr.getMatchesForCurrentLeague();
+ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 %>
 <html>
 	<head>
-		<title>Pong Score Tracking - Main Page</title>
+		<title>Head 2 Head Score Tracking - Match - Page</title>
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>
@@ -25,31 +24,29 @@ Set<VersusMatch> matches = mMgr.getMatchesForCurrentLeague();
 						<th>Game</th>
 						<th>Winner</th>
 						<th>Loser</th>
-						<th>Score</th>
 						<th>Creator</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<%
-					for(VersusMatch match : matches){
+					for(VersusMatch match : model.getMatches()){
 					%>
 					<tr>
 						<td><%=VersusMatchManager.getFormattedDate(match.getMatchDate())%></td>
 						<td><%=match.getGame().getName()%></td>
 						<td>
-							<a class="" href="viewStats.jsp?player=<%=VersusMatchManager.getWinningEntry(match).getId()%>"> 
-								<%=mMgr.getLabelForEntry(VersusMatchManager.getWinningEntry(match)) %>
+							<a class="" href="viewStats.jsp?player=<%=1%>"> 
+								<%=model.getWinnerLabel(match)%>
 							</a>
 						</td>
 						<td>
 							<a class="" href="viewStats.jsp?player=-1>"> 
-								Loser Set
+								<%=model.getLoserLabel(match)%>
 							</a>
 						</td>
-						<td><%=VersusMatchManager.getWinningEntry(match)==null?"N/A":VersusMatchManager.getWinningEntry(match).getScore()%></td>
 						<td>
-							<a class="" href="viewStats.jsp?player=<%=match.getCreator().getId()%>"> 
+							<a class="" href="viewStats.jsp?player=<%=match.getCreator().getId() %>"> 
 								<%=PlayerManager.getNameForPlayer(match.getCreator())%>
 							</a>
 						</td>

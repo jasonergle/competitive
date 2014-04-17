@@ -8,34 +8,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.hibernate.HibernateUtil;
-import com.erglesoft.login.UserLoginData;
 
 public class PlayerManager {
 
 	private Session session;
-	private UserLoginData loginData;
 	
-	public PlayerManager(HttpServletRequest request) {
+	public PlayerManager() {
 		session = HibernateUtil.currentSession();
-		loginData = UserLoginData.fromHttpSession(request);
-	}
-	
-	public PlayerManager(UserLoginData loginData) {
-		session = HibernateUtil.currentSession();
-		this.loginData = loginData;
 	}
 	
 	public static Player getPlayerByLogin(String login, String password){
@@ -59,17 +52,29 @@ public class PlayerManager {
 		return p;
 	}
 	
-	public Set<Player> getAllPlayersForLeague(League league){
-		System.out.println("Get All Players for League");
+	public List<Player> getAllPlayersForLeague(League league){
 		Criteria criteria = HibernateUtil.currentSession().createCriteria(Player.class);
 		criteria.createAlias("leagues", "playerLeagues");
 		criteria.add(Restrictions.eq("playerLeagues.id", league.getId()));
-		criteria.setFetchMode("wonPlayerMatches", FetchMode.JOIN);
-		criteria.setFetchMode("lostPlayerMatches", FetchMode.JOIN);
+		criteria.addOrder(Order.desc("lastName")).addOrder(Order.desc("firstName"));
 		@SuppressWarnings("unchecked")
 		List<Player> players = criteria.list();
-		HashSet<Player> ret = new HashSet<Player>();
-		ret.addAll(players);
+		return players;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Player> getAllPlayersForGameAndLeague(League league, Game game){
+		Criteria c = session.createCriteria(Player.class);
+		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		c.createAlias("versusEntries", "entries", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("versusEntries.versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("versusEntries.versusMatch.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
+		c.add(Restrictions.eq("match.league",league));
+		c.add(Restrictions.eq("match.game",game));
+		c.setFetchMode("versusEntries", FetchMode.JOIN);
+		c.setFetchMode("entries", FetchMode.JOIN);
+		c.addOrder(Order.desc("lastName"));
+		List<Player> ret = c.list();
 		return ret;
 	}
 	

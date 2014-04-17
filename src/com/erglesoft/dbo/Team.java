@@ -1,7 +1,11 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.erglesoft.game.MatchParticipant;
+
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -12,7 +16,7 @@ import java.util.Set;
  */
 @Entity
 @NamedQuery(name="Team.findAll", query="SELECT t FROM Team t")
-public class Team implements Serializable {
+public class Team implements Serializable, MatchParticipant {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -135,6 +139,11 @@ public class Team implements Serializable {
 		versusEntry.setTeam(null);
 
 		return versusEntry;
+	}
+
+	@Override
+	public String getParameterType() {
+		return "team";
 	}
 
 }

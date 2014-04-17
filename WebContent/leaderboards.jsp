@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <%@page import="com.erglesoft.dbo.*"%>
 <%@page import="com.erglesoft.jspmodel.*"%>
-<%@page import="com.erglesoft.mgr.*"%>
+<%@page import="com.erglesoft.game.*"%>
 <%
 LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 %>
@@ -15,24 +15,24 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
-			<%for(Game g: model.getAllowedGames()){ %>
-				<h3><strong><%=model.getLoginData().getCurLeague().getName() %></strong> <%=g.getName() %> Leaderboards</h3>
+			<%for(Leaderboard board: model.getLeaderboards()){ %>
+				<h3><strong><%=board.getTitle() %></strong></h3>
 				<table id="statTablePlayers" class="statTable table table-striped">
 					<thead>
 						<tr>
-							<th>Player Name</th>
+							<th>Name</th>
 							<th>Wins</th>
 							<th>Losses</th>
 							<th>Win %</th>
 						</tr>
 					</thead>
 					<tbody>
-						<%for(Player player : model.getPlayers()){%>
+						<%for(LeaderboardRow leaderRow : board.getRows()){%>
 						<tr>
-							<td><a class="" href="viewStats.jsp?player=<%=player.getId() %>"> <%=PlayerManager.getLabelForPlayer(player) %></a></td>
-							<td></td>
-							<td></td>
-							<td><%=PlayerManager.getWinningPercentage(player, g) %></td>
+							<td><a class="" href="viewStats.jsp?<%=leaderRow.getUrlParam() %>"> <%=leaderRow.getLabel() %></a></td>
+							<td><%=leaderRow.getWins() %></td>
+							<td><%=leaderRow.getLosses() %></td>
+							<td><%=leaderRow.getWinPercentage() %></td>
 						</tr>
 						<%} %>
 					</tbody>

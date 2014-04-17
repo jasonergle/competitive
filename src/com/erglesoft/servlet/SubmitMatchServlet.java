@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.game.GameType;
 import com.erglesoft.mgr.VersusMatchManager;
 import com.erglesoft.mgr.PlayerManager;
@@ -40,32 +41,24 @@ public class SubmitMatchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PlayerManager pMgr = new PlayerManager(request);
+		PlayerManager pMgr = new PlayerManager();
 		VersusMatchManager mMgr = new VersusMatchManager(request);
-		Player winner = pMgr.getPlayerById(Integer.parseInt(request.getParameter("winner")));
-		Player loser = pMgr.getPlayerById(Integer.parseInt(request.getParameter("loser")));
-		Player winner2 = null;
-		Player loser2 = null;
-		
-		if(request.getParameter("winner2")!=null)
-			winner2 = pMgr.getPlayerById(Integer.parseInt(request.getParameter("winner2")));
-		if(request.getParameter("loser2")!=null)
-			loser2 = pMgr.getPlayerById(Integer.parseInt(request.getParameter("loser2")));
-		
-		Integer winnerScore = Integer.parseInt(request.getParameter("winnerScore"));
-		Integer loserScore = Integer.parseInt(request.getParameter("loserScore"));
-		if(winner2==null)
-			mMgr.createNewVersusMatch(GameType.PING_PONG,null);
-		else{
-			Set<Player> winners = new HashSet<Player>();
-			winners.add(winner);
-			winners.add(winner2);
-			Set<Player> losers = new HashSet<Player>();
-			losers.add(loser);
-			losers.add(loser2);
-			mMgr.createNewVersusMatch(GameType.PING_PONG_DOUBLES,null);
+		GameType type = GameType.valueOf(request.getParameter("gameType"));
+		switch(type){
+		case PING_PONG:
+			Player p1 = pMgr.getPlayerById(Integer.parseInt(request.getParameter("entry1")));
+			Player p2 = pMgr.getPlayerById(Integer.parseInt(request.getParameter("entry2")));
+			double score1 = Double.parseDouble(request.getParameter("score1"));
+			double score2 = Double.parseDouble(request.getParameter("score2"));
+			Set<VersusEntry> entries = new HashSet<VersusEntry>();
+			entries.add(mMgr.getNewVersusEntry(p1, score1));
+			entries.add(mMgr.getNewVersusEntry(p2, score2));
+			mMgr.createNewVersusMatch(type, entries);
+			break;
+		default:
+			break;
 		}
-		response.sendRedirect("main.jsp");
+		response.sendRedirect("leaderboards.jsp");
 	}
 
 }
