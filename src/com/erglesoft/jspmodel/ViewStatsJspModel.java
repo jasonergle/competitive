@@ -135,10 +135,10 @@ public class ViewStatsJspModel extends JspModel {
 		return ret;
 	}
 	
-	public String getFormattedWinningPercentage(Map<String, Integer> wlData){
-		if((wlData.get("winCnt")+wlData.get("lossCnt"))==0)
+	public String getFormattedWinningPercentage(Map<String, Number> wlData){
+		if((wlData.get("winCnt").intValue()+wlData.get("lossCnt").intValue())==0)
 			return "N/A";
-		double val = (double)wlData.get("winCnt")/(wlData.get("winCnt")+wlData.get("lossCnt"));
+		double val = wlData.get("winCnt").doubleValue()/(wlData.get("winCnt").intValue()+wlData.get("lossCnt").intValue());
 		return String.format("%1.3f",val);
 	}
 

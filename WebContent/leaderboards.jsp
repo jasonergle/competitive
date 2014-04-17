@@ -32,7 +32,7 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 							<td><a class="" href="viewStats.jsp?<%=leaderRow.getUrlParam() %>"> <%=leaderRow.getLabel() %></a></td>
 							<td><%=leaderRow.getWins() %></td>
 							<td><%=leaderRow.getLosses() %></td>
-							<td><%=leaderRow.getWinPercentage() %></td>
+							<td><%=String.format("%1.3f",leaderRow.getWinPercentage()) %></td>
 						</tr>
 						<%} %>
 					</tbody>

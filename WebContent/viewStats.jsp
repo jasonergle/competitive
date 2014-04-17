@@ -32,14 +32,14 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 				</thead>
 				<tbody>
 					<%for(Game game: model.getAllowedGames()){ 
-						Map<String, Integer> wlData = model.getWonLossData(game);%>
+						Map<String, Number> wlData = model.getWonLossData(game);%>
 					<tr>
 						<td><%=game.getName() %></td>
 						<td><%=wlData.get("winCnt") %></td>
 						<td><%=wlData.get("lossCnt")%></td>
 						<td><%=model.getFormattedWinningPercentage(wlData)%></td>
-						<td><%=wlData.get("ps")  %></td>
-						<td><%=wlData.get("pa") %></td>
+						<td><%=String.format("%1.3f",wlData.get("ps"))  %></td>
+						<td><%=String.format("%1.3f",wlData.get("pa")) %></td>
 					</tr>
 					<%} %>
 				</tbody>
