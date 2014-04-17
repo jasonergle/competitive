@@ -4,7 +4,7 @@
 <%
 EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 %>
-<form role="form" action="submitMatch">
+<form id="pingPongForm" role="form" action="submitMatch" method="post">
 	<h3>Ping Pong Match</h3>
 	<div class="row">
 		<div class="form-group col-sm-3">
@@ -36,7 +36,7 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 	<input type="hidden" name="gameType" value="PING_PONG"/>
 	<div class="row">
 		<div class="form-group col-md-3">
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button id = "pingPongFormSubmit" type="submit" class="btn btn-primary">Submit</button>
 		</div>
 	</div>
 </form>
@@ -73,7 +73,25 @@ $(document).ready(function() {
 	
 	$('.setMax').click(function(){
 		$(this).prev().val(21);
-		$('input.score').not($(this).prev()).val('');
+		$('input.score').not($(this).prev()).val('0');
+		validateForm();
 	});
+	
+	$("#pingPongForm :input").change(function() {
+		 validateForm();
+	});
+	var validateForm = function(){
+		$("#pingPongFormSubmit").addClass("btn btn-danger").removeClass("btn-primary").attr("disabled", "disabled");
+		var entry1 = parseInt($('#entry1').val());
+		var entry2 = parseInt($('#entry2').val());
+		if(entry1==-1 || entry2==-1 || entry1 == entry2)
+			return;
+		var score1 = parseInt($('#score1').val());
+		var score2 = parseInt($('#score2').val());
+		if(isNaN(score1) || isNaN(score2) || score1 == score2 || score1 > 22 || score2 > 22)
+			return;
+		$("#pingPongFormSubmit").addClass("btn btn-primary").removeClass("btn-danger").removeAttr("disabled");
+	};
+	validateForm();
 });
 </script>
