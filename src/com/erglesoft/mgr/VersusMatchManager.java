@@ -117,7 +117,7 @@ public class VersusMatchManager extends BaseManager {
 	
 	public void deleteMatchById(Integer id) {
 		session.beginTransaction();
-		VersusMatch match = (VersusMatch) session.load(VersusMatch.class, id);
+		VersusMatch match = (VersusMatch) session.get(VersusMatch.class, id);
 		session.delete(match);
 		session.getTransaction().commit();
 	}
