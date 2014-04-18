@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.erglesoft.mgr.VersusMatchManager;
 
 /**
@@ -35,9 +37,12 @@ public class DeleteMatchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Logger  log = Logger.getLogger(DeleteMatchServlet.class);
 		Integer id = Integer.parseInt(request.getParameter("id"));
+		log.debug("DeleteMatch called with ID: "+id.toString());
 		VersusMatchManager mgr = new VersusMatchManager(request);
 		mgr.deleteMatchById(id);
+		log.debug("Match is deleted, sending Redirect");
 		response.sendRedirect("viewMatches.jsp");
 	}
 

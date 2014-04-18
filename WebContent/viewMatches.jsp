@@ -50,7 +50,7 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 								<%=PlayerManager.getNameForPlayer(match.getCreator())%>
 							</a>
 						</td>
-						<td><a class="btn btn-danger btn-xs" href="deleteMatch?id=<%=match.getId()%>">Delete</a></td>
+						<td><a class="btn btn-danger btn-xs" href="<%=request.getContextPath() %>/deleteMatch?id=<%=match.getId()%>">Delete</a></td>
 					</tr>
 					<%
 						}

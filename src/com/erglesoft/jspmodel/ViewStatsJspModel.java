@@ -1,8 +1,10 @@
 package com.erglesoft.jspmodel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +12,7 @@ import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
+import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.mgr.GameManager;
 import com.erglesoft.mgr.PlayerManager;
 import com.erglesoft.mgr.TeamManager;
@@ -23,14 +26,12 @@ public class ViewStatsJspModel extends JspModel {
 	private VersusMatchManager mMgr;
 	private List<Game> allowedGames;
 	private String targetLabel;
-	
+	private Player player;
 	private Boolean playerMode;
 	private Integer playerId;
+	
 	private Integer teamId;
-	private Player player;
 	private Team team;
-	private Double winPerc;
-	private Map<String, Integer> scoredAndAllowed;
 	private Map<String, VersusRecord> opponentInfo;
 
 	
@@ -46,7 +47,6 @@ public class ViewStatsJspModel extends JspModel {
 			playerId = Integer.parseInt(request.getParameter("player"));
 			player = pMgr.getPlayerById(playerId);
 			playerMode = true;
-			scoredAndAllowed = PlayerManager.getPointsScoredAndAllowed(player);
 			opponentInfo = PlayerManager.getOpponentInfo(player);
 			targetLabel = PlayerManager.getNameForPlayer(player);
 		}
@@ -87,14 +87,6 @@ public class ViewStatsJspModel extends JspModel {
 		return team;
 	}
 
-	public Double getWinPerc() {
-		return winPerc;
-	}
-
-	public Map<String, Integer> getScoredAndAllowed() {
-		return scoredAndAllowed;
-	}
-
 	public Map<String, VersusRecord> getOpponentInfo() {
 		return opponentInfo;
 	}
@@ -103,8 +95,23 @@ public class ViewStatsJspModel extends JspModel {
 		return targetLabel;
 	}
 
+	public Set<VersusRecord> getVersusDataForGame(Game game){
+		Map<Player, List<VersusMatch>> opponentData = new HashMap<Player, List<VersusMatch>>();
+		List<VersusEntry> playerEntries = mMgr.getAllPlayerEntriesForGame(loginData.getCurLeague(), game, player);
+		for(VersusEntry entry : playerEntries){
+			for(VersusEntry matchEntry: entry.getVersusMatch().getVersusEntries()){
+				if(!matchEntry.getPlayer().getId().equals(loginData.getPlayer().getId())){
+					if(opponentData.get(matchEntry.getPlayer())==null)
+						opponentData.put(matchEntry.getPlayer(), new ArrayList<VersusMatch>());
+					opponentData.get(matchEntry.getPlayer()).add(matchEntry.getVersusMatch());
+				}
+			}
+		}
+		return null;
+	}
+	
 	public Map<String, Number> getWonLossData(Game game) {
-		List<VersusEntry> playerEntries = mMgr.getAllPlayerEntriesForGame(loginData.getCurLeague(), game, loginData.getPlayer());
+		List<VersusEntry> playerEntries = mMgr.getAllPlayerEntriesForGame(loginData.getCurLeague(), game, player);
 		Map<String, Number> ret = new HashMap<String, Number>();
 		int winCnt = 0;
 		int lossCnt = 0;
