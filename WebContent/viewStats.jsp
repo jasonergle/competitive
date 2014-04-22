@@ -59,19 +59,23 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 					</tr>
 				</thead>
 				<tbody>
-					<%for(String opponent: model.getOpponentInfo().keySet()){ 
-						VersusRecord record = model.getOpponentInfo().get(opponent);
+					<%
+						for(Game game: model.getOpponentInfo().keySet()){ 
+									Map<Player, Head2HeadRecord> records = model.getOpponentInfo().get(game);
+									for(Player opponent: records.keySet()){ 
+										Head2HeadRecord record = records.get(opponent);
 					%>
-						<tr>
-							<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=opponent %></a></td>
-							<td><%=record.getWinCnt() %></td>
-							<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
-							<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
-							<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
-							<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
-							<td><%=record.getHandycap() %></td>
-						</tr>
-					<%} %>
+							<tr>
+								<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=PlayerManager.getLabelForPlayer(opponent) %></a></td>
+								<td><%=record.getWinCnt() %></td>
+								<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
+								<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
+								<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
+								<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
+								<td><%=record.getHandycap() %></td>
+							</tr>
+						<%}
+					} %>
 				</tbody>
 			</table>
 		</div>

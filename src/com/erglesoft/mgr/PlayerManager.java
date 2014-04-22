@@ -115,10 +115,5 @@ public class PlayerManager {
 		return ret;
 	}
 	
-	public static Map<String, VersusRecord> getOpponentInfo(Player player){
-		Map<String, VersusRecord> ret = new HashMap<String, VersusRecord>();
-		return ret;
-	}
-	
 
 }
