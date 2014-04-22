@@ -53,10 +53,6 @@ public class Game implements Serializable {
 	@OneToMany(mappedBy="game")
 	private Set<LeagueGame> leagueGames;
 
-	//bi-directional many-to-one association to Team
-	@OneToMany(mappedBy="game")
-	private Set<Team> teams;
-
 	//bi-directional many-to-one association to VersusMatch
 	@OneToMany(mappedBy="game")
 	private Set<VersusMatch> versusMatches;
@@ -140,28 +136,6 @@ public class Game implements Serializable {
 		leagueGame.setGame(null);
 
 		return leagueGame;
-	}
-
-	public Set<Team> getTeams() {
-		return this.teams;
-	}
-
-	public void setTeams(Set<Team> teams) {
-		this.teams = teams;
-	}
-
-	public Team addTeam(Team team) {
-		getTeams().add(team);
-		team.setGame(this);
-
-		return team;
-	}
-
-	public Team removeTeam(Team team) {
-		getTeams().remove(team);
-		team.setGame(null);
-
-		return team;
 	}
 
 	public Set<VersusMatch> getVersusMatches() {

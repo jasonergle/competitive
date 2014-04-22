@@ -341,4 +341,9 @@ public class Player implements Serializable, MatchParticipant {
 		this.superUserFlag = superUserFlag;
 	}
 
+	@Override
+	public String toString() {
+		return "Player [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+	}
+
 }

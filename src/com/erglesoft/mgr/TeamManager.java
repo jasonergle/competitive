@@ -18,7 +18,6 @@ import org.hibernate.criterion.Restrictions;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
-import com.erglesoft.game.GameType;
 import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
 
@@ -58,7 +57,7 @@ public class TeamManager {
 		return criteria.list();
 	}
 
-	public Team getTeamForPlayersInCurrentOrg(GameType type, Set<Player> players, Boolean createIfNeeded){
+	public Team getTeamForPlayersInCurrentOrg(Set<Player> players, Boolean createIfNeeded){
 		Team ret = null;
 		Criteria criteria = session.createCriteria(Team.class);
 		criteria.add(Restrictions.eq("league", loginData.getCurLeague()));
@@ -69,14 +68,12 @@ public class TeamManager {
 				ret = t;
 		}
 		if(ret==null){
-			GameManager gMgr = new GameManager(session, loginData);
 			Transaction tx = session.beginTransaction();
 			ret = new Team();
 			ret.setLeague(loginData.getCurLeague());
 			ret.setPlayers(players);
 			ret.setCreator(loginData.getPlayer());
 			ret.setCreateDate(new Timestamp(new Date().getTime()));
-			ret.setGame(gMgr.getGameByType(type));
 			ret.setName(createDefaultTeamName(players));
 			for(Player p : players){
 				if(p.getTeams()==null)

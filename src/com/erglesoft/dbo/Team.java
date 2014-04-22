@@ -32,10 +32,6 @@ public class Team implements Serializable, MatchParticipant {
 	@ManyToMany(mappedBy="teams")
 	private Set<Player> players;
 
-	//bi-directional many-to-one association to Game
-	@ManyToOne
-	private Game game;
-
 	//bi-directional many-to-one association to League
 	@ManyToOne
 	private League league;
@@ -85,14 +81,6 @@ public class Team implements Serializable, MatchParticipant {
 
 	public void setPlayers(Set<Player> players) {
 		this.players = players;
-	}
-
-	public Game getGame() {
-		return this.game;
-	}
-
-	public void setGame(Game game) {
-		this.game = game;
 	}
 
 	public League getLeague() {
