@@ -45,8 +45,9 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 				</tbody>
 			</table>
 			
-			<h4>Head 2 Head</h4>
-			<table id="versusSinglesTable" class="table table-striped">
+			<%for(Game game: model.getOpponentInfo().keySet()){  %>
+			<h4>Head 2 Head for <%=game.getName() %></h4>
+			<table id="h2hTable<%=game.getType() %>" class="table table-striped">
 				<thead>
 					<tr>
 						<th>Opponent</th>
@@ -60,24 +61,24 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 				</thead>
 				<tbody>
 					<%
-						for(Game game: model.getOpponentInfo().keySet()){ 
-									Map<Player, Head2HeadRecord> records = model.getOpponentInfo().get(game);
-									for(Player opponent: records.keySet()){ 
-										Head2HeadRecord record = records.get(opponent);
+					Map<Player, Head2HeadRecord> records = model.getOpponentInfo().get(game);
+					for(Player opponent: records.keySet()){ 
+						Head2HeadRecord record = records.get(opponent);
 					%>
-							<tr>
-								<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=PlayerManager.getLabelForPlayer(opponent) %></a></td>
-								<td><%=record.getWinCnt() %></td>
-								<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
-								<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
-								<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
-								<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
-								<td><%=record.getHandycap() %></td>
-							</tr>
-						<%}
-					} %>
+						<tr>
+							<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=PlayerManager.getLabelForPlayer(opponent) %></a></td>
+							<td><%=record.getWinCnt() %></td>
+							<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
+							<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
+							<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
+							<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
+							<td><%=record.getHandycap() %></td>
+						</tr>
+					<%}%>
+					
 				</tbody>
 			</table>
+			<%} %>
 		</div>
 	</body>
 </html>
