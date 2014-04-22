@@ -31,8 +31,12 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 						<%int rank =1;
 						for(LeaderboardRow leaderRow : board.getRows()){%>
 						<tr>
-							<td><%=rank++ %></td>
-							<td><a class="" href="viewStats.jsp?<%=leaderRow.getUrlParam() %>"> <%=leaderRow.getLabel() %></a></td>
+							<td><%=rank++ %> </td>
+							<td><a class="" href="viewStats.jsp?<%=leaderRow.getUrlParam() %>"> <%=leaderRow.getLabel() %></a>
+								<% if (leaderRow.getLosses() == 0) { %>
+								<i class="text-danger fa fa-fire-extinguisher"></i>
+								<% } %>
+							</td>
 							<td><%=leaderRow.getWins() %>/<%=leaderRow.getLosses() %></td>
 							<td><%=String.format("%1.3f",leaderRow.getWinPercentage()) %></td>
 							<td><%=String.format("%1.3f",leaderRow.getScore()) %></td>
