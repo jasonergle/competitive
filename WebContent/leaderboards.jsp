@@ -16,23 +16,26 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
 			<%for(Leaderboard board: model.getLeaderboards()){ %>
-				<h3><strong><%=board.getTitle() %></strong></h3>
+				<h5><%=board.getTitle() %></h5>
 				<table id="statTablePlayers" class="statTable table table-striped">
 					<thead>
 						<tr>
+							<th>Rank</th>
 							<th>Name</th>
-							<th>Wins</th>
-							<th>Losses</th>
+							<th>W/L</th>
 							<th>Win %</th>
+							<th>Score</th>
 						</tr>
 					</thead>
 					<tbody>
-						<%for(LeaderboardRow leaderRow : board.getRows()){%>
+						<%int rank =1;
+						for(LeaderboardRow leaderRow : board.getRows()){%>
 						<tr>
+							<td><%=rank++ %></td>
 							<td><a class="" href="viewStats.jsp?<%=leaderRow.getUrlParam() %>"> <%=leaderRow.getLabel() %></a></td>
-							<td><%=leaderRow.getWins() %></td>
-							<td><%=leaderRow.getLosses() %></td>
+							<td><%=leaderRow.getWins() %>/<%=leaderRow.getLosses() %></td>
 							<td><%=String.format("%1.3f",leaderRow.getWinPercentage()) %></td>
+							<td><%=String.format("%1.3f",leaderRow.getScore()) %></td>
 						</tr>
 						<%} %>
 					</tbody>
@@ -50,7 +53,7 @@ $( document ).ready(function() {
 					bFilter: false, 
 					bLengthChange: false,
 					bPaginate: true,
-					aaSorting:[[1, "desc"],[3,"desc"]] });
+					aaSorting:[[0, "asc"]] });
 	
 });
 </script>

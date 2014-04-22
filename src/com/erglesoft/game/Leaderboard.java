@@ -1,6 +1,7 @@
 package com.erglesoft.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.erglesoft.dbo.Game;
@@ -39,6 +40,7 @@ public class Leaderboard {
 			}
 			LeaderboardRow row = new LeaderboardRow(winCnt, matchCnt-winCnt, player);
 			rows.add(row);
+			Collections.sort(rows);
 		}
 	}
 
@@ -61,6 +63,5 @@ public class Leaderboard {
 	public PlayerManager getpMgr() {
 		return pMgr;
 	}
-	
 
 }

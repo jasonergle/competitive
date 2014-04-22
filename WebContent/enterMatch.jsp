@@ -11,13 +11,15 @@ request.setAttribute("model", model);
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<jsp:include page="header.jsp"></jsp:include>
-		<title>Pong Score Tracking - Enter Match</title>
+		<title>Head2Head - Enter Match</title>
 	</head>
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
 			
 			<jsp:include page="jsp/enterMatch/ping_pong.jsp"></jsp:include>
+			
+			<jsp:include page="jsp/enterMatch/ping_pong_doubles.jsp"></jsp:include>
 		</div>
 	</body>
 </html>

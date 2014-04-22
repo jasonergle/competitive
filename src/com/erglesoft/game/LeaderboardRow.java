@@ -2,12 +2,13 @@ package com.erglesoft.game;
 
 import java.math.BigDecimal;
 
-public class LeaderboardRow {
+public class LeaderboardRow implements Comparable<LeaderboardRow> {
 	private String label;
 	private Integer wins;
 	private Integer losses;
 	private BigDecimal winPercentage;
 	private String urlParam;
+	private BigDecimal score;
 
 	public LeaderboardRow(Integer winCnt, Integer lossCnt, MatchParticipant participant) {
 		this.label = participant.getName();
@@ -17,6 +18,7 @@ public class LeaderboardRow {
 			winPercentage = new BigDecimal(0.0);
 		else
 			winPercentage = BigDecimal.valueOf((double)wins/(wins+losses));
+		score = BigDecimal.valueOf(((wins * 10) + (losses)) * winPercentage.doubleValue());
 		urlParam = String.format("%s=%s", participant.getParameterType(), participant.getId());
 		
 	}
@@ -40,6 +42,21 @@ public class LeaderboardRow {
 	public String getUrlParam() {
 		return urlParam;
 	}
-	
 
+	public BigDecimal getScore() {
+		return score;
+	}
+
+	@Override
+	public int compareTo(LeaderboardRow o) {
+		if (o == null)
+			return 1;
+		else if (o.getScore() == null)
+			return 1;
+		else if(this.score == null)
+			return -1;
+		else
+			return -1 * score.compareTo(o.getScore());
+	}
+	
 }

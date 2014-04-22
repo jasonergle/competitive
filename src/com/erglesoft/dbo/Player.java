@@ -325,7 +325,7 @@ public class Player implements Serializable, MatchParticipant {
 
 	@Override
 	public String getName() {
-		return firstName+" "+lastName;
+		return firstName+" "+lastName + " (" + this.title + ")";
 	}
 
 	@Override

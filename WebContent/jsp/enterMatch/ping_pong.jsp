@@ -9,27 +9,27 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 	<div class="row">
 		<div class="form-group col-sm-3">
 			<label for="entry1"><i class="fa fa-thumbs-o-up"></i> Player 1</label>
-			<select id="entry1" name="entry1" class="form-control pmEntry1">
+			<select id="pingPongEntry1" name="entry1" class="form-control pingPongEntry">
 				<option value="-1"></option>
 				<%for(Player p: model.getPlayers()){ %>
 				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
 				<%} %>
 			</select>
 			<label for="entry1">Score</label>
-			<input id="score1" class="score" type="number" name="score1" size="2" min="0" max="22" value="0"/>
+			<input id="pingPongScore1" class="score" style="min-width: 70px;" type="number" name="score1" size="2" min="0" max="22" value="0"/>
 			<div class="btn btn-success setMax">Set Max</div>
 		</div>
 
 		<div class="form-group col-sm-3">
 			<label for="entry2"><i class="fa fa-thumbs-o-up"></i> Player 2</label>
-			<select id="entry2" name="entry2" class="form-control pmEntry2">
+			<select id="pingPongEntry2" name="entry2" class="form-control pingPongEntry">
 				<option value="-1"></option>
 				<%for(Player p: model.getPlayers()){ %>
 				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
 				<%} %>
 			</select>
 			<label for="entry2">Score</label>
-			<input id="score2" class="score" type="number" name="score2" size="2" min="0" max="22" value="0"/>
+			<input id="pingPongScore2" class="score" style="min-width: 70px;" type="number" name="score2" size="2" min="0" max="22" value="0"/>
 			<div class="btn btn-success setMax">Set Max</div>
 		</div>
 	</div>
@@ -43,54 +43,54 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 
 <script>
 $(document).ready(function() {
-	var DisableOtherGuys = function(playerVal, $otherSelect) {
+	var root = $('#pingPongForm');
+	
+	var DisableOtherGuys = function(playerVal, $theSelect) {
 		// Reset the other box if already selected this user.
-		if ($otherSelect.find(":selected").val()== playerVal)
-			$otherSelect.val('-1');
-		
-		// Clear disabled state.
-		$otherSelect
-			.find('option')
-			.prop("disabled", false);
+		$('.pingPongEntry').not($theSelect).each(function(){
+			if ($(this).find(":selected").val()== playerVal)
+				$(this).val('-1');	
+		});
 		
 		// Disable the chosen player from second player options
-		$otherSelect
+		$('.pingPongEntry').not($theSelect).each(function(){
+			$(this)
 			.find('option[value=' + playerVal + ']')
 			.prop("disabled", true);
+		});
 	};
 
-	$('body').on('change', '#entry1', function() {
+	$(root).on('change', '.pingPongEntry', function() {
 		var player = $(this).val();
-		DisableOtherGuys(player, $('#entry2'));
-	});
-	$('body').on('change', '#entry2', function() {
-		var player = $(this).val();
-		DisableOtherGuys(player, $('#entry1'));
+		DisableOtherGuys(player, $(this));
+		validateForm();
 	});
 	
-	$('#entry1').sort_select_box();
-	$('#entry2').sort_select_box();
+	$('.pingPongEntry', root).sort_select_box();
 	
-	$('.setMax').click(function(){
+	$('.setMax', root).click(function(){
 		$(this).prev().val(21);
 		$('input.score').not($(this).prev()).val('0');
 		validateForm();
 	});
 	
-	$("#pingPongForm :input").on('input', function(e) {
+	$(":input", root).on('input', function(e) {
 		 validateForm();
 	});
 	var validateForm = function(){
-		$("#pingPongFormSubmit").addClass("btn btn-danger").removeClass("btn-primary").attr("disabled", "disabled");
-		var entry1 = parseInt($('#entry1').val());
-		var entry2 = parseInt($('#entry2').val());
-		if(entry1==-1 || entry2==-1 || entry1 == entry2)
+		$("#pingPongFormSubmit", root).addClass("btn btn-danger").removeClass("btn-primary").attr("disabled", "disabled");
+		var ids = {};
+		$('.pingPongEntry').each(function(){
+			var id = $(this).val();
+			ids[id]=true;
+		});
+		if(Object.keys(ids).length<2 || ids["-1"]!=undefined)
 			return;
-		var score1 = parseInt($('#score1').val());
-		var score2 = parseInt($('#score2').val());
+		var score1 = parseInt($('#pingPongScore1', root).val());
+		var score2 = parseInt($('#pingPongScore2', root).val());
 		if(isNaN(score1) || isNaN(score2) || score1 == score2 || score1 > 22 || score2 > 22)
 			return;
-		$("#pingPongFormSubmit").addClass("btn btn-primary").removeClass("btn-danger").removeAttr("disabled");
+		$("#pingPongFormSubmit", root).addClass("btn btn-primary").removeClass("btn-danger").removeAttr("disabled");
 	};
 	validateForm();
 });
