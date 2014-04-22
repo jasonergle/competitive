@@ -5,46 +5,124 @@
 EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 %>
 <form id="pingPongForm" role="form" action="submitMatch" method="post">
-	<h3>Ping Pong Match</h3>
-	<div class="row">
-		<div class="form-group col-sm-3">
-			<label for="entry1"><i class="fa fa-thumbs-o-up"></i> Player 1</label>
-			<select id="pingPongEntry1" name="entry1" class="form-control pingPongEntry">
-				<option value="-1"></option>
-				<%for(Player p: model.getPlayers()){ %>
-				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
-				<%} %>
-			</select>
-			<label for="entry1">Score</label>
-			<input id="pingPongScore1" class="score" style="min-width: 70px;" type="number" name="score1" size="2" min="0" max="22" value="0"/>
-			<div class="btn btn-success setMax">Set Max</div>
-		</div>
-
-		<div class="form-group col-sm-3">
-			<label for="entry2"><i class="fa fa-thumbs-o-up"></i> Player 2</label>
-			<select id="pingPongEntry2" name="entry2" class="form-control pingPongEntry">
-				<option value="-1"></option>
-				<%for(Player p: model.getPlayers()){ %>
-				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
-				<%} %>
-			</select>
-			<label for="entry2">Score</label>
-			<input id="pingPongScore2" class="score" style="min-width: 70px;" type="number" name="score2" size="2" min="0" max="22" value="0"/>
-			<div class="btn btn-success setMax">Set Max</div>
-		</div>
-	</div>
 	<input type="hidden" name="gameType" value="PING_PONG"/>
+
+	<h3>Ping Pong Match</h3>
+
+	<div class="row">  <!-- p1 row -->
+		<div class="col-sm-3">
+			<label for="entry1"><i class="fa fa-thumbs-o-up"></i> Player 1</label>
+			<div class="row">
+				<div class=" col-sm-12">
+					<select id="pingPongEntry1" name="entry1" class="form-control pingPongEntry">
+						<option value="-1"></option>
+						<%for(Player p: model.getPlayers()){ %>
+						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
+						<%} %>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-9">
+			<label for="entry1">Score</label>
+			<div class="row">
+				<div class="col-xs-3 col-sm-2">
+					<input id="pingPongScore1" class="score form-control" type="number" name="score1" size="2" min="0" max="102" value="0"/>
+				</div>
+				<div class="col-xs-1">
+					<button type="button" class="btn btn-sm btn-success setMax" title="Set Max"><i class="fa fa-lg fa-check-square-o"></i></button>
+				</div>
+			</div>
+		</div>
+	</div><!-- p1 row end -->
+
+
+	<div class="row"> <!-- p2 row -->
+		<div class="col-sm-3">
+			<label for="entry1"><i class="fa fa-thumbs-o-up"></i> Player 2</label>
+			<div class="row">
+				<div class=" col-sm-12">
+					<select id="pingPongEntry2" name="entry2" class="form-control pingPongEntry">
+						<option value="-1"></option>
+						<%for(Player p: model.getPlayers()){ %>
+						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
+						<%} %>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-9">
+			<label for="entry2">Score</label>
+			<div class="row">
+				<div class="col-xs-3 col-sm-2">
+					<input id="pingPongScore2" class="score form-control" type="number" name="score2" size="2" min="0" max="102" value="0"/>
+				</div>
+				<div class="col-xs-1">
+					<button type="button" class="btn btn-sm btn-success setMax" title="Set Max"><i class="fa fa-lg fa-check-square-o"></i></button>
+				</div>
+			</div>
+		</div>
+	</div><!-- p2 row end -->
 	<div class="row">
 		<div class="form-group col-md-3">
-			<button id = "pingPongFormSubmit" type="submit" class="btn btn-primary">Submit</button>
+			<button type="button" id="pingPongFormSubmit" class="btn btn-primary">Submit</button>
 		</div>
 	</div>
 </form>
 
 <script>
 $(document).ready(function() {
-	var root = $('#pingPongForm');
-	
+	var $root = $('#pingPongForm')
+		, ajaxXHR = null;
+
+	$root.on('click', '#pingPongFormSubmit', function(event) {
+		event.preventDefault();
+		var url = "submitMatch"
+			, postData = $root.serialize();
+
+		ajaxXHR = $.ajax({
+				type: "POST",
+				url: url,
+				data: postData,
+				dataType: 'json',
+				error: function(data) {
+					appendScoreInputs();
+					lockScores();
+				},
+				success: function(data) {
+					//$.publish("scoresSaved", [data, widget]);
+					// Add new 'col' of scores and lock current ones
+					appendScoreInputs();
+					lockScores();
+				}
+			})
+			.always(function () {
+				ajaxXHR = null;
+			});
+
+		return false;
+	});
+
+	var lockScores = function() {
+		var $scores = $('#pingPongScore1_orig, #pingPongScore2_orig', $root);
+		$scores
+			.addClass("has-success")
+			.removeClass("score")
+			.attr("disabled",true)
+			.closest('div')
+				.addClass("has-success");
+	};
+	var appendScoreInputs = function() {
+		var $scores = $('#pingPongScore1, #pingPongScore2', $root);
+		$scores.each( function () {
+			var id = $(this).attr('id')
+			, $container = $(this).closest('div')
+			, $newInputContainer = $container.clone();
+			$(this).attr('id', id + "_orig");
+			$newInputContainer.insertAfter($container);
+		});
+	};
+
 	var DisableOtherGuys = function(playerVal, $theSelect) {
 		// Reset the other box if already selected this user.
 		$('.pingPongEntry').not($theSelect).each(function(){
@@ -60,25 +138,26 @@ $(document).ready(function() {
 		});
 	};
 
-	$(root).on('change', '.pingPongEntry', function() {
+	$root.on('change', '.pingPongEntry', function() {
 		var player = $(this).val();
 		DisableOtherGuys(player, $(this));
 		validateForm();
 	});
 	
-	$('.pingPongEntry', root).sort_select_box();
+	$('.pingPongEntry', $root).sort_select_box();
 	
-	$('.setMax', root).click(function(){
-		$(this).prev().val(21);
-		$('input.score').not($(this).prev()).val('0');
+	$('.setMax', $root).click(function(){
+		var $rowScore = $(this).closest('.row').find('.score');
+		$rowScore.val('21');
 		validateForm();
+		return false;
 	});
 	
-	$(":input", root).on('input', function(e) {
+	$($root).on('input', ':input', function(e) {
 		 validateForm();
 	});
 	var validateForm = function(){
-		$("#pingPongFormSubmit", root).addClass("btn btn-danger").removeClass("btn-primary").attr("disabled", "disabled");
+		$("#pingPongFormSubmit", $root).addClass("btn btn-danger").removeClass("btn-primary").attr("disabled", "disabled");
 		var ids = {};
 		$('.pingPongEntry').each(function(){
 			var id = $(this).val();
@@ -86,11 +165,11 @@ $(document).ready(function() {
 		});
 		if(Object.keys(ids).length<2 || ids["-1"]!=undefined)
 			return;
-		var score1 = parseInt($('#pingPongScore1', root).val());
-		var score2 = parseInt($('#pingPongScore2', root).val());
+		var score1 = parseInt($('#pingPongScore1', $root).val());
+		var score2 = parseInt($('#pingPongScore2', $root).val());
 		if(isNaN(score1) || isNaN(score2) || score1 == score2 || score1 > 22 || score2 > 22)
 			return;
-		$("#pingPongFormSubmit", root).addClass("btn btn-primary").removeClass("btn-danger").removeAttr("disabled");
+		$("#pingPongFormSubmit", $root).addClass("btn btn-primary").removeClass("btn-danger").removeAttr("disabled");
 	};
 	validateForm();
 });
