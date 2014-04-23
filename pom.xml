@@ -73,7 +73,12 @@
 		<groupId>javassist</groupId>
 		<artifactId>javassist</artifactId>
 		<version>3.12.1.GA</version>
-	</dependency>  
+	</dependency> 
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+	<version>1.4</version>
+</dependency> 
   </dependencies>
   <artifactId>competitive</artifactId>
 </project>

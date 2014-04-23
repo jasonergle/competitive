@@ -39,6 +39,9 @@ public class Player implements Serializable, MatchParticipant {
 
 	@Column(name="last_name")
 	private String lastName;
+	
+	@Column(name="salt")
+	private String salt;
 
 	private String login;
 
@@ -91,6 +94,9 @@ public class Player implements Serializable, MatchParticipant {
 	//bi-directional many-to-one association to VersusMatch
 	@OneToMany(mappedBy="creator")
 	private Set<VersusMatch> versusMatches;
+	
+	@Column(name="login_count")
+	private Integer loginCount;
 
 	public Player() {
 	}
@@ -344,6 +350,22 @@ public class Player implements Serializable, MatchParticipant {
 	@Override
 	public String toString() {
 		return "Player [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public Integer getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(Integer loginCount) {
+		this.loginCount = loginCount;
 	}
 
 }

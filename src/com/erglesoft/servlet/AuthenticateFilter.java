@@ -42,7 +42,11 @@ public class AuthenticateFilter implements Filter {
 		if(request instanceof HttpServletRequest){
 			HttpServletRequest httpRequest = (HttpServletRequest)request;
 			String path = httpRequest.getServletPath();
-			if(!path.equals("/") && !path.startsWith("/index.jsp") && !path.startsWith("/login") && !path.startsWith("/assets/")){
+			if(!path.equals("/") 
+					&& !path.startsWith("/index.jsp")
+					&& !path.startsWith("/login") 
+					&& !path.startsWith("/assets/") 
+					&& !path.startsWith("/resetPassword")){
 				if(httpRequest.getSession()==null || UserLoginData.fromHttpSession(httpRequest)==null){
 					System.out.println("No userData on Session, redirecting to landing");
 					((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath());

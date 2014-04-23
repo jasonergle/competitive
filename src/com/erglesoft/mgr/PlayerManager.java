@@ -31,7 +31,7 @@ public class PlayerManager {
 		session = HibernateUtil.currentSession();
 	}
 	
-	public static Player getPlayerByLogin(String login, String password){
+	public static Player getPlayerByLoginAndPassword(String login, String password){
 		Session staticSession = HibernateUtil.currentSession();
 		Criteria criteria = staticSession.createCriteria(Player.class);
 		criteria.add(Restrictions.eq("login", login));
@@ -45,6 +45,23 @@ public class PlayerManager {
 		}
 			
 		return p;
+	}
+	
+	public Player getPlayerByLogin(String login){
+		Criteria criteria = session.createCriteria(Player.class);
+		criteria.add(Restrictions.eq("login", login));
+		Player p = (Player) criteria.uniqueResult();
+		if(p!=null){
+			p.setLastLoginDate(new Timestamp(new Date().getTime()));
+			p.setLoginCount(p.getLoginCount()+1);
+		}
+		return p;
+	}
+	
+	public void commitPlayer(Player p){
+		session.beginTransaction();
+		session.saveOrUpdate(p);
+		session.getTransaction().commit();
 	}
 	
 	public Player getPlayerById(Integer id){
