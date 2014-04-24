@@ -86,8 +86,12 @@ $(document).ready(function() {
 				data: postData,
 				dataType: 'json',
 				error: function(data) {
-					appendScoreInputs();
-					lockScores();
+					console.info("fail");
+					// Not sure why this thinks it fails.. but returns ok.
+					if (data.status === 200) {
+						appendScoreInputs();
+						lockScores();
+					}
 				},
 				success: function(data) {
 					//$.publish("scoresSaved", [data, widget]);

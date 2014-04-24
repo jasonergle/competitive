@@ -77,7 +77,7 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 
 	<div class="row">
 		<div class="form-group col-md-3">
-			<button id = "pingPongDoublesFormSubmit" type="submit" class="btn btn-primary">Submit</button>
+			<button type="button" id="pingPongDoublesFormSubmit" class="btn btn-primary">Submit</button>
 		</div>
 	</div>
 </form>
@@ -104,6 +104,56 @@ $(document).ready(function() {
 	$(":input", $root).on('input', function(e) {
 		 validateForm();
 	});
+
+	$root.on('click', '#pingPongDoublesFormSubmit', function(event) {
+		event.preventDefault();
+		var url = "submitMatch"
+			, postData = $root.serialize();
+
+		ajaxXHR = $.ajax({
+				type: "POST",
+				url: url,
+				data: postData,
+				//dataType: 'json',
+				success: function(data) {
+					//$.publish("scoresSaved", [data, widget]);
+					// Add new 'col' of scores and lock current ones
+					appendScoreInputs();
+					lockScores();
+				},
+				error: function(data) {
+					console.info("fail");
+					appendScoreInputs();
+					lockScores();
+				}
+			})
+			.always(function () {
+				ajaxXHR = null;
+			});
+
+		return false;
+	});
+
+	var lockScores = function() {
+		var $scores = $('#pingPongDoublesScore1_orig, #pingPongDoublesScore2_orig', $root);
+		$scores
+			.addClass("has-success")
+			.removeClass("score")
+			.attr("disabled",true)
+			.closest('div')
+				.addClass("has-success");
+	};
+	var appendScoreInputs = function() {
+		var $scores = $('#pingPongDoublesScore1, #pingPongDoublesScore2', $root);
+		$scores.each( function () {
+			var id = $(this).attr('id')
+			, $container = $(this).closest('div')
+			, $newInputContainer = $container.clone();
+			$(this).attr('id', id + "_orig");
+			$newInputContainer.insertAfter($container);
+		});
+	};
+
 	var validateForm = function(){
 		$("#pingPongDoublesFormSubmit", $root).addClass("btn btn-danger").removeClass("btn-primary").attr("disabled", "disabled");
 		var ids = {};
