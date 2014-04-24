@@ -19,7 +19,7 @@ List<Player> players = null;
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<span class="navbar-brand">Head<span class="text-muted">to</span>Head</span>
+			<span class="navbar-brand logoBase">Head<span class="text-muted">to</span>Head</span>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">

@@ -6,6 +6,13 @@ body {
 .italic{
 	font-style: italic;
 }
-.navbar-default .navbar-brand {
+.logoBase:hover,.navbar-default .logoBase:hover {
 	color: #679767;
+}
+.jumbotron > h1 {
+	/*margin: auto 20px; */
+	text-align: center;
+}
+.jumbotron > *  {
+	text-align: center;
 }
