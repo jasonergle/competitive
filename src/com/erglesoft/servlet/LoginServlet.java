@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.erglesoft.dbo.Player;
-import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.Owasp;
 import com.erglesoft.login.UserLoginData;
 import com.erglesoft.mgr.PlayerManager;
@@ -68,14 +67,7 @@ public class LoginServlet extends HttpServlet {
 				res = new Response(true);
 			}
 			else{
-				try {
-					log.debug(String.format("Authentication failed for Player: %s", target));
-					owasp.createUserPassword(target, password);
-				} catch (NoSuchAlgorithmException | SQLException e) {
-					e.printStackTrace();
-				}
-				pMgr.commitPlayer(target);
-				res = new Response(true);
+				res = new Response(false);
 			}
 		}
 

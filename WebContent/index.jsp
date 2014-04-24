@@ -34,52 +34,6 @@ if(request.getSession().getAttribute("player")!=null){
 			<!-- /container -->	
 			</div>
 		</div>
-		
-		<a href="#" class="btn btn-lg btn-success" data-toggle="modal" data-target="#passwordModal">Reset Password</a>
-
-		<div id="passwordModal" class="modal fade">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Reset Password</h4>
-					</div>
-					<form action="resetPassword" method="post">
-					<div class="modal-body">
-						<div class="control-group">
-							<label for="current_password" class="control-label">Current
-								Password</label>
-							<div class="controls">
-								<input type="password" name="currentPassword">
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="new_password" class="control-label">New
-								Password</label>
-							<div class="controls">
-								<input type="password" name="newPassword">
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="confirm_password" class="control-label">Confirm
-								Password</label>
-							<div class="controls">
-								<input type="password" name="confirmPassword">
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-						<input type="submit" class="btn btn-primary"/>
-					</div>
-					</form>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
 	
 		<script>
 			$(document).ready(function() {

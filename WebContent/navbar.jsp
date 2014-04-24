@@ -33,7 +33,7 @@ List<Player> players = null;
 				<%if(curPlayer!=null){ %>
 				<div>
 					<strong>
-						<a class="" href="viewStats.jsp?player=<%=curPlayer.getId() %>"> 
+						<a class="" href="playerProfile.jsp"> 
 							<%=PlayerManager.getNameForPlayer(curPlayer) %> @ <%=curPlayer.getCurrentLeague().getName() %>
 						</a>
 					</strong>
