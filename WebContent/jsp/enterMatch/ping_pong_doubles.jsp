@@ -15,7 +15,7 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
 				<%} %>
 			</select>
-			<select id="pingPongDoublesEntry1player2" name="entry1player2" class="form-control pingPongDoublesEntry"">
+			<select id="pingPongDoublesEntry1player2" name="entry1player2" class="form-control pingPongDoublesEntry">
 				<option value="-1"></option>
 				<%for(Player p: model.getPlayers()){ %>
 				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
@@ -28,13 +28,13 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 
 		<div class="form-group col-sm-3">
 			<label for="entry2"><i class="fa fa-thumbs-o-up"></i> Team 2</label>
-			<select id="pingPongDoublesEntry2player1" name="entry2player1" class="form-control pingPongDoublesEntry"">
+			<select id="pingPongDoublesEntry2player1" name="entry2player1" class="form-control pingPongDoublesEntry">
 				<option value="-1"></option>
 				<%for(Player p: model.getPlayers()){ %>
 				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
 				<%} %>
 			</select>
-			<select id="pingPongDoublesEntry2player2" name="entry2player2" class="form-control pingPongDoublesEntry"">
+			<select id="pingPongDoublesEntry2player2" name="entry2player2" class="form-control pingPongDoublesEntry">
 				<option value="-1"></option>
 				<%for(Player p: model.getPlayers()){ %>
 				<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
@@ -57,28 +57,13 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 $(document).ready(function() {
 	var root = $('#pingPongDoublesForm');
 	
-	var DisableOtherGuys = function(playerVal, $theSelect) {
-		// Reset the other box if already selected this user.
-		$('.pingPongDoublesEntry').not($theSelect).each(function(){
-			if ($(this).find(":selected").val()== playerVal)
-				$(this).val('-1');	
-		});
-		
-		// Disable the chosen player from second player options
-		$('.pingPongDoublesEntry').not($theSelect).each(function(){
-			$(this)
-			.find('option[value=' + playerVal + ']')
-			.prop("disabled", true);
-		});
-	};
-
 	$(root).on('change', '.pingPongDoublesEntry', function() {
-		var player = $(this).val();
-		DisableOtherGuys(player, $(this));
 		validateForm();
 	});
 	
-	$('.pingPongDoublesEntry', root).sort_select_box();
+	$('.pingPongDoublesEntry', root)
+		.makeUniqueChoice()
+		.sort_select_box();
 	
 	$('.setMax', root).click(function(){
 		$(this).prev().val(21);

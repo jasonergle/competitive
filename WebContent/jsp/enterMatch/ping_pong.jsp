@@ -123,28 +123,13 @@ $(document).ready(function() {
 		});
 	};
 
-	var DisableOtherGuys = function(playerVal, $theSelect) {
-		// Reset the other box if already selected this user.
-		$('.pingPongEntry').not($theSelect).each(function(){
-			if ($(this).find(":selected").val()== playerVal)
-				$(this).val('-1');	
-		});
-		
-		// Disable the chosen player from second player options
-		$('.pingPongEntry').not($theSelect).each(function(){
-			$(this)
-			.find('option[value=' + playerVal + ']')
-			.prop("disabled", true);
-		});
-	};
-
 	$root.on('change', '.pingPongEntry', function() {
-		var player = $(this).val();
-		DisableOtherGuys(player, $(this));
 		validateForm();
 	});
 	
-	$('.pingPongEntry', $root).sort_select_box();
+	$('.pingPongEntry', $root)
+		.makeUniqueChoice()
+		.sort_select_box();
 	
 	$('.setMax', $root).click(function(){
 		var $rowScore = $(this).closest('.row').find('.score');
