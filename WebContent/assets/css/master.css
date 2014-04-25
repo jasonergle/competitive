@@ -1,8 +1,18 @@
 body {
-  padding-top: 5px;
+  padding-top: 55px;
   padding-bottom: 20px;
 }
 
 .italic{
 	font-style: italic;
+}
+.logoBase:hover,.navbar-default .logoBase:hover {
+	color: #679767;
+}
+.jumbotron > h1 {
+	/*margin: auto 20px; */
+	text-align: center;
+}
+.jumbotron > *  {
+	text-align: center;
 }

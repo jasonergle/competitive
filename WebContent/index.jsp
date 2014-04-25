@@ -13,25 +13,27 @@ if(request.getSession().getAttribute("player")!=null){
 		<title>Pong Score Tracking - Login</title>
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
-	
 	<body>
 		<div class="jumbotron">
 			<div class="container">
-				<h1>Head 2 Head</h1>
+				<h1 class="logoBase">Head<span class="text-muted">to</span>Head</h1>
+				<p><img class="img-thumbnail" src="assets/images/pongGuys.gif" /></p>
 				<h3>Please Sign In</h3>
-				<div class="container">
-					<form id="signinForm" method="POST" action="login" class="form-signin" role="form">
-						<input type="text" name="username" class="form-control"
-							placeholder="Email address" required autofocus> <input
-							type="password" name="password" class="form-control"
-							placeholder="Password" required> <label class="checkbox">
-						</label>
-						<button class="btn btn-lg btn-primary btn-block">Sign in</button>
-					</form>
-					<div id="signingInLabel" class="pull-right hidden">Signing In <img src="<%=request.getContextPath()%>/assets/images/loading.gif"/></div>
-					<div id="signingInFailedLabel" class="hidden pull-right" style="color:red;"><strong>Signing Failed!  the Email and Password combination you entered is incorrect!</strong></div>
+				<div class="row">
+					<div class="col-xs-offset-1 col-xs-10 col-sm-offset-4 col-sm-4">
+						<form id="signinForm" method="POST" action="login" class="form-signin" role="form">
+							<input type="text" name="username" class="form-control"
+								placeholder="Email address" required autofocus> <input
+								type="password" name="password" class="form-control"
+								placeholder="Password" required> <label class="checkbox">
+							</label>
+							<button class="btn btn-lg btn-primary btn-block">Sign in</button>
+						</form>
+						<div id="signingInLabel" class="pull-right hidden">Signing In <img src="<%=request.getContextPath()%>/assets/images/loading.gif"/></div>
+						<div id="signingInFailedLabel" class="hidden pull-right" style="color:red;"><strong>Signing Failed!  the Email and Password combination you entered is incorrect!</strong></div>
+					</div>
 				</div>
-			<!-- /container -->	
+				<!-- /container -->	
 			</div>
 		</div>
 	

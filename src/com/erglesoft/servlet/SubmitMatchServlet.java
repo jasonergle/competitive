@@ -1,6 +1,7 @@
 package com.erglesoft.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -83,7 +84,10 @@ public class SubmitMatchServlet extends HttpServlet {
 		default:
 			break;
 		}
-		response.sendRedirect("leaderboards.jsp");
+		PrintWriter outWriter = response.getWriter();
+		response.setContentType("application/json");
+		outWriter.print("{'status':'success'}");
+		outWriter.flush();
+		return;
 	}
-
 }

@@ -9,8 +9,8 @@ PlayerManager pMgr = new PlayerManager();
 List<Player> players = null; 
 %>
 
-<div class="navbar navbar-default" role="navigation">
-	<div class="container-fluid">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" 
 				data-toggle="collapse"
@@ -19,7 +19,7 @@ List<Player> players = null;
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<span class="navbar-brand">Head2Head</span>
+			<span class="navbar-brand logoBase">Head<span class="text-muted">to</span>Head</span>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
@@ -34,21 +34,24 @@ List<Player> players = null;
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%if(curPlayer!=null){ %>
-				<div>
-					<strong>
-						<a class="" href="playerProfile.jsp"> 
+				<li>
+					<a class="" href="playerProfile.jsp?player=<%=curPlayer.getId() %>">
+						<strong>
 							<%=PlayerManager.getNameForPlayer(curPlayer) %> @ <%=curPlayer.getCurrentLeague().getName() %>
-						</a>
-					</strong>
-					&nbsp;
-					<a class="btn btn-danger" href="logout">Logout</a>
-				</div>
+						</strong>
+					</a>
+				</li>
+				<li>
+					<form class="navbar-form navbar-left" action="logout">
+						<button class="btn btn-sm btn-danger" type="submit">Logout</button>
+					</form>
+				</li>
 				<%}else{ %>
-				<span>Not Logged In</span>
+				<p class="navbar-text">Not Logged In</p>
 				<%} %>
 			</ul>
 		</div>
 		<!--/.nav-collapse -->
 	</div>
-	<!--/.container-fluid -->
+	<!--/.container -->
 </div>
