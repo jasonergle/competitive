@@ -68,6 +68,12 @@ public class ResetPasswordServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+	}
+	
+	protected class ReturnData{
+		Boolean success;
+		
 	}
 
 }

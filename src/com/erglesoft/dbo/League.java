@@ -25,6 +25,12 @@ public class League implements Serializable {
 	private Timestamp createDate;
 
 	private String name;
+	
+	@Column(name="join_password")
+	private String joinPassword;
+	
+	@Column(name="is_public")
+	private Boolean isPublic;
 
 	//bi-directional many-to-many association to Game
 	@ManyToMany(mappedBy="leagues")
@@ -220,6 +226,22 @@ public class League implements Serializable {
 		versusMatch.setLeague(null);
 
 		return versusMatch;
+	}
+
+	public String getJoinPassword() {
+		return joinPassword;
+	}
+
+	public void setJoinPassword(String joinPassword) {
+		this.joinPassword = joinPassword;
+	}
+
+	public Boolean getIsPublic() {
+		return isPublic;
+	}
+
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 
 }

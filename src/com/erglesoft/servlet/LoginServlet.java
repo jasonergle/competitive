@@ -64,6 +64,7 @@ public class LoginServlet extends HttpServlet {
 				log.debug(String.format("Login Successful for %s", target));
 				UserLoginData userData = new UserLoginData(target);
 				UserLoginData.toHttpSession(request, userData);
+				pMgr.commitPlayer(target);
 				res = new Response(true);
 			}
 			else{

@@ -27,6 +27,9 @@ List<Player> players = null;
 				<li><a href="leaderboards.jsp">Leaderboards</a></li>
 				<li><a href="enterMatch.jsp">Enter Match</a></li>
 				<li><a href="viewMatches.jsp">See Matches</a></li>
+				<%if(curPlayer.getSuperUserFlag()){ %>
+				<li><a href="<%=request.getContextPath() %>/jsp/admin/admin.jsp">Admin</a></li>
+				<%} %>
 				<%} %>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
