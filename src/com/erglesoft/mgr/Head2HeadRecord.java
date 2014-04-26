@@ -28,10 +28,10 @@ public class Head2HeadRecord {
 					if(entry.getId().equals(winningEntry.getId())){
 						winCnt++;
 					}
-					pointsScored+=entry.getScore();
+					pointsScored+=entry.getScore().doubleValue();
 				}
 				else{
-					pointsAllowed+=entry.getScore();
+					pointsAllowed+=entry.getScore().doubleValue();
 				}
 			}
 		}

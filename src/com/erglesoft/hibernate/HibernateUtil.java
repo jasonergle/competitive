@@ -11,6 +11,7 @@ import org.hibernate.service.ServiceRegistry;
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.LeagueGame;
+import com.erglesoft.dbo.LeaguePlayer;
 import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
@@ -22,7 +23,7 @@ public class HibernateUtil {
     private static ServiceRegistry serviceRegistry = null;
 
     static{
-    	buildSessionFactory(Player.class, Game.class, League.class, LeagueGame.class, VersusMatch.class, VersusEntry.class,  Team.class);
+    	buildSessionFactory(Player.class, Game.class, League.class, LeagueGame.class, LeaguePlayer.class, VersusMatch.class, VersusEntry.class,  Team.class);
     }
     
     public static final ThreadLocal<Session> sessions= new ThreadLocal<Session>();

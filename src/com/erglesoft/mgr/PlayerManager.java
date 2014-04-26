@@ -71,8 +71,8 @@ public class PlayerManager {
 	
 	public List<Player> getAllPlayersForLeague(League league){
 		Criteria criteria = HibernateUtil.currentSession().createCriteria(Player.class);
-		criteria.createAlias("leagues", "playerLeagues");
-		criteria.add(Restrictions.eq("playerLeagues.id", league.getId()));
+		criteria.createAlias("leaguePlayers", "lps");
+		criteria.add(Restrictions.eq("lps.league", league));
 		criteria.addOrder(Order.desc("lastName")).addOrder(Order.desc("firstName"));
 		@SuppressWarnings("unchecked")
 		List<Player> players = criteria.list();

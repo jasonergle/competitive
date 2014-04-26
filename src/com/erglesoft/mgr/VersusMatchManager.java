@@ -1,5 +1,6 @@
 package com.erglesoft.mgr;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,13 +59,13 @@ public class VersusMatchManager extends BaseManager {
 	
 	public VersusEntry createNewVersusEntry(MatchParticipant participant, Double score){
 		VersusEntry ret = new VersusEntry();
-		ret.setScore(score);
-		if(participant instanceof Player){
+		ret.setScore(new BigDecimal(score));
+		if(participant.getOriginalObject() instanceof Player){
 			PlayerManager pMgr = new PlayerManager();
 			Player player = pMgr.getPlayerById(participant.getId());
 			ret.setPlayer(player);
 		}
-		else if(participant instanceof Team){
+		else if(participant.getOriginalObject() instanceof Team){
 			TeamManager tMgr = new TeamManager(session, loginData);
 			Team team = tMgr.getTeamById(participant.getId());
 			ret.setTeam(team);
@@ -128,7 +129,7 @@ public class VersusMatchManager extends BaseManager {
 		else{
 			VersusEntry winner = null;
 			for(VersusEntry entry: match.getVersusEntries()){
-				if(winner == null || entry.getScore()>winner.getScore()){
+				if(winner == null || entry.getScore().doubleValue()>winner.getScore().doubleValue()){
 					winner = entry;
 				}
 			}

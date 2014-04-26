@@ -2,6 +2,7 @@ package com.erglesoft.dbo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 /**
@@ -15,10 +16,9 @@ public class VersusEntry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	private Double score;
+	private BigDecimal score;
 
 	//bi-directional many-to-one association to Player
 	@ManyToOne
@@ -44,11 +44,11 @@ public class VersusEntry implements Serializable {
 		this.id = id;
 	}
 
-	public Double getScore() {
+	public BigDecimal getScore() {
 		return this.score;
 	}
 
-	public void setScore(Double score) {
+	public void setScore(BigDecimal score) {
 		this.score = score;
 	}
 

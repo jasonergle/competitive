@@ -136,10 +136,10 @@ public class ViewStatsJspModel extends JspModel {
 			else{
 				lossCnt++;
 			}
-			ps+=entry.getScore();
+			ps+=entry.getScore().doubleValue();
 			for(VersusEntry otherEntry: entry.getVersusMatch().getVersusEntries()){
 				if(!otherEntry.getId().equals(entry.getId()))
-					pa+=otherEntry.getScore();
+					pa+=otherEntry.getScore().doubleValue();
 			}
 		}
 		if((winCnt+lossCnt)>0){

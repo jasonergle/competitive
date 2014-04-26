@@ -1,13 +1,10 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
-import com.erglesoft.game.MatchParticipant;
-
 import java.sql.Timestamp;
 import java.util.Set;
+
 
 /**
  * The persistent class for the player database table.
@@ -15,18 +12,14 @@ import java.util.Set;
  */
 @Entity
 @NamedQuery(name="Player.findAll", query="SELECT p FROM Player p")
-public class Player implements Serializable, MatchParticipant {
+public class Player implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
 	@Column(name="active_flag")
 	private Boolean activeFlag;
-	
-	@Column(name="super_user_flag")
-	private Boolean superUserFlag;
 
 	@Column(name="create_date")
 	private Timestamp createDate;
@@ -39,13 +32,18 @@ public class Player implements Serializable, MatchParticipant {
 
 	@Column(name="last_name")
 	private String lastName;
-	
-	@Column(name="salt")
-	private String salt;
 
 	private String login;
 
+	@Column(name="login_count")
+	private Integer loginCount;
+
 	private String password;
+
+	private String salt;
+
+	@Column(name="super_user_flag")
+	private Boolean superUserFlag;
 
 	private String title;
 
@@ -57,35 +55,26 @@ public class Player implements Serializable, MatchParticipant {
 	@OneToMany(mappedBy="owner")
 	private Set<League> ownedLeagues;
 
-	//bi-directional many-to-many association to League
-	@ManyToMany(mappedBy="players")
-	private Set<League> leagues;
+	//bi-directional many-to-one association to LeaguePlayer
+	@OneToMany(mappedBy="player")
+	private Set<LeaguePlayer> leaguePlayers;
 
 	//bi-directional many-to-one association to League
 	@ManyToOne
 	@JoinColumn(name="current_league")
 	private League currentLeague;
 
-	//bi-directional many-to-many association to Team
-	@ManyToMany
-	@JoinTable(
-		name="team_players"
-		, joinColumns={
-			@JoinColumn(name="player_id")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="team_id")
-			}
-		)
-	private Set<Team> teams;
+	//bi-directional many-to-one association to Team
+	@OneToMany(mappedBy="captain")
+	private Set<Team> teamsCaptainOf;
 
 	//bi-directional many-to-one association to Team
 	@OneToMany(mappedBy="creator")
 	private Set<Team> createdTeams;
 
-	//bi-directional many-to-one association to Team
-	@OneToMany(mappedBy="captain")
-	private Set<Team> teamsCaptainOf;
+	//bi-directional many-to-many association to Team
+	@ManyToMany(mappedBy="players")
+	private Set<Team> teams;
 
 	//bi-directional many-to-one association to VersusEntry
 	@OneToMany(mappedBy="player")
@@ -93,10 +82,7 @@ public class Player implements Serializable, MatchParticipant {
 
 	//bi-directional many-to-one association to VersusMatch
 	@OneToMany(mappedBy="creator")
-	private Set<VersusMatch> versusMatches;
-	
-	@Column(name="login_count")
-	private Integer loginCount;
+	private Set<VersusMatch> createdVersusMatches;
 
 	public Player() {
 	}
@@ -157,12 +143,36 @@ public class Player implements Serializable, MatchParticipant {
 		this.login = login;
 	}
 
+	public Integer getLoginCount() {
+		return this.loginCount;
+	}
+
+	public void setLoginCount(Integer loginCount) {
+		this.loginCount = loginCount;
+	}
+
 	public String getPassword() {
 		return this.password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSalt() {
+		return this.salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public Boolean getSuperUserFlag() {
+		return this.superUserFlag;
+	}
+
+	public void setSuperUserFlag(Boolean superUserFlag) {
+		this.superUserFlag = superUserFlag;
 	}
 
 	public String getTitle() {
@@ -217,12 +227,26 @@ public class Player implements Serializable, MatchParticipant {
 		return ownedLeague;
 	}
 
-	public Set<League> getLeagues() {
-		return this.leagues;
+	public Set<LeaguePlayer> getLeaguePlayers() {
+		return this.leaguePlayers;
 	}
 
-	public void setLeagues(Set<League> leagues) {
-		this.leagues = leagues;
+	public void setLeaguePlayers(Set<LeaguePlayer> leaguePlayers) {
+		this.leaguePlayers = leaguePlayers;
+	}
+
+	public LeaguePlayer addLeaguePlayer(LeaguePlayer leaguePlayer) {
+		getLeaguePlayers().add(leaguePlayer);
+		leaguePlayer.setPlayer(this);
+
+		return leaguePlayer;
+	}
+
+	public LeaguePlayer removeLeaguePlayer(LeaguePlayer leaguePlayer) {
+		getLeaguePlayers().remove(leaguePlayer);
+		leaguePlayer.setPlayer(null);
+
+		return leaguePlayer;
 	}
 
 	public League getCurrentLeague() {
@@ -231,36 +255,6 @@ public class Player implements Serializable, MatchParticipant {
 
 	public void setCurrentLeague(League currentLeague) {
 		this.currentLeague = currentLeague;
-	}
-
-	public Set<Team> getTeams() {
-		return this.teams;
-	}
-
-	public void setTeams(Set<Team> teams) {
-		this.teams = teams;
-	}
-
-	public Set<Team> getCreatedTeams() {
-		return this.createdTeams;
-	}
-
-	public void setCreatedTeams(Set<Team> createdTeams) {
-		this.createdTeams = createdTeams;
-	}
-
-	public Team addCreatedTeam(Team createdTeam) {
-		getCreatedTeams().add(createdTeam);
-		createdTeam.setCreator(this);
-
-		return createdTeam;
-	}
-
-	public Team removeCreatedTeam(Team createdTeam) {
-		getCreatedTeams().remove(createdTeam);
-		createdTeam.setCreator(null);
-
-		return createdTeam;
 	}
 
 	public Set<Team> getTeamsCaptainOf() {
@@ -285,6 +279,36 @@ public class Player implements Serializable, MatchParticipant {
 		return teamsCaptainOf;
 	}
 
+	public Set<Team> getCreatedTeams() {
+		return this.createdTeams;
+	}
+
+	public void setCreatedTeams(Set<Team> createdTeams) {
+		this.createdTeams = createdTeams;
+	}
+
+	public Team addCreatedTeam(Team createdTeam) {
+		getCreatedTeams().add(createdTeam);
+		createdTeam.setCreator(this);
+
+		return createdTeam;
+	}
+
+	public Team removeCreatedTeam(Team createdTeam) {
+		getCreatedTeams().remove(createdTeam);
+		createdTeam.setCreator(null);
+
+		return createdTeam;
+	}
+
+	public Set<Team> getTeams() {
+		return this.teams;
+	}
+
+	public void setTeams(Set<Team> teams) {
+		this.teams = teams;
+	}
+
 	public Set<VersusEntry> getVersusEntries() {
 		return this.versusEntries;
 	}
@@ -307,65 +331,26 @@ public class Player implements Serializable, MatchParticipant {
 		return versusEntry;
 	}
 
-	public Set<VersusMatch> getVersusMatches() {
-		return this.versusMatches;
+	public Set<VersusMatch> getCreatedVersusMatches() {
+		return this.createdVersusMatches;
 	}
 
-	public void setVersusMatches(Set<VersusMatch> versusMatches) {
-		this.versusMatches = versusMatches;
+	public void setCreatedVersusMatches(Set<VersusMatch> createdVersusMatches) {
+		this.createdVersusMatches = createdVersusMatches;
 	}
 
-	public VersusMatch addVersusMatch(VersusMatch versusMatch) {
-		getVersusMatches().add(versusMatch);
-		versusMatch.setCreator(this);
+	public VersusMatch addCreatedVersusMatch(VersusMatch createdVersusMatch) {
+		getCreatedVersusMatches().add(createdVersusMatch);
+		createdVersusMatch.setCreator(this);
 
-		return versusMatch;
+		return createdVersusMatch;
 	}
 
-	public VersusMatch removeVersusMatch(VersusMatch versusMatch) {
-		getVersusMatches().remove(versusMatch);
-		versusMatch.setCreator(null);
+	public VersusMatch removeCreatedVersusMatch(VersusMatch createdVersusMatch) {
+		getCreatedVersusMatches().remove(createdVersusMatch);
+		createdVersusMatch.setCreator(null);
 
-		return versusMatch;
-	}
-
-	@Override
-	public String getName() {
-		return firstName+" "+lastName + " (" + this.title + ")";
-	}
-
-	@Override
-	public String getParameterType() {
-		return "player";
-	}
-
-	public Boolean getSuperUserFlag() {
-		return superUserFlag;
-	}
-
-	public void setSuperUserFlag(Boolean superUserFlag) {
-		this.superUserFlag = superUserFlag;
-	}
-
-	@Override
-	public String toString() {
-		return "Player [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
-	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
-	public Integer getLoginCount() {
-		return loginCount;
-	}
-
-	public void setLoginCount(Integer loginCount) {
-		this.loginCount = loginCount;
+		return createdVersusMatch;
 	}
 
 }

@@ -66,9 +66,9 @@ public class ViewMatchesJspModel extends JspModel {
 	public static MatchParticipant getMatchParticipant(VersusEntry entry){
 		MatchParticipant part = null;
 		if(entry.getPlayer()==null)
-			part = (MatchParticipant)entry.getTeam();
+			part = new MatchParticipant(entry.getTeam());
 		else
-			part = (MatchParticipant)entry.getPlayer();
+			part = new MatchParticipant(entry.getPlayer());
 		return part;
 	}
 

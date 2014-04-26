@@ -1,11 +1,7 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
-import com.erglesoft.game.MatchParticipant;
-
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -16,11 +12,10 @@ import java.util.Set;
  */
 @Entity
 @NamedQuery(name="Team.findAll", query="SELECT t FROM Team t")
-public class Team implements Serializable, MatchParticipant {
+public class Team implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
 	@Column(name="create_date")
@@ -28,21 +23,30 @@ public class Team implements Serializable, MatchParticipant {
 
 	private String name;
 
-	//bi-directional many-to-many association to Player
-	@ManyToMany(mappedBy="teams")
-	private Set<Player> players;
-
 	//bi-directional many-to-one association to League
 	@ManyToOne
 	private League league;
 
 	//bi-directional many-to-one association to Player
 	@ManyToOne
-	private Player creator;
+	private Player captain;
 
 	//bi-directional many-to-one association to Player
 	@ManyToOne
-	private Player captain;
+	private Player creator;
+
+	//bi-directional many-to-many association to Player
+	@ManyToMany
+	@JoinTable(
+		name="team_players"
+		, joinColumns={
+			@JoinColumn(name="team_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="player_id")
+			}
+		)
+	private Set<Player> players;
 
 	//bi-directional many-to-one association to VersusEntry
 	@OneToMany(mappedBy="team")
@@ -75,20 +79,20 @@ public class Team implements Serializable, MatchParticipant {
 		this.name = name;
 	}
 
-	public Set<Player> getPlayers() {
-		return this.players;
-	}
-
-	public void setPlayers(Set<Player> players) {
-		this.players = players;
-	}
-
 	public League getLeague() {
 		return this.league;
 	}
 
 	public void setLeague(League league) {
 		this.league = league;
+	}
+
+	public Player getCaptain() {
+		return this.captain;
+	}
+
+	public void setCaptain(Player captain) {
+		this.captain = captain;
 	}
 
 	public Player getCreator() {
@@ -99,12 +103,12 @@ public class Team implements Serializable, MatchParticipant {
 		this.creator = creator;
 	}
 
-	public Player getCaptain() {
-		return this.captain;
+	public Set<Player> getPlayers() {
+		return this.players;
 	}
 
-	public void setCaptain(Player captain) {
-		this.captain = captain;
+	public void setPlayers(Set<Player> players) {
+		this.players = players;
 	}
 
 	public Set<VersusEntry> getVersusEntries() {
@@ -127,11 +131,6 @@ public class Team implements Serializable, MatchParticipant {
 		versusEntry.setTeam(null);
 
 		return versusEntry;
-	}
-
-	@Override
-	public String getParameterType() {
-		return "team";
 	}
 
 }

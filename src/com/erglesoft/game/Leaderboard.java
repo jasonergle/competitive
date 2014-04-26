@@ -38,7 +38,7 @@ public class Leaderboard {
 				if(VersusMatchManager.getWinningEntry(entry.getVersusMatch()).getId().equals(entry.getId()))
 					winCnt++;
 			}
-			LeaderboardRow row = new LeaderboardRow(winCnt, matchCnt-winCnt, player);
+			LeaderboardRow row = new LeaderboardRow(winCnt, matchCnt-winCnt, new MatchParticipant(player));
 			rows.add(row);
 			Collections.sort(rows);
 		}

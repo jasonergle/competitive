@@ -16,7 +16,6 @@ public class League implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
 	private String abbr;
@@ -24,17 +23,13 @@ public class League implements Serializable {
 	@Column(name="create_date")
 	private Timestamp createDate;
 
-	private String name;
-	
-	@Column(name="join_password")
-	private String joinPassword;
-	
 	@Column(name="is_public")
 	private Boolean isPublic;
 
-	//bi-directional many-to-many association to Game
-	@ManyToMany(mappedBy="leagues")
-	private Set<Game> games;
+	@Column(name="join_password")
+	private String joinPassword;
+
+	private String name;
 
 	//bi-directional many-to-one association to Player
 	@ManyToOne
@@ -44,22 +39,13 @@ public class League implements Serializable {
 	@ManyToOne
 	private Player owner;
 
-	//bi-directional many-to-many association to Player
-	@ManyToMany
-	@JoinTable(
-		name="league_players"
-		, joinColumns={
-			@JoinColumn(name="league_id")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="player_id")
-			}
-		)
-	private Set<Player> players;
-
 	//bi-directional many-to-one association to LeagueGame
 	@OneToMany(mappedBy="league")
 	private Set<LeagueGame> leagueGames;
+
+	//bi-directional many-to-one association to LeaguePlayer
+	@OneToMany(mappedBy="league")
+	private Set<LeaguePlayer> leaguePlayers;
 
 	//bi-directional many-to-one association to Player
 	@OneToMany(mappedBy="currentLeague")
@@ -100,20 +86,28 @@ public class League implements Serializable {
 		this.createDate = createDate;
 	}
 
+	public Boolean getIsPublic() {
+		return this.isPublic;
+	}
+
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public String getJoinPassword() {
+		return this.joinPassword;
+	}
+
+	public void setJoinPassword(String joinPassword) {
+		this.joinPassword = joinPassword;
+	}
+
 	public String getName() {
 		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Set<Game> getGames() {
-		return this.games;
-	}
-
-	public void setGames(Set<Game> games) {
-		this.games = games;
 	}
 
 	public Player getCreator() {
@@ -130,14 +124,6 @@ public class League implements Serializable {
 
 	public void setOwner(Player owner) {
 		this.owner = owner;
-	}
-
-	public Set<Player> getPlayers() {
-		return this.players;
-	}
-
-	public void setPlayers(Set<Player> players) {
-		this.players = players;
 	}
 
 	public Set<LeagueGame> getLeagueGames() {
@@ -160,6 +146,28 @@ public class League implements Serializable {
 		leagueGame.setLeague(null);
 
 		return leagueGame;
+	}
+
+	public Set<LeaguePlayer> getLeaguePlayers() {
+		return this.leaguePlayers;
+	}
+
+	public void setLeaguePlayers(Set<LeaguePlayer> leaguePlayers) {
+		this.leaguePlayers = leaguePlayers;
+	}
+
+	public LeaguePlayer addLeaguePlayer(LeaguePlayer leaguePlayer) {
+		getLeaguePlayers().add(leaguePlayer);
+		leaguePlayer.setLeague(this);
+
+		return leaguePlayer;
+	}
+
+	public LeaguePlayer removeLeaguePlayer(LeaguePlayer leaguePlayer) {
+		getLeaguePlayers().remove(leaguePlayer);
+		leaguePlayer.setLeague(null);
+
+		return leaguePlayer;
 	}
 
 	public Set<Player> getCurrentPlayers() {
@@ -226,22 +234,6 @@ public class League implements Serializable {
 		versusMatch.setLeague(null);
 
 		return versusMatch;
-	}
-
-	public String getJoinPassword() {
-		return joinPassword;
-	}
-
-	public void setJoinPassword(String joinPassword) {
-		this.joinPassword = joinPassword;
-	}
-
-	public Boolean getIsPublic() {
-		return isPublic;
-	}
-
-	public void setIsPublic(Boolean isPublic) {
-		this.isPublic = isPublic;
 	}
 
 }

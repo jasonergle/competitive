@@ -1,11 +1,7 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
-import com.erglesoft.game.GameType;
-
 import java.util.Set;
 
 
@@ -19,35 +15,20 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
 	@Column(name="max_players")
-	private Integer maxPlayers;
+	private Short maxPlayers;
 
 	@Column(name="min_players")
-	private Integer minPlayers;
+	private Short minPlayers;
 
 	private String name;
 
-	@Enumerated(EnumType.STRING)
-	private GameType type;
+	private String type;
 
 	@Column(name="uses_teams")
 	private Boolean usesTeams;
-
-	//bi-directional many-to-many association to League
-	@ManyToMany
-	@JoinTable(
-		name="league_games"
-		, joinColumns={
-			@JoinColumn(name="game_id")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="league_id")
-			}
-		)
-	private Set<League> leagues;
 
 	//bi-directional many-to-one association to LeagueGame
 	@OneToMany(mappedBy="game")
@@ -68,19 +49,19 @@ public class Game implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getMaxPlayers() {
+	public Short getMaxPlayers() {
 		return this.maxPlayers;
 	}
 
-	public void setMaxPlayers(Integer maxPlayers) {
+	public void setMaxPlayers(Short maxPlayers) {
 		this.maxPlayers = maxPlayers;
 	}
 
-	public Integer getMinPlayers() {
+	public Short getMinPlayers() {
 		return this.minPlayers;
 	}
 
-	public void setMinPlayers(Integer minPlayers) {
+	public void setMinPlayers(Short minPlayers) {
 		this.minPlayers = minPlayers;
 	}
 
@@ -92,11 +73,11 @@ public class Game implements Serializable {
 		this.name = name;
 	}
 
-	public GameType getType() {
+	public String getType() {
 		return this.type;
 	}
 
-	public void setType(GameType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -106,14 +87,6 @@ public class Game implements Serializable {
 
 	public void setUsesTeams(Boolean usesTeams) {
 		this.usesTeams = usesTeams;
-	}
-
-	public Set<League> getLeagues() {
-		return this.leagues;
-	}
-
-	public void setLeagues(Set<League> leagues) {
-		this.leagues = leagues;
 	}
 
 	public Set<LeagueGame> getLeagueGames() {
