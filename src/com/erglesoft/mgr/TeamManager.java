@@ -17,7 +17,9 @@ import org.hibernate.sql.JoinType;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.TeamPlayer;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
@@ -87,6 +89,67 @@ public class TeamManager extends BaseManager{
 		else{
 			return (double)wins.size()/entries.size();
 		}
+	}
+
+	public Team getTeamForPlayers(League league, Player ... players) {
+		if(players == null || players.length==0){
+			return null;
+		}
+		Set<Player> playerSet = new HashSet<Player>();
+		for(Player p: players){
+			playerSet.add(p);
+		}
+		Criteria criteria = session.createCriteria(Team.class);
+		criteria.add(Restrictions.eq("league", league));
+		criteria.add(Restrictions.eq("isSinglePlayerTeam", players.length==1));
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		criteria.createAlias("teamPlayers", "tps", JoinType.LEFT_OUTER_JOIN);
+		@SuppressWarnings("unchecked")
+		List<Team> teams = criteria.list();
+		for(Team team : teams){
+			Set<Player> teamPlayers = new HashSet<Player>();
+			for(TeamPlayer tp:team.getTeamPlayers()){
+				teamPlayers.add(tp.getPlayer());
+			}
+			if(playerSet.equals(teamPlayers))
+				return team;
+		}
+		// No Suitable Team was found, must create a new one
+		Team newTeam = new Team();
+		newTeam.setLeague(league);
+		newTeam.setTeamPlayers(getTeamPlayersSet(newTeam, playerSet));
+		if(players.length==1){
+			newTeam.setIsSinglePlayerTeam(true);
+			newTeam.setName(players[0].getName());
+		}
+		else{
+			newTeam.setIsSinglePlayerTeam(false);
+			String name = "";
+			for(Player p : players){
+				if(!name.equals(""))
+					name+=" & ";
+				name += p.getName();
+			}
+			newTeam.setName(name);
+		}
+		newTeam.setCreator(loginData.getLogin());
+		session.beginTransaction();
+		session.save(newTeam);
+		for(TeamPlayer newTP: newTeam.getTeamPlayers())
+			session.save(newTP);
+		session.getTransaction().commit();
+		return newTeam;
+	}
+
+	private Set<TeamPlayer> getTeamPlayersSet(Team team, Set<Player> playerSet) {
+		Set<TeamPlayer> ret = new HashSet<TeamPlayer>();
+		for(Player p: playerSet){
+			TeamPlayer tp = new TeamPlayer();
+			tp.setPlayer(p);
+			tp.setTeam(team);
+			ret.add(tp);
+		}
+		return ret;
 	}
 
 }

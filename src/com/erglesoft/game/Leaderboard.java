@@ -24,12 +24,11 @@ public class Leaderboard {
 		this.title = String.format("%s - %s Leaderboards", league.getName(), game.getName());
 		rows = new ArrayList<LeaderboardRow>();
 		pMgr = new TeamManager();
-		if(!game.getUsesTeams())
-			buildLeaderboardRowsFromPlayers();
+		buildLeaderboardRows();
 		
 	}
 
-	private void buildLeaderboardRowsFromPlayers() {
+	private void buildLeaderboardRows() {
 		List<Team> parts = pMgr.getAllTeamsForGameAndLeague(league, game);
 		for(Team part: parts){
 			int winCnt = 0;

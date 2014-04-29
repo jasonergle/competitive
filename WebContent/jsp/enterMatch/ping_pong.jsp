@@ -14,7 +14,7 @@
 				<div class=" col-sm-12">
 					<select id="pingPongEntry1" name="entry1" class="form-control pingPongEntry">
 						<option value="-1"></option>
-						<%for(Team p: model.getTeams()){ %>
+						<%for(Player p: model.getPlayers()){ %>
 						<option value="<%=p.getId() %>"> <%=p.getName()%></option>
 						<%}%>
 					</select>
@@ -42,7 +42,7 @@
 				<div class=" col-sm-12">
 					<select id="pingPongEntry2" name="entry2" class="form-control pingPongEntry">
 						<option value="-1"></option>
-						<%for(Team p: model.getTeams()){%>
+						<%for(Player p: model.getPlayers()){%>
 							<option value="<%=p.getId()%>"> <%=p.getName()%></option>
 						<%} %>
 					</select>

@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.game.GameType;
+import com.erglesoft.login.UserLoginData;
+import com.erglesoft.mgr.PlayerManager;
 import com.erglesoft.mgr.TeamManager;
 import com.erglesoft.mgr.VersusMatchManager;
 
@@ -43,19 +46,24 @@ public class SubmitMatchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TeamManager tMgr = new TeamManager(request);
+		PlayerManager pMgr = new PlayerManager(request);
 		VersusMatchManager mMgr = new VersusMatchManager(request);
+		UserLoginData loginData = UserLoginData.fromHttpSession(request);
 		GameType type = GameType.valueOf(request.getParameter("gameType"));
 		double score1, score2;
-		Set<VersusEntry> entries;
+		Set<VersusEntry> entries  = new HashSet<VersusEntry>();;
+		VersusEntry entry1, entry2;
+		Team t1, t2;
 		switch(type){
 		case PING_PONG:
-			Team p1 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry1")));
-			Team p2 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry2")));
+			Player p1 = pMgr.getPlayer(Integer.parseInt(request.getParameter("entry1")));
+			t1 = tMgr.getTeamForPlayers(loginData.getCurLeague(), p1);
+			Player p2 = pMgr.getPlayer(Integer.parseInt(request.getParameter("entry2")));
+			t2 = tMgr.getTeamForPlayers(loginData.getCurLeague(), p2);
 			score1 = Double.parseDouble(request.getParameter("score1"));
 			score2 = Double.parseDouble(request.getParameter("score2"));
-			entries = new HashSet<VersusEntry>();
-			VersusEntry entry1 = mMgr.createNewVersusEntry(p1, score1);
-			VersusEntry entry2 = mMgr.createNewVersusEntry(p2, score2);
+			entry1 = mMgr.createNewVersusEntry(t1, score1);
+			entry2 = mMgr.createNewVersusEntry(t2, score2);
 			if(score1>score2){
 				entry1.setIsWinner(true);
 				entry2.setIsWinner(false);
@@ -69,26 +77,31 @@ public class SubmitMatchServlet extends HttpServlet {
 			mMgr.createNewVersusMatch(type, entries);
 			break;
 		case PING_PONG_DOUBLES:
-			Team e1p1 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry1player1")));
-			Team e1p2 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry1player2")));
-			Set<Team> players1 = new HashSet<Team>();
-			// TODO Look up a Team for the set of players
-			players1.add(e1p1);
-			players1.add(e1p2);
-			Team e2p1 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry2player1")));
-			Team e2p2 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry2player2")));
-			Set<Team> players2 = new HashSet<Team>();
-			players2.add(e2p1);
-			players2.add(e2p2);
+			Player e1p1 = pMgr.getPlayer(Integer.parseInt(request.getParameter("entry1player1")));
+			Player e1p2 = pMgr.getPlayer(Integer.parseInt(request.getParameter("entry1player2")));
+			t1 = tMgr.getTeamForPlayers(loginData.getCurLeague(), e1p1, e1p2);
+
+			Player e2p1 = pMgr.getPlayer(Integer.parseInt(request.getParameter("entry2player1")));
+			Player e2p2 = pMgr.getPlayer(Integer.parseInt(request.getParameter("entry2player2")));
+			t2 = tMgr.getTeamForPlayers(loginData.getCurLeague(), e2p1, e2p2);
+			
 			score1 = Double.parseDouble(request.getParameter("score1"));
 			score2 = Double.parseDouble(request.getParameter("score2"));
-/*			Team team1 = tMgr.getTeamForPlayersInCurrentOrg(players1, true);
-			Team team2 = tMgr.getTeamForPlayersInCurrentOrg(players2, true);
-			entries = new HashSet<VersusEntry>();
-			entries.add(mMgr.createNewVersusEntry(new MatchTeam(team1), score1));
-			entries.add(mMgr.createNewVersusEntry(new MatchTeam(team2), score2));
+			
+			entry1 = mMgr.createNewVersusEntry(t1, score1);
+			entry2 = mMgr.createNewVersusEntry(t2, score2);
+			if(score1>score2){
+				entry1.setIsWinner(true);
+				entry2.setIsWinner(false);
+			}
+			else{
+				entry1.setIsWinner(false);
+				entry2.setIsWinner(true);
+			}
+			entries.add(entry1);
+			entries.add(entry2);
 			mMgr.createNewVersusMatch(type, entries);
-			*/
+			
 			break;
 		default:
 			break;

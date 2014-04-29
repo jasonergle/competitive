@@ -1,60 +1,45 @@
 package com.erglesoft.jspmodel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
-import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.Player;
 import com.erglesoft.mgr.GameManager;
+import com.erglesoft.mgr.PlayerManager;
 import com.erglesoft.mgr.TeamManager;
 
 public class EnterMatchJspModel extends JspModel {
 	List<Game> allowedGames;
-	List<Team> teams;
+	List<Player> players;
 	GameManager gMgr;
-	TeamManager pMgr;
+	TeamManager tMgr;
+	PlayerManager pMgr;
 	
 	public EnterMatchJspModel(HttpServletRequest request) {
 		super(request);
 		gMgr = new GameManager(request);
-		pMgr = new TeamManager();
+		tMgr = new TeamManager(request);
+		pMgr = new PlayerManager(request);
 		allowedGames = gMgr.getAllowedGames(loginData.getCurLeague());
-		teams = pMgr.getAllTeamsForLeague(loginData.getCurLeague());
+		players = pMgr.getAllPlayersForLeague(loginData.getCurLeague());
 	}
 
 	public List<Game> getAllowedGames() {
 		return allowedGames;
 	}
 
-	public List<Team> getSinglePlayerTeams() {
-		List<Team> ret  = new ArrayList<Team>();
-		for(Team t : teams){
-			if(t.getIsSinglePlayerTeam()){
-				ret.add(t);
-			}
-		}
-		return ret;
+	public List<Player> getPlayers() {
+		return players;
 	}
-
-	public List<Team> getMultiPlayerTeams() {
-		List<Team> ret  = new ArrayList<Team>();
-		for(Team t : teams){
-			if(!t.getIsSinglePlayerTeam()){
-				ret.add(t);
-			}
-		}
-		return ret;
-	}
-
 	
 	public GameManager getgMgr() {
 		return gMgr;
 	}
 
 	public TeamManager getpMgr() {
-		return pMgr;
+		return tMgr;
 	}
 
 	public String getEntryTarget(Game game){
