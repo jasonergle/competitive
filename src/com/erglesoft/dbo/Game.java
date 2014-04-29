@@ -1,8 +1,19 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.erglesoft.game.GameType;
 
 
 /**
@@ -15,6 +26,7 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
 	@Column(name="max_players")
@@ -25,7 +37,8 @@ public class Game implements Serializable {
 
 	private String name;
 
-	private String type;
+	@Enumerated(EnumType.STRING)
+	private GameType type;
 
 	@Column(name="uses_teams")
 	private Boolean usesTeams;
@@ -73,11 +86,11 @@ public class Game implements Serializable {
 		this.name = name;
 	}
 
-	public String getType() {
+	public GameType getType() {
 		return this.type;
 	}
 
-	public void setType(String type) {
+	public void setType(GameType type) {
 		this.type = type;
 	}
 
