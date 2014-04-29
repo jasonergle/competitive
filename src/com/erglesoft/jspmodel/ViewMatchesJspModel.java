@@ -62,7 +62,7 @@ public class ViewMatchesJspModel extends JspModel {
 			if(loser.getTeam()==null)
 				ret+="N/A";
 			else
-				ret+=String.format("%s (%s)",loser.getTeam(), loser.getScore());
+				ret+=String.format("%s (%s)",loser.getTeam().getName(), loser.getScore());
 		}
 		return ret;
 	}

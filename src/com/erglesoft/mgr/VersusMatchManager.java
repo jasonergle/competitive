@@ -3,6 +3,7 @@ package com.erglesoft.mgr;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -87,12 +88,15 @@ public class VersusMatchManager extends BaseManager {
 	
 	@SuppressWarnings("unchecked")
 	public List<VersusMatch> getAllMatches(League league){
+		List<VersusMatch> ret;
 		Criteria c = session.createCriteria(VersusMatch.class);
 		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		c.add(Restrictions.eq("league", league));
-		c.setFetchMode("versusEntries", FetchMode.JOIN);
+		c.createAlias("versusEntries", "entries", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("entries.team", "team", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("team.associatedLogin", "associatedLogin", JoinType.LEFT_OUTER_JOIN);
 		c.addOrder(Order.desc("matchDate"));
-		List<VersusMatch> ret = c.list();
+		ret = c.list();
 		return ret;
 	}
 	

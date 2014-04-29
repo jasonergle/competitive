@@ -22,9 +22,6 @@ public class VersusEntry implements Serializable {
 	@Column(name="is_winner")
 	private Boolean isWinner;
 
-	@Column(name="login_id")
-	private Integer loginId;
-
 	private BigDecimal score;
 
 	//bi-directional many-to-one association to Team
@@ -53,14 +50,6 @@ public class VersusEntry implements Serializable {
 
 	public void setIsWinner(Boolean isWinner) {
 		this.isWinner = isWinner;
-	}
-
-	public Integer getLoginId() {
-		return this.loginId;
-	}
-
-	public void setLoginId(Integer loginId) {
-		this.loginId = loginId;
 	}
 
 	public BigDecimal getScore() {

@@ -16,7 +16,7 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
-			<h3>Singles Data</h3>
+			<h3>Match Data</h3>
 			<table id="singlesTable" class="table table-striped">
 				<thead>
 					<tr>
@@ -29,9 +29,7 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 					</tr>
 				</thead>
 				<tbody>
-					<%
-					for(VersusMatch match : model.getMatches()){
-					%>
+					<%for(VersusMatch match : model.getMatches()){%>
 					<tr>
 						<td><%=VersusMatchManager.getFormattedDate(match.getMatchDate())%></td>
 						<td><%=match.getGame().getName()%></td>
