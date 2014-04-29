@@ -55,10 +55,10 @@ public class VersusMatchManager extends BaseManager {
 		session.getTransaction().commit();
 	}
 	
-	public VersusEntry createNewVersusEntry(Team participant, Double score){
+	public VersusEntry createNewVersusEntry(Team team, Double score){
 		VersusEntry ret = new VersusEntry();
 		ret.setScore(new BigDecimal(score));
-		ret.setTeam(participant);
+		ret.setTeam(team);
 		return ret;
 	}
 	
@@ -74,14 +74,14 @@ public class VersusMatchManager extends BaseManager {
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<VersusEntry> getAllTeamEntriesForGame(League league, Game game, Team p){
+	public List<VersusEntry> getAllTeamEntriesForGame(League league, Game game, Team t){
 		Criteria c = session.createCriteria(VersusEntry.class);
 		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		c.createAlias("versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
 		c.createAlias("match.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
 		c.add(Restrictions.eq("match.game", game));
 		c.add(Restrictions.eq("match.league", league));
-		c.add(Restrictions.eq("participant", p));
+		c.add(Restrictions.eq("team", t));
 		return c.list();
 	}
 	

@@ -16,9 +16,7 @@
 						<option value="-1"></option>
 						<%for(Team p: model.getTeams()){ %>
 						<option value="<%=p.getId() %>"> <%=p.getName()%></option>
-						<%
-							}
-						%>
+						<%}%>
 					</select>
 				</div>
 			</div>
