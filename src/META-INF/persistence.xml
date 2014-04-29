@@ -3,11 +3,13 @@
 	<persistence-unit name="HibernateExample">
 		<class>com.erglesoft.dbo.Game</class>
 		<class>com.erglesoft.dbo.League</class>
-		<class>com.erglesoft.dbo.Player</class>
-		<class>com.erglesoft.dbo.Team</class>
 		<class>com.erglesoft.dbo.LeagueGame</class>
 		<class>com.erglesoft.dbo.VersusEntry</class>
 		<class>com.erglesoft.dbo.VersusMatch</class>
-		<class>com.erglesoft.dbo.LeaguePlayer</class>
+		<class>com.erglesoft.dbo.LeagueLogin</class>
+		<class>com.erglesoft.dbo.Login</class>
+		<class>com.erglesoft.dbo.Player</class>
+		<class>com.erglesoft.dbo.Team</class>
+		<class>com.erglesoft.dbo.TeamPlayer</class>
 	</persistence-unit>
 </persistence>

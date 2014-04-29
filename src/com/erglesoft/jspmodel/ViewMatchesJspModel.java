@@ -5,26 +5,26 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
-import com.erglesoft.game.MatchParticipant;
-import com.erglesoft.mgr.PlayerManager;
+import com.erglesoft.mgr.TeamManager;
 import com.erglesoft.mgr.VersusMatchManager;
 
 public class ViewMatchesJspModel extends JspModel {
 
-	private PlayerManager pMgr;
+	private TeamManager pMgr;
 	private VersusMatchManager mMgr;
 	private List<VersusMatch> matches;
 	
 	public ViewMatchesJspModel(HttpServletRequest request) {
 		super(request);
-		pMgr =  new PlayerManager();
+		pMgr =  new TeamManager();
 		mMgr = new VersusMatchManager(request);
 		matches =  mMgr.getAllMatchesForCurrentLeague();
 	}
 
-	public PlayerManager getpMgr() {
+	public TeamManager getpMgr() {
 		return pMgr;
 	}
 
@@ -36,12 +36,16 @@ public class ViewMatchesJspModel extends JspModel {
 		return matches;
 	}
 	
+	public Team getWinner(VersusMatch match){
+		return VersusMatchManager.getWinningEntry(match).getTeam();
+	}
+	
 	public String getWinnerLabel(VersusMatch match){
 		VersusEntry winner = VersusMatchManager.getWinningEntry(match);
-		if(winner==null || getMatchParticipant(winner)==null)
+		if(winner==null || winner.getTeam()==null)
 			return "N/A";
 		else{
-			return String.format("%s (%s)",getMatchParticipant(winner).getName(), winner.getScore());
+			return String.format("%s (%s)",winner.getTeam().getName(), winner.getScore());
 		}
 	}
 	
@@ -55,21 +59,12 @@ public class ViewMatchesJspModel extends JspModel {
 		for(VersusEntry loser: losers){
 			if(!ret.equals(""))
 				ret+=", ";
-			if(getMatchParticipant(loser)==null)
+			if(loser.getTeam()==null)
 				ret+="N/A";
 			else
-				ret+=String.format("%s (%s)",getMatchParticipant(loser).getName(), loser.getScore());
+				ret+=String.format("%s (%s)",loser.getTeam(), loser.getScore());
 		}
 		return ret;
-	}
-	
-	public static MatchParticipant getMatchParticipant(VersusEntry entry){
-		MatchParticipant part = null;
-		if(entry.getPlayer()==null)
-			part = new MatchParticipant(entry.getTeam());
-		else
-			part = new MatchParticipant(entry.getPlayer());
-		return part;
 	}
 
 }

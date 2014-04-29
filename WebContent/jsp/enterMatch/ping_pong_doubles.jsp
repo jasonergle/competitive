@@ -1,9 +1,7 @@
 <%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="com.erglesoft.dbo.*"%>
 <%@page import="com.erglesoft.mgr.*"%>
-<%
-EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
-%>
+<%EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");%>
 <form id="pingPongDoublesForm" role="form" action="submitMatch" method="post">
 	<input type="hidden" name="gameType" value="PING_PONG_DOUBLES"/>
 
@@ -16,15 +14,19 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 				<div class=" col-sm-12">
 					<select id="pingPongDoublesEntry1player1" name="entry1player1" class="form-control pingPongDoublesEntry">
 						<option value="-1"></option>
-						<%for(Player p: model.getPlayers()){ %>
-						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
-						<%} %>
+						<%for(Team p: model.getTeams()){ %>
+						<option value="<%=p.getId() %>"> <%=p.getName()%></option>
+						<%
+							}
+						%>
 					</select>
 					<select id="pingPongDoublesEntry1player2" name="entry1player2" class="form-control pingPongDoublesEntry">
 						<option value="-1"></option>
-						<%for(Player p: model.getPlayers()){ %>
-						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
-						<%} %>
+						<%for(Team p: model.getTeams()){%>
+						<option value="<%=p.getId()%>"> <%=p.getName()%></option>
+						<%
+							}
+						%>
 					</select>
 				</div>
 			</div>
@@ -49,14 +51,20 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 				<div class=" col-sm-12">
 					<select id="pingPongDoublesEntry2player1" name="entry2player1" class="form-control pingPongDoublesEntry">
 						<option value="-1"></option>
-						<%for(Player p: model.getPlayers()){ %>
-						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
-						<%} %>
+						<%
+							for(Team p: model.getTeams()){
+						%>
+						<option value="<%=p.getId()%>"> <%=p%></option>
+						<%
+							}
+						%>
 					</select>
 					<select id="pingPongDoublesEntry2player2" name="entry2player2" class="form-control pingPongDoublesEntry">
 						<option value="-1"></option>
-						<%for(Player p: model.getPlayers()){ %>
-						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
+						<%
+							for(Team p: model.getTeams()){
+						%>
+						<option value="<%=p.getId()%>"> <%=p.getName()%></option>
 						<%} %>
 					</select>
 				</div>

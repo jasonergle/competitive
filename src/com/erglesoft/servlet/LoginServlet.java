@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.Login;
 import com.erglesoft.login.Owasp;
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.mgr.PlayerManager;
+import com.erglesoft.mgr.LoginManager;
 import com.google.gson.Gson;
 
 /**
@@ -42,14 +42,14 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
-		PlayerManager pMgr = new PlayerManager();
+		LoginManager pMgr = new LoginManager(request);
 		Owasp owasp = new Owasp();
 		Response res;
 		boolean authenticated = false;
 		
 		String login = request.getParameter("username");
 		String password = request.getParameter("password");
-		Player target = pMgr.getPlayerByLogin(login);
+		Login target = pMgr.getLogin(login);
 		if(target==null){
 			log.debug(String.format("Login Target not found using params[%s]", login));
 			res = new Response(false);
@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 				log.debug(String.format("Login Successful for %s", target));
 				UserLoginData userData = new UserLoginData(target);
 				UserLoginData.toHttpSession(request, userData);
-				pMgr.commitPlayer(target);
+				pMgr.commitLogin(target);
 				res = new Response(true);
 			}
 			else{

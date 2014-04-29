@@ -31,25 +31,29 @@ public class League implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to Player
+	//bi-directional many-to-one association to Login
 	@ManyToOne
-	private Player creator;
+	private Login creator;
 
-	//bi-directional many-to-one association to Player
+	//bi-directional many-to-one association to Login
 	@ManyToOne
-	private Player owner;
+	private Login owner;
 
 	//bi-directional many-to-one association to LeagueGame
 	@OneToMany(mappedBy="league")
 	private Set<LeagueGame> leagueGames;
 
-	//bi-directional many-to-one association to LeaguePlayer
+	//bi-directional many-to-one association to LeagueLogin
 	@OneToMany(mappedBy="league")
-	private Set<LeaguePlayer> leaguePlayers;
+	private Set<LeagueLogin> leagueLogins;
+
+	//bi-directional many-to-one association to Login
+	@OneToMany(mappedBy="league")
+	private Set<Login> logins;
 
 	//bi-directional many-to-one association to Player
-	@OneToMany(mappedBy="currentLeague")
-	private Set<Player> currentPlayers;
+	@OneToMany(mappedBy="league")
+	private Set<Player> players;
 
 	//bi-directional many-to-one association to Team
 	@OneToMany(mappedBy="league")
@@ -110,19 +114,19 @@ public class League implements Serializable {
 		this.name = name;
 	}
 
-	public Player getCreator() {
+	public Login getCreator() {
 		return this.creator;
 	}
 
-	public void setCreator(Player creator) {
+	public void setCreator(Login creator) {
 		this.creator = creator;
 	}
 
-	public Player getOwner() {
+	public Login getOwner() {
 		return this.owner;
 	}
 
-	public void setOwner(Player owner) {
+	public void setOwner(Login owner) {
 		this.owner = owner;
 	}
 
@@ -148,48 +152,70 @@ public class League implements Serializable {
 		return leagueGame;
 	}
 
-	public Set<LeaguePlayer> getLeaguePlayers() {
-		return this.leaguePlayers;
+	public Set<LeagueLogin> getLeagueLogins() {
+		return this.leagueLogins;
 	}
 
-	public void setLeaguePlayers(Set<LeaguePlayer> leaguePlayers) {
-		this.leaguePlayers = leaguePlayers;
+	public void setLeagueLogins(Set<LeagueLogin> leagueLogins) {
+		this.leagueLogins = leagueLogins;
 	}
 
-	public LeaguePlayer addLeaguePlayer(LeaguePlayer leaguePlayer) {
-		getLeaguePlayers().add(leaguePlayer);
-		leaguePlayer.setLeague(this);
+	public LeagueLogin addLeagueLogin(LeagueLogin leagueLogin) {
+		getLeagueLogins().add(leagueLogin);
+		leagueLogin.setLeague(this);
 
-		return leaguePlayer;
+		return leagueLogin;
 	}
 
-	public LeaguePlayer removeLeaguePlayer(LeaguePlayer leaguePlayer) {
-		getLeaguePlayers().remove(leaguePlayer);
-		leaguePlayer.setLeague(null);
+	public LeagueLogin removeLeagueLogin(LeagueLogin leagueLogin) {
+		getLeagueLogins().remove(leagueLogin);
+		leagueLogin.setLeague(null);
 
-		return leaguePlayer;
+		return leagueLogin;
 	}
 
-	public Set<Player> getCurrentPlayers() {
-		return this.currentPlayers;
+	public Set<Login> getLogins() {
+		return this.logins;
 	}
 
-	public void setCurrentPlayers(Set<Player> currentPlayers) {
-		this.currentPlayers = currentPlayers;
+	public void setLogins(Set<Login> logins) {
+		this.logins = logins;
 	}
 
-	public Player addCurrentPlayer(Player currentPlayer) {
-		getCurrentPlayers().add(currentPlayer);
-		currentPlayer.setCurrentLeague(this);
+	public Login addLogin(Login login) {
+		getLogins().add(login);
+		login.setLeague(this);
 
-		return currentPlayer;
+		return login;
 	}
 
-	public Player removeCurrentPlayer(Player currentPlayer) {
-		getCurrentPlayers().remove(currentPlayer);
-		currentPlayer.setCurrentLeague(null);
+	public Login removeLogin(Login login) {
+		getLogins().remove(login);
+		login.setLeague(null);
 
-		return currentPlayer;
+		return login;
+	}
+
+	public Set<Player> getPlayers() {
+		return this.players;
+	}
+
+	public void setPlayers(Set<Player> players) {
+		this.players = players;
+	}
+
+	public Player addPlayer(Player player) {
+		getPlayers().add(player);
+		player.setLeague(this);
+
+		return player;
+	}
+
+	public Player removePlayer(Player player) {
+		getPlayers().remove(player);
+		player.setLeague(null);
+
+		return player;
 	}
 
 	public Set<Team> getTeams() {

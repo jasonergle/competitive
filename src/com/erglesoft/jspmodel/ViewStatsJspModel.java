@@ -8,53 +8,41 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
-import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.mgr.GameManager;
-import com.erglesoft.mgr.PlayerManager;
+import com.erglesoft.mgr.Head2HeadRecord;
 import com.erglesoft.mgr.TeamManager;
 import com.erglesoft.mgr.VersusMatchManager;
-import com.erglesoft.mgr.Head2HeadRecord;
 
 public class ViewStatsJspModel extends JspModel {
-	private PlayerManager pMgr;
-	private TeamManager tMgr;
+	private TeamManager pMgr;
 	private GameManager gMgr;
 	private VersusMatchManager mMgr;
 	private List<Game> allowedGames;
 	private String targetLabel;
-	private Player player;
 	private Boolean playerMode;
 	private Integer playerId;
-	
+	private Team participant;
 	private Integer teamId;
-	private Team team;
 	
-	private Map<Game, Map<Player,Head2HeadRecord>> opponentInfo;
+	private Map<Game, Map<Team,Head2HeadRecord>> opponentInfo;
 
 	
 	public ViewStatsJspModel(HttpServletRequest request) {
 		super(request);
-		pMgr = new PlayerManager();
-		tMgr = new TeamManager(request);
+		pMgr = new TeamManager();
 		gMgr = new GameManager(request);
 		mMgr = new VersusMatchManager(request);
 		allowedGames = gMgr.getAllowedGames(loginData.getCurLeague());
 		
-		if(request.getParameter("player")!=null){
-			playerId = Integer.parseInt(request.getParameter("player"));
-			player = pMgr.getPlayerById(playerId);
+		if(request.getParameter("participant")!=null){
+			playerId = Integer.parseInt(request.getParameter("participant"));
+			participant = pMgr.getTeam(playerId);
 			playerMode = true;
 			initHead2HeadData();
-			targetLabel = PlayerManager.getNameForPlayer(player);
-		}
-		if(request.getParameter("team")!=null){
-			teamId = Integer.parseInt(request.getParameter("team"));
-			team = tMgr.getTeamById(teamId);
-			playerMode = false;
-			targetLabel = team.getName();
+			targetLabel = participant.getName();
 		}
 
 	}
@@ -71,23 +59,12 @@ public class ViewStatsJspModel extends JspModel {
 		return teamId;
 	}
 
-	public PlayerManager getpMgr() {
+	public TeamManager getpMgr() {
 		return pMgr;
 	}
 
-	public TeamManager gettMgr() {
-		return tMgr;
-	}
 
-	public Player getPlayer() {
-		return player;
-	}
-
-	public Team getTeam() {
-		return team;
-	}
-
-	public Map<Game, Map<Player, Head2HeadRecord>> getOpponentInfo() {
+	public Map<Game, Map<Team, Head2HeadRecord>> getOpponentInfo() {
 		return opponentInfo;
 	}
 
@@ -96,34 +73,34 @@ public class ViewStatsJspModel extends JspModel {
 	}
 	
 	private void initHead2HeadData(){
-		opponentInfo = new HashMap<Game, Map<Player, Head2HeadRecord>>();
+		opponentInfo = new HashMap<Game, Map<Team, Head2HeadRecord>>();
 		for(Game game : allowedGames){
 			opponentInfo.put(game, getVersusData(game));
 			
 		}
 	}
 
-	private Map<Player, Head2HeadRecord> getVersusData(Game game) {
-		Map<Player, Head2HeadRecord> ret = new HashMap<Player, Head2HeadRecord>();
-		Map<Player, List<VersusMatch>> opponentMatchMap = new HashMap<Player, List<VersusMatch>>();
-		List<VersusEntry> playerEntries = mMgr.getAllPlayerEntriesForGame(loginData.getCurLeague(), game, player);
+	private Map<Team, Head2HeadRecord> getVersusData(Game game) {
+		Map<Team, Head2HeadRecord> ret = new HashMap<Team, Head2HeadRecord>();
+		Map<Team, List<VersusMatch>> opponentMatchMap = new HashMap<Team, List<VersusMatch>>();
+		List<VersusEntry> playerEntries = mMgr.getAllTeamEntriesForGame(loginData.getCurLeague(), game, participant);
 		for(VersusEntry entry : playerEntries){
 			for(VersusEntry matchEntry: entry.getVersusMatch().getVersusEntries()){
-				if(!matchEntry.getPlayer().getId().equals(player.getId())){
-					if(opponentMatchMap.get(matchEntry.getPlayer())==null)
-						opponentMatchMap.put(matchEntry.getPlayer(), new ArrayList<VersusMatch>());
-					opponentMatchMap.get(matchEntry.getPlayer()).add(matchEntry.getVersusMatch());
+				if(!matchEntry.getTeam().getId().equals(participant.getId())){
+					if(opponentMatchMap.get(matchEntry.getTeam())==null)
+						opponentMatchMap.put(matchEntry.getTeam(), new ArrayList<VersusMatch>());
+					opponentMatchMap.get(matchEntry.getTeam()).add(matchEntry.getVersusMatch());
 				}
 			}
 		}
-		for(Player opponent: opponentMatchMap.keySet()){
-			ret.put(opponent, new Head2HeadRecord(player, opponent, opponentMatchMap.get(opponent)));
+		for(Team opponent: opponentMatchMap.keySet()){
+			ret.put(opponent, new Head2HeadRecord(participant, opponent, opponentMatchMap.get(opponent)));
 		}
 		return ret;
 	}
 	
 	public Map<String, Number> getWonLossData(Game game) {
-		List<VersusEntry> playerEntries = mMgr.getAllPlayerEntriesForGame(loginData.getCurLeague(), game, player);
+		List<VersusEntry> playerEntries = mMgr.getAllTeamEntriesForGame(loginData.getCurLeague(), game, participant);
 		Map<String, Number> ret = new HashMap<String, Number>();
 		int winCnt = 0;
 		int lossCnt = 0;

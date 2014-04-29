@@ -18,7 +18,7 @@ public class LeagueGame implements Serializable {
 	private Integer id;
 
 	@Column(name="sort_order")
-	private Integer sortOrder;
+	private Short sortOrder;
 
 	//bi-directional many-to-one association to Game
 	@ManyToOne
@@ -39,11 +39,11 @@ public class LeagueGame implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getSortOrder() {
+	public Short getSortOrder() {
 		return this.sortOrder;
 	}
 
-	public void setSortOrder(Integer sortOrder) {
+	public void setSortOrder(Short sortOrder) {
 		this.sortOrder = sortOrder;
 	}
 

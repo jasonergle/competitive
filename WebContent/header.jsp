@@ -8,7 +8,7 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link href="assets/css/master.css" rel="stylesheet">
 
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="assets/libs/jquery-1.11.0.min.js"></script>
 <script src="assets/libs/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
 <script src="assets/libs/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
 <script src="assets/libs/jquery.form.min.js"></script>

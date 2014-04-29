@@ -3,16 +3,16 @@ package com.erglesoft.login;
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.League;
-import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.Login;
 
 public class UserLoginData {
 	
-	private Player player;
+	private Login login;
 	private League curLeague;
 
-	public UserLoginData(Player player) {
-		this.player = player;
-		this.curLeague = player.getCurrentLeague();
+	public UserLoginData(Login login) {
+		this.login = login;
+		this.curLeague = login.getLeague();
 	}
 	
 	public static UserLoginData fromHttpSession(HttpServletRequest request){
@@ -23,8 +23,8 @@ public class UserLoginData {
 		request.getSession().setAttribute("userLoginData", userLoginData);
 	}
 
-	public Player getPlayer() {
-		return player;
+	public Login getLogin() {
+		return login;
 	}
 
 	public League getCurLeague() {
@@ -33,7 +33,7 @@ public class UserLoginData {
 
 	@Override
 	public String toString() {
-		return "UserLoginData [player=" + player + ", curLeague=" + curLeague + "]";
+		return "UserLoginData [login=" + login + ", curLeague=" + curLeague + "]";
 	}
 
 }

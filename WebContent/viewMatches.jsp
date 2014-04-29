@@ -36,18 +36,18 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 						<td><%=VersusMatchManager.getFormattedDate(match.getMatchDate())%></td>
 						<td><%=match.getGame().getName()%></td>
 						<td>
-							<a class="" href="viewStats.jsp?player=<%=1%>"> 
+							<a class="" href="viewStats.jsp?participant=<%=model.getWinner(match).getId()%>"> 
 								<%=model.getWinnerLabel(match)%>
 							</a>
 						</td>
 						<td>
-							<a class="" href="viewStats.jsp?player=-1>"> 
+							<a class="" href="viewStats.jsp?participant=-1"> 
 								<%=model.getLoserLabel(match)%>
 							</a>
 						</td>
 						<td>
-							<a class="" href="viewStats.jsp?player=<%=match.getCreator().getId() %>"> 
-								<%=PlayerManager.getNameForPlayer(match.getCreator())%>
+							<a class="" href="viewStats.jsp?participant=<%=match.getCreator().getId() %>"> 
+								<%=match.getCreator().getLastName()%>,<%=match.getCreator().getFirstName()%>
 							</a>
 						</td>
 						<td><a class="btn btn-danger btn-xs" href="<%=request.getContextPath() %>/deleteMatch?id=<%=match.getId()%>">Delete</a></td>

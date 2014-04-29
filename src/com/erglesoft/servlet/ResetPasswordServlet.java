@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.erglesoft.login.Owasp;
 import com.erglesoft.login.UserLoginData;
-import com.erglesoft.mgr.PlayerManager;
+import com.erglesoft.mgr.LoginManager;
 
 /**
  * Servlet implementation class ResetPasswordServlet
@@ -36,7 +36,7 @@ public class ResetPasswordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		Owasp owasp = new Owasp();
-		PlayerManager pMgr = new PlayerManager();
+		LoginManager pMgr = new LoginManager(request);
 		UserLoginData loginData = UserLoginData.fromHttpSession(request);
 		Boolean authenticated = false;
 		String oldPw = request.getParameter("currentPassword");
@@ -50,21 +50,21 @@ public class ResetPasswordServlet extends HttpServlet {
 		}
 			
 		try {
-			authenticated = owasp.authenticate(loginData.getPlayer(), oldPw);
+			authenticated = owasp.authenticate(loginData.getLogin(), oldPw);
 		} catch (NoSuchAlgorithmException | SQLException e) {
-			log.error("Authentication attempt failed for player "+loginData.getPlayer().toString());
+			log.error("Authentication attempt failed for player "+loginData.getLogin().toString());
 			e.printStackTrace();
 		}
 		if(!authenticated){
 			throw new ServletException("Old password could not be used to authenticate this user");
 		}
 		else{
-			log.debug(String.format("Resetting Password for Player: %s", loginData.getPlayer()));
+			log.debug(String.format("Resetting Password for Player: %s", loginData.getLogin()));
 			try {
-				owasp.createUserPassword(loginData.getPlayer(), newPw);
-				pMgr.commitPlayer(loginData.getPlayer());
+				owasp.createUserPassword(loginData.getLogin(), newPw);
+				pMgr.commitLogin(loginData.getLogin());
 			} catch (NoSuchAlgorithmException | SQLException e) {
-				log.error(String.format("Failed to update password[%s] for player[%s]", newPw, loginData.getPlayer()));
+				log.error(String.format("Failed to update password[%s] for player[%s]", newPw, loginData.getLogin()));
 				e.printStackTrace();
 			}
 		}

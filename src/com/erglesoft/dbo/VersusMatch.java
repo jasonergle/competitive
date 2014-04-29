@@ -42,9 +42,9 @@ public class VersusMatch implements Serializable {
 	@ManyToOne
 	private League league;
 
-	//bi-directional many-to-one association to Player
+	//bi-directional many-to-one association to Login
 	@ManyToOne
-	private Player creator;
+	private Login creator;
 
 	public VersusMatch() {
 	}
@@ -127,11 +127,11 @@ public class VersusMatch implements Serializable {
 		this.league = league;
 	}
 
-	public Player getCreator() {
+	public Login getCreator() {
 		return this.creator;
 	}
 
-	public void setCreator(Player creator) {
+	public void setCreator(Login creator) {
 		this.creator = creator;
 	}
 

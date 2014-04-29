@@ -61,12 +61,12 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 				</thead>
 				<tbody>
 					<%
-					Map<Player, Head2HeadRecord> records = model.getOpponentInfo().get(game);
-					for(Player opponent: records.keySet()){ 
+					Map<Team, Head2HeadRecord> records = model.getOpponentInfo().get(game);
+					for(Team opponent: records.keySet()){ 
 						Head2HeadRecord record = records.get(opponent);
 					%>
 						<tr>
-							<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=PlayerManager.getLabelForPlayer(opponent) %></a></td>
+							<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=opponent.getName()%></a></td>
 							<td><%=record.getWinCnt() %></td>
 							<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
 							<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>

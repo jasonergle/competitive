@@ -1,7 +1,6 @@
 package com.erglesoft.mgr;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,90 +10,83 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
+import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
-import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
 
-public class TeamManager {
+public class TeamManager extends BaseManager{
 
-	private Session session;
-	private UserLoginData loginData;
-	
 	public TeamManager(HttpServletRequest request) {
-		session = HibernateUtil.currentSession();
-		loginData = UserLoginData.fromHttpSession(request);
-	}
-	
-	public TeamManager(UserLoginData loginData) {
-		this.session = HibernateUtil.currentSession();
-		this.loginData = loginData;
+		super(request);
 	}
 	
 	public TeamManager(Session session, UserLoginData loginData) {
-		this.session = session;
-		this.loginData = loginData;
-	}
-	
-	public Team getTeamById(Integer teamId) {
-		Team t = (Team) session.get(Team.class, teamId);
-		return t;
+		super(session, loginData);
 	}
 
-	@SuppressWarnings("unchecked")
+	public TeamManager(UserLoginData loginData) {
+		super(loginData);
+	}
+	
+	public TeamManager() {
+		super(HibernateUtil.currentSession(), null);
+	}
+
+	public Team getTeam(Integer id){
+		Team p = (Team) session.get(Team.class, id);
+		return p;
+	}
+
+	
 	public List<Team> getAllTeamsForLeague(League league){
-		Criteria criteria = session.createCriteria(Team.class);
-		criteria.add(Restrictions.eq("league", league));
-		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-		criteria.setFetchMode("wonTeamMatches", FetchMode.JOIN);
-		criteria.setFetchMode("lostTeamMatches", FetchMode.JOIN);
-	
-		return criteria.list();
+		League l = (League) session.get(League.class, league.getId());
+		List<Team> team = new ArrayList<Team>();
+		team.addAll(l.getTeams());
+		return team;
 	}
-
-	public Team getTeamForPlayersInCurrentOrg(Set<Player> players, Boolean createIfNeeded){
-		Team ret = null;
-		Criteria criteria = session.createCriteria(Team.class);
-		criteria.add(Restrictions.eq("league", loginData.getCurLeague()));
-		@SuppressWarnings("unchecked")
-		List<Team> teams = (List<Team>)criteria.list();
-		for(Team t: teams){
-			if(t.getPlayers().equals(players))
-				ret = t;
-		}
-		if(ret==null){
-			Transaction tx = session.beginTransaction();
-			ret = new Team();
-			ret.setLeague(loginData.getCurLeague());
-			ret.setPlayers(players);
-			ret.setCreator(loginData.getPlayer());
-			ret.setCreateDate(new Timestamp(new Date().getTime()));
-			ret.setName(createDefaultTeamName(players));
-			for(Player p : players){
-				if(p.getTeams()==null)
-					p.setTeams(new HashSet<Team>());
-				p.getTeams().add(ret);
-				session.save(p);
-			}
-			session.save(ret);
-			tx.commit();
-		}
+	
+	@SuppressWarnings("unchecked")
+	public List<Team> getAllTeamsForGameAndLeague(League league, Game game){
+		Criteria c = session.createCriteria(Team.class);
+		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		c.createAlias("versusEntries", "entries", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("versusEntries.versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("versusEntries.versusMatch.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
+		c.add(Restrictions.eq("match.league",league));
+		c.add(Restrictions.eq("match.game",game));
+		c.setFetchMode("versusEntries", FetchMode.JOIN);
+		c.setFetchMode("entries", FetchMode.JOIN);
+		c.addOrder(Order.desc("name"));
+		List<Team> ret = c.list();
 		return ret;
 	}
-
-	private String createDefaultTeamName(Set<Player> players) {
-		String ret = "";
-		for(Player p : players){
-			if(!ret.equals(""))
-				ret += " & ";
-			ret += p.getFirstName();
+	
+	public static Double getWinningPercentage(Team player, Game game){
+		Set<VersusEntry> entries = player.getVersusEntries();
+		for(VersusEntry entry: entries){
+			if(!entry.getVersusMatch().getGame().equals(game))
+				entries.remove(entry);
 		}
-		return ret;	
+		Set<VersusEntry> wins = new HashSet<VersusEntry>();
+		for(VersusEntry entry: entries){
+			 VersusEntry winner = VersusMatchManager.getWinningEntry(entry.getVersusMatch());
+			 if(winner.getId().equals(entry.getId()))
+				 wins.add(entry);
+		}
+		if((entries.size()) == 0){
+			return 0.0;
+		}
+		else{
+			return (double)wins.size()/entries.size();
+		}
 	}
 
 }

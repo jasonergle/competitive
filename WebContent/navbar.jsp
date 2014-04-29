@@ -1,12 +1,10 @@
-<%@page import="com.erglesoft.dbo.Player"%>
+<%@page import="com.erglesoft.dbo.Team"%>
+<%@page import="com.erglesoft.jspmodel.NavbarJspModel"%>
 <%@page import="com.erglesoft.mgr.*"%>
 <%@page import="com.erglesoft.login.*"%>
 <%@page import="java.util.*"%>
 <%
-UserLoginData userData = UserLoginData.fromHttpSession(request);
-Player curPlayer = userData.getPlayer();
-PlayerManager pMgr = new PlayerManager();
-List<Player> players = null; 
+NavbarJspModel model = new NavbarJspModel(request);
 %>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -23,21 +21,25 @@ List<Player> players = null;
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<%if(curPlayer!=null){ %>
-				<li><a href="leaderboards.jsp">Leaderboards</a></li>
-				<li><a href="enterMatch.jsp">Enter Match</a></li>
-				<li><a href="viewMatches.jsp">See Matches</a></li>
-				<%if(curPlayer.getSuperUserFlag()){ %>
-				<li><a href="<%=request.getContextPath() %>/jsp/admin/admin.jsp">Admin</a></li>
-				<%} %>
-				<%} %>
+				<%if(model.getUserData()!=null){%>
+					<li><a href="leaderboards.jsp">Leaderboards</a></li>
+					<li><a href="enterMatch.jsp">Enter Match</a></li>
+					<li><a href="viewMatches.jsp">See Matches</a></li>
+					<%
+					if(model.getUserData().getLogin().getSuperUserFlag()){
+					%>
+					<li><a href="<%=request.getContextPath()%>/jsp/admin/admin.jsp">Admin</a></li>
+					<%
+					}
+					%>
+				<%}%>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<%if(curPlayer!=null){ %>
+				<%if(model.getLoginData()!=null){%>
 				<li>
-					<a class="" href="playerProfile.jsp?player=<%=curPlayer.getId() %>">
+					<a class="" href="playerProfile.jsp?participant=<%=model.getLoginData().getLogin().getId()%>">
 						<strong>
-							<%=PlayerManager.getNameForPlayer(curPlayer) %> @ <%=curPlayer.getCurrentLeague().getName() %>
+							<%=LoginManager.getLabelForLogin(model.getLoginData().getLogin())%>
 						</strong>
 					</a>
 				</li>

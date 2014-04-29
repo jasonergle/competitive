@@ -6,24 +6,21 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
-import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.Login;
 import com.erglesoft.game.Leaderboard;
 import com.erglesoft.mgr.GameManager;
-import com.erglesoft.mgr.PlayerManager;
 import com.erglesoft.mgr.TeamManager;
 
 public class LeaderboardsJspModel extends JspModel{
 
-	protected PlayerManager pMgr;
-	protected TeamManager tMgr;
+	protected TeamManager pMgr;
 	protected GameManager gMgr;
-	protected Player curPlayer;
+	protected Login curLogin;
 	protected List<Game> allowedGames;
 	protected List<Leaderboard> leaderboards;
 	
 	public LeaderboardsJspModel(HttpServletRequest request) {
 		super(request);
-		curPlayer = loginData.getPlayer();
 		gMgr = new GameManager(request);
 		allowedGames = gMgr.getAllowedGames(loginData.getCurLeague());
 		leaderboards = new ArrayList<Leaderboard>();
@@ -32,18 +29,10 @@ public class LeaderboardsJspModel extends JspModel{
 		}
 	}
 
-	public PlayerManager getpMgr() {
+	public TeamManager getpMgr() {
 		return pMgr;
 	}
-
-	public TeamManager gettMgr() {
-		return tMgr;
-	}
-
-	public Player getCurPlayer() {
-		return curPlayer;
-	}
-
+	
 	public List<Game> getAllowedGames() {
 		return allowedGames;
 	}

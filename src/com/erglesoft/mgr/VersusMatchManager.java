@@ -19,12 +19,10 @@ import org.hibernate.sql.JoinType;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
-import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.game.GameType;
-import com.erglesoft.game.MatchParticipant;
 import com.erglesoft.login.UserLoginData;
 
 public class VersusMatchManager extends BaseManager {
@@ -41,7 +39,7 @@ public class VersusMatchManager extends BaseManager {
 		session.beginTransaction();
 		GameManager gMgr = new GameManager(session , loginData);
 		VersusMatch vm= new VersusMatch();
-		vm.setCreator(loginData.getPlayer());
+		vm.setCreator(loginData.getLogin());
 		vm.setIsComplete(true);
 		vm.setMatchDate(new Timestamp(new Date().getTime()));
 		vm.setLeague(loginData.getCurLeague());
@@ -57,19 +55,10 @@ public class VersusMatchManager extends BaseManager {
 		session.getTransaction().commit();
 	}
 	
-	public VersusEntry createNewVersusEntry(MatchParticipant participant, Double score){
+	public VersusEntry createNewVersusEntry(Team participant, Double score){
 		VersusEntry ret = new VersusEntry();
 		ret.setScore(new BigDecimal(score));
-		if(participant.getOriginalObject() instanceof Player){
-			PlayerManager pMgr = new PlayerManager();
-			Player player = pMgr.getPlayerById(participant.getId());
-			ret.setPlayer(player);
-		}
-		else if(participant.getOriginalObject() instanceof Team){
-			TeamManager tMgr = new TeamManager(session, loginData);
-			Team team = tMgr.getTeamById(participant.getId());
-			ret.setTeam(team);
-		}
+		ret.setTeam(participant);
 		return ret;
 	}
 	
@@ -85,14 +74,14 @@ public class VersusMatchManager extends BaseManager {
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<VersusEntry> getAllPlayerEntriesForGame(League league, Game game, Player p){
+	public List<VersusEntry> getAllTeamEntriesForGame(League league, Game game, Team p){
 		Criteria c = session.createCriteria(VersusEntry.class);
 		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		c.createAlias("versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
 		c.createAlias("match.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
 		c.add(Restrictions.eq("match.game", game));
 		c.add(Restrictions.eq("match.league", league));
-		c.add(Restrictions.eq("player", p));
+		c.add(Restrictions.eq("participant", p));
 		return c.list();
 	}
 	
@@ -144,12 +133,9 @@ public class VersusMatchManager extends BaseManager {
 	public String getLabelForEntry(VersusEntry entry){
 		if(entry==null)
 			return "null entry";
-		else if(entry.getPlayer()!=null)
-			return PlayerManager.getLabelForPlayer(entry.getPlayer());
-		else if(entry.getTeam()!=null)
+		else{
 			return entry.getTeam().getName();
-		else
-			return "N/A";
+		}
 	}
 
 

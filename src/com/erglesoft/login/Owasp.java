@@ -12,7 +12,7 @@ import java.sql.*;
 import java.util.Arrays;
 import java.security.SecureRandom;
 
-import com.erglesoft.dbo.Player;
+import com.erglesoft.dbo.Login;
 
 public class Owasp {
   private final static int ITERATION_NUMBER = 1000;
@@ -32,7 +32,7 @@ public class Owasp {
    *           (Two users with the same login, salt or digested password altered etc.)
    * @throws NoSuchAlgorithmException If the algorithm SHA-1 is not supported by the JVM
    */
-  public boolean authenticate(Player target, String password) throws SQLException, NoSuchAlgorithmException{
+  public boolean authenticate(Login target, String password) throws SQLException, NoSuchAlgorithmException{
       try {
           boolean userExist = true;
           // INPUT VALIDATION
@@ -75,7 +75,7 @@ public class Owasp {
    * @throws NoSuchAlgorithmException If the algorithm SHA-1 or the SecureRandom is not supported by the JVM
  * @throws UnsupportedEncodingException 
    */
-  public boolean createUserPassword(Player target, String password) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException
+  public boolean createUserPassword(Login target, String password) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException
   {
       if (target!=null&&password!=null&&target.getLogin()!=null&&target.getLogin().length()<=100){
           // Uses a secure Random not a simple Random

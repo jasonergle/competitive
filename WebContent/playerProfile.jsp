@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="com.erglesoft.dbo.*"%>
+<%@page import="com.erglesoft.mgr.*"%>
 <%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="com.erglesoft.game.*"%>
 <%
@@ -15,7 +16,7 @@ PlayerProfileJspModel model = new PlayerProfileJspModel(request);
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
-			<h4>Profile for <%=model.getLoginData().getPlayer().getName() %></h4>
+			<h4>Profile for <%="FIX ME"%></h4>
 			<a href="#" class="btn btn-lg btn-success" data-toggle="modal" data-target="#passwordModal">Update Password</a>
 	
 			<div id="passwordModal" class="modal fade">

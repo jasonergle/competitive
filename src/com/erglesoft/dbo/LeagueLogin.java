@@ -5,13 +5,13 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the league_players database table.
+ * The persistent class for the league_logins database table.
  * 
  */
 @Entity
-@Table(name="league_players")
-@NamedQuery(name="LeaguePlayer.findAll", query="SELECT l FROM LeaguePlayer l")
-public class LeaguePlayer implements Serializable {
+@Table(name="league_logins")
+@NamedQuery(name="LeagueLogin.findAll", query="SELECT l FROM LeagueLogin l")
+public class LeagueLogin implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,11 +27,11 @@ public class LeaguePlayer implements Serializable {
 	@ManyToOne
 	private League league;
 
-	//bi-directional many-to-one association to Player
+	//bi-directional many-to-one association to Login
 	@ManyToOne
-	private Player player;
+	private Login login;
 
-	public LeaguePlayer() {
+	public LeagueLogin() {
 	}
 
 	public Integer getId() {
@@ -66,12 +66,12 @@ public class LeaguePlayer implements Serializable {
 		this.league = league;
 	}
 
-	public Player getPlayer() {
-		return this.player;
+	public Login getLogin() {
+		return this.login;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 
 }

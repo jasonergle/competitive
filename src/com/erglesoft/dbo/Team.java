@@ -21,32 +21,27 @@ public class Team implements Serializable {
 	@Column(name="create_date")
 	private Timestamp createDate;
 
+	@Column(name="is_single_player_team")
+	private Boolean isSinglePlayerTeam;
+
 	private String name;
 
 	//bi-directional many-to-one association to League
 	@ManyToOne
 	private League league;
 
-	//bi-directional many-to-one association to Player
+	//bi-directional many-to-one association to Login
 	@ManyToOne
-	private Player captain;
+	@JoinColumn(name="associated_login")
+	private Login associatedLogin;
 
-	//bi-directional many-to-one association to Player
+	//bi-directional many-to-one association to Login
 	@ManyToOne
-	private Player creator;
+	private Login creator;
 
-	//bi-directional many-to-many association to Player
-	@ManyToMany
-	@JoinTable(
-		name="team_players"
-		, joinColumns={
-			@JoinColumn(name="team_id")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="player_id")
-			}
-		)
-	private Set<Player> players;
+	//bi-directional many-to-one association to TeamPlayer
+	@OneToMany(mappedBy="team")
+	private Set<TeamPlayer> teamPlayers;
 
 	//bi-directional many-to-one association to VersusEntry
 	@OneToMany(mappedBy="team")
@@ -71,6 +66,14 @@ public class Team implements Serializable {
 		this.createDate = createDate;
 	}
 
+	public Boolean getIsSinglePlayerTeam() {
+		return this.isSinglePlayerTeam;
+	}
+
+	public void setIsSinglePlayerTeam(Boolean isSinglePlayerTeam) {
+		this.isSinglePlayerTeam = isSinglePlayerTeam;
+	}
+
 	public String getName() {
 		return this.name;
 	}
@@ -87,28 +90,42 @@ public class Team implements Serializable {
 		this.league = league;
 	}
 
-	public Player getCaptain() {
-		return this.captain;
+	public Login getAssociatedLogin() {
+		return this.associatedLogin;
 	}
 
-	public void setCaptain(Player captain) {
-		this.captain = captain;
+	public void setAssociatedLogin(Login associatedLogin) {
+		this.associatedLogin = associatedLogin;
 	}
 
-	public Player getCreator() {
+	public Login getCreator() {
 		return this.creator;
 	}
 
-	public void setCreator(Player creator) {
+	public void setCreator(Login creator) {
 		this.creator = creator;
 	}
 
-	public Set<Player> getPlayers() {
-		return this.players;
+	public Set<TeamPlayer> getTeamPlayers() {
+		return this.teamPlayers;
 	}
 
-	public void setPlayers(Set<Player> players) {
-		this.players = players;
+	public void setTeamPlayers(Set<TeamPlayer> teamPlayers) {
+		this.teamPlayers = teamPlayers;
+	}
+
+	public TeamPlayer addTeamPlayer(TeamPlayer teamPlayer) {
+		getTeamPlayers().add(teamPlayer);
+		teamPlayer.setTeam(this);
+
+		return teamPlayer;
+	}
+
+	public TeamPlayer removeTeamPlayer(TeamPlayer teamPlayer) {
+		getTeamPlayers().remove(teamPlayer);
+		teamPlayer.setTeam(null);
+
+		return teamPlayer;
 	}
 
 	public Set<VersusEntry> getVersusEntries() {

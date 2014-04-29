@@ -1,9 +1,7 @@
 <%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="com.erglesoft.dbo.*"%>
 <%@page import="com.erglesoft.mgr.*"%>
-<%
-EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
-%>
+<%EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");%>
 <form id="pingPongForm" role="form" action="submitMatch" method="post">
 	<input type="hidden" name="gameType" value="PING_PONG"/>
 
@@ -16,9 +14,11 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 				<div class=" col-sm-12">
 					<select id="pingPongEntry1" name="entry1" class="form-control pingPongEntry">
 						<option value="-1"></option>
-						<%for(Player p: model.getPlayers()){ %>
-						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
-						<%} %>
+						<%for(Team p: model.getTeams()){ %>
+						<option value="<%=p.getId() %>"> <%=p.getName()%></option>
+						<%
+							}
+						%>
 					</select>
 				</div>
 			</div>
@@ -44,8 +44,8 @@ EnterMatchJspModel model = (EnterMatchJspModel)request.getAttribute("model");
 				<div class=" col-sm-12">
 					<select id="pingPongEntry2" name="entry2" class="form-control pingPongEntry">
 						<option value="-1"></option>
-						<%for(Player p: model.getPlayers()){ %>
-						<option value="<%=p.getId() %>"> <%=PlayerManager.getNameForPlayer(p) %></option>
+						<%for(Team p: model.getTeams()){%>
+							<option value="<%=p.getId()%>"> <%=p.getName()%></option>
 						<%} %>
 					</select>
 				</div>
