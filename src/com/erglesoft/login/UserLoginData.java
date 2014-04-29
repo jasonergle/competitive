@@ -21,6 +21,7 @@ public class UserLoginData {
 	
 	public static void toHttpSession(HttpServletRequest request, UserLoginData userLoginData){
 		request.getSession().setAttribute("userLoginData", userLoginData);
+		request.getSession().setAttribute("userName", userLoginData.getLogin().getLogin());
 	}
 
 	public Login getLogin() {
