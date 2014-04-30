@@ -1,16 +1,13 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page import="com.erglesoft.dbo.*"%>
-<%@page import="com.erglesoft.mgr.*"%>
 <%@page import="com.erglesoft.jspmodel.*"%>
-<%@page import="com.erglesoft.game.*"%>
 <%
-PlayerProfileJspModel model = new PlayerProfileJspModel(request);
+LoginProfileJspModel model = new LoginProfileJspModel(request);
 %>
 <html>
 	<head>
-		<title>Head2Head - Profile Page</title>
+		<title>HeadToHead - Profile Page</title>
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>

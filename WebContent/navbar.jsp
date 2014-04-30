@@ -37,7 +37,7 @@ NavbarJspModel model = new NavbarJspModel(request);
 			<ul class="nav navbar-nav navbar-right">
 				<%if(model.getLoginData()!=null){%>
 				<li>
-					<a class="" href="playerProfile.jsp?participant=<%=model.getLoginData().getLogin().getId()%>">
+					<a class="" href="loginProfile.jsp">
 						<strong>
 							<%=LoginManager.getLabelForLogin(model.getLoginData().getLogin())%>
 						</strong>

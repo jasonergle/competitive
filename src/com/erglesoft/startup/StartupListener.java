@@ -1,4 +1,4 @@
-package com.erglesoft.servlet;
+package com.erglesoft.startup;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -8,14 +8,14 @@ import com.erglesoft.hibernate.HibernateUtil;
 
 
 /**
- * Application Lifecycle Listener implementation class StartupListener.  This is used to initialize the Metadata reader data as well as
- * Initialize the Hibernate session factories
+ * Application Lifecycle Listener implementation class StartupListener.
  *
  */
 @WebListener
 public class StartupListener implements ServletContextListener {
 	public static String version;
 	public static Long startupTime;
+	public static AppConfig appConfig;
 
 	/**
      * Default constructor. 
@@ -27,6 +27,7 @@ public class StartupListener implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent arg0) {
+    	appConfig = new AppConfig();
     }
 
 	/**

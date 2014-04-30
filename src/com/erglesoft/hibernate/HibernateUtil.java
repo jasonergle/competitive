@@ -9,6 +9,7 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.ServiceRegistry;
 
 import com.erglesoft.dbo.*;
+import com.erglesoft.startup.StartupListener;
 
 public class HibernateUtil {
 
@@ -30,6 +31,14 @@ public class HibernateUtil {
     			config.addAnnotatedClass(c);
     		}
     		config.configure();
+    		if(StartupListener.appConfig.getDbHost()!=null)
+    			config.setProperty("hibernate.connection.url", StartupListener.appConfig.getDbHost());
+    		if(StartupListener.appConfig.getDbUser()!=null)
+    			config.setProperty("hibernate.connection.username", StartupListener.appConfig.getDbUser());
+    		if(StartupListener.appConfig.getDbPassword()!=null)
+    			config.setProperty("hibernate.connection.password", StartupListener.appConfig.getDbPassword());
+    		if(StartupListener.appConfig.getShowSql()!=null)
+    			config.setProperty("hibernate.show_sql", StartupListener.appConfig.getShowSql().toString());
     		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
     	    sessionFactory = config.buildSessionFactory(serviceRegistry);
     		System.out.println("Done creating session factory");
