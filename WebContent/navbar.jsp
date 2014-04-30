@@ -23,7 +23,9 @@ NavbarJspModel model = new NavbarJspModel(request);
 			<ul class="nav navbar-nav">
 				<%if(model.getUserData()!=null){%>
 					<li><a href="leaderboards.jsp">Leaderboards</a></li>
+					<%if(model.canEnterScores()){ %>
 					<li><a href="enterMatch.jsp">Enter Match</a></li>
+					<%} %>
 					<li><a href="viewMatches.jsp">See Matches</a></li>
 					<%
 					if(model.getUserData().getLogin().getSuperUserFlag()){

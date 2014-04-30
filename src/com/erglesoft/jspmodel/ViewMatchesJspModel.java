@@ -1,27 +1,38 @@
 package com.erglesoft.jspmodel;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Login;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
+import com.erglesoft.mgr.LeagueManager;
+import com.erglesoft.mgr.LoginManager;
 import com.erglesoft.mgr.TeamManager;
 import com.erglesoft.mgr.VersusMatchManager;
 
 public class ViewMatchesJspModel extends JspModel {
 
 	private TeamManager pMgr;
+	private LoginManager logMgr;
+	private LeagueManager leagueMgr;
+	
 	private VersusMatchManager mMgr;
 	private List<VersusMatch> matches;
+	private Login login;
+	private League league;
 	
 	public ViewMatchesJspModel(HttpServletRequest request) {
 		super(request);
-		pMgr =  new TeamManager();
+		pMgr =  new TeamManager(request);
 		mMgr = new VersusMatchManager(request);
+		logMgr = new LoginManager(request);
+		leagueMgr = new LeagueManager(request);
 		matches =  mMgr.getAllMatchesForCurrentLeague();
+		login = logMgr.getLogin(loginData.getLogin().getId());
+		league = leagueMgr.getLeagueById(loginData.getCurLeague().getId());
 	}
 
 	public TeamManager getpMgr() {
@@ -36,35 +47,28 @@ public class ViewMatchesJspModel extends JspModel {
 		return matches;
 	}
 	
-	public Team getWinner(VersusMatch match){
-		return VersusMatchManager.getWinningEntry(match).getTeam();
+	public List<VersusEntry> getWinners(VersusMatch match){
+		return VersusMatchManager.getWinningEntries(match);
 	}
 	
-	public String getWinnerLabel(VersusMatch match){
-		VersusEntry winner = VersusMatchManager.getWinningEntry(match);
-		if(winner==null || winner.getTeam()==null)
-			return "N/A";
-		else{
-			return String.format("%s (%s)",winner.getTeam().getName(), winner.getScore());
-		}
+	public List<VersusEntry> getLosers(VersusMatch match){
+		return VersusMatchManager.getLosingEntries(match);
 	}
 	
-	public String getLoserLabel(VersusMatch match){
-		VersusEntry winner = VersusMatchManager.getWinningEntry(match);
-		if(winner==null)
-			return "N/A";
-		Set<VersusEntry> losers = match.getVersusEntries();
-		losers.remove(winner);
-		String ret = "";
-		for(VersusEntry loser: losers){
-			if(!ret.equals(""))
-				ret+=", ";
-			if(loser.getTeam()==null)
-				ret+="N/A";
-			else
-				ret+=String.format("%s (%s)",loser.getTeam().getName(), loser.getScore());
-		}
-		return ret;
+	public String getEntryLabel(VersusEntry entry){
+		return String.format("%s (%s)", entry.getTeam().getName(), entry.getScore());
+	}
+	
+	public Boolean canDelete(VersusMatch match){
+		return LoginManager.canDeleteMatch(match, league, login);
 	}
 
+	public Login getLogin() {
+		return login;
+	}
+
+	public League getLeague() {
+		return league;
+	}
+	
 }

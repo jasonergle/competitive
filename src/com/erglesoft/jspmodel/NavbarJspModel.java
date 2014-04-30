@@ -4,23 +4,25 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Login;
 import com.erglesoft.login.UserLoginData;
+import com.erglesoft.mgr.LoginManager;
 import com.erglesoft.mgr.TeamManager;
 
 public class NavbarJspModel extends JspModel {
 
-	Login curLogin = null;
+	Login login = null;
 	UserLoginData userData = null;
 	TeamManager pMgr = null;
+	LoginManager logMgr = null;
 	
 	public NavbarJspModel(HttpServletRequest request) {
 		super(request);
-		userData = UserLoginData.fromHttpSession(request);
 		pMgr = new TeamManager(request);
+		logMgr = new LoginManager(request);
+		userData = UserLoginData.fromHttpSession(request);
+		login = logMgr.getLogin(userData.getLogin().getId());
+		
 	}
 
-	public Login getCurLogin() {
-		return curLogin;
-	}
 
 	public UserLoginData getUserData() {
 		return userData;
@@ -28,6 +30,10 @@ public class NavbarJspModel extends JspModel {
 
 	public TeamManager getpMgr() {
 		return pMgr;
+	}
+	
+	public Boolean canEnterScores(){
+		return userData.getCanEnterScore();
 	}
 
 }

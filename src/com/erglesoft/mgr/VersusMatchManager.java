@@ -116,6 +116,7 @@ public class VersusMatchManager extends BaseManager {
 		session.getTransaction().commit();
 	}
 	
+	@Deprecated
 	public static VersusEntry getWinningEntry(VersusMatch match){
 		if(match == null || match.getVersusEntries()==null)
 			return null;
@@ -130,8 +131,26 @@ public class VersusMatchManager extends BaseManager {
 		}
 	}
 	
+	public static List<VersusEntry> getWinningEntries(VersusMatch match) {
+		List<VersusEntry> ret = new ArrayList<VersusEntry>();
+		for(VersusEntry entry: match.getVersusEntries()){
+			if(entry.getIsWinner())
+				ret.add(entry);
+		}
+		return ret;
+	}
+	
+	public static List<VersusEntry> getLosingEntries(VersusMatch match) {
+		List<VersusEntry> ret = new ArrayList<VersusEntry>();
+		for(VersusEntry entry: match.getVersusEntries()){
+			if(!entry.getIsWinner())
+				ret.add(entry);
+		}
+		return ret;
+	}
+	
 	public static Boolean didEntryWin(VersusEntry entry){
-		return getWinningEntry(entry.getVersusMatch()).getId().equals(entry.getId());
+		return entry.getIsWinner();
 	}
 	
 	public String getLabelForEntry(VersusEntry entry){
@@ -141,6 +160,5 @@ public class VersusMatchManager extends BaseManager {
 			return entry.getTeam().getName();
 		}
 	}
-
 
 }

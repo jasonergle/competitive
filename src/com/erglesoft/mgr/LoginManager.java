@@ -10,7 +10,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.LeagueLogin;
 import com.erglesoft.dbo.Login;
+import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
 
@@ -26,6 +29,10 @@ public class LoginManager extends BaseManager {
 
 	public LoginManager(UserLoginData loginData) {
 		super(loginData);
+	}
+	
+	public Login getLoginById(Integer id){
+		return (Login) this.session.get(Login.class, id);
 	}
 	
 	public static Login getLogin(String login, String password){
@@ -68,6 +75,48 @@ public class LoginManager extends BaseManager {
 	
 	public static String getLabelForLogin(Login login){
 		return login.getFirstName() + " " + login.getLastName();
+	}
+
+	public static Boolean hasCanEnterScoresForLeague(Login login, League league){
+		if(login == null || league == null)
+			return false;
+		for(LeagueLogin ll: league.getLeagueLogins()){
+			if(ll.getLogin().getId().equals(login.getId())){
+				return ll.getCanEnterScores();
+			}
+		}
+		return false;
+	}
+	
+	public static Boolean isAdminForLeague(Login login, League league){
+		if(login == null || league == null)
+			return false;
+		for(LeagueLogin ll: league.getLeagueLogins()){
+			if(ll.getLogin().getId().equals(login.getId())){
+				return ll.getIsAdmin();
+			}
+		}
+		return false;
+	}
+
+	public static Boolean canDeleteMatch(VersusMatch match, League league, Login login) {
+		if(login.getSuperUserFlag())
+			return true;
+		if(login.getId().equals(match.getCreator().getId()))
+			return true;
+		if(isAdminForLeague(login, league))
+			return true;
+		return false;
+	}
+	
+	public static Boolean canCreateMatch(League league, Login login) {
+		if(login.getSuperUserFlag())
+			return true;
+		if(isAdminForLeague(login, league))
+			return true;
+		if(hasCanEnterScoresForLeague(login, league))
+			return true;
+		return false;
 	}
 
 }
