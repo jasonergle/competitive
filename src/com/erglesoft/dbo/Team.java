@@ -151,9 +151,4 @@ public class Team implements Serializable {
 		return versusEntry;
 	}
 
-	@Override
-	public String toString() {
-		return "Team [id=" + id + ", name=" + name + ", isSinglePlayerTeam=" + isSinglePlayerTeam + "]";
-	}
-	
 }

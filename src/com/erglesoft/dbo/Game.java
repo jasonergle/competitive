@@ -1,19 +1,13 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.erglesoft.game.GameType;
+import com.erglesoft.game.ScoreEntryType;
+
+import java.util.Set;
 
 
 /**
@@ -29,19 +23,29 @@ public class Game implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name="max_players")
-	private Short maxPlayers;
+	@Column(name="allows_ties")
+	private Boolean allowsTies;
 
-	@Column(name="min_players")
-	private Short minPlayers;
+	@Column(name="enter_score_type")
+	@Enumerated(EnumType.STRING)
+	private ScoreEntryType enterScoreType;
+
+	@Column(name="max_score")
+	private Integer maxScore;
+
+	@Column(name="min_winning_score")
+	private Integer minWinningScore;
 
 	private String name;
 
+	@Column(name="team_size")
+	private Short teamSize;
+
+	@Column(name="tracks_points")
+	private Boolean tracksPoints;
+
 	@Enumerated(EnumType.STRING)
 	private GameType type;
-
-	@Column(name="uses_teams")
-	private Boolean usesTeams;
 
 	//bi-directional many-to-one association to LeagueGame
 	@OneToMany(mappedBy="game")
@@ -62,20 +66,28 @@ public class Game implements Serializable {
 		this.id = id;
 	}
 
-	public Short getMaxPlayers() {
-		return this.maxPlayers;
+	public Boolean getAllowsTies() {
+		return this.allowsTies;
 	}
 
-	public void setMaxPlayers(Short maxPlayers) {
-		this.maxPlayers = maxPlayers;
+	public void setAllowsTies(Boolean allowsTies) {
+		this.allowsTies = allowsTies;
 	}
 
-	public Short getMinPlayers() {
-		return this.minPlayers;
+	public Integer getMaxScore() {
+		return this.maxScore;
 	}
 
-	public void setMinPlayers(Short minPlayers) {
-		this.minPlayers = minPlayers;
+	public void setMaxScore(Integer maxScore) {
+		this.maxScore = maxScore;
+	}
+
+	public Integer getMinWinningScore() {
+		return this.minWinningScore;
+	}
+
+	public void setMinWinningScore(Integer minWinningScore) {
+		this.minWinningScore = minWinningScore;
 	}
 
 	public String getName() {
@@ -86,20 +98,20 @@ public class Game implements Serializable {
 		this.name = name;
 	}
 
-	public GameType getType() {
-		return this.type;
+	public Short getTeamSize() {
+		return this.teamSize;
 	}
 
-	public void setType(GameType type) {
-		this.type = type;
+	public void setTeamSize(Short teamSize) {
+		this.teamSize = teamSize;
 	}
 
-	public Boolean getUsesTeams() {
-		return this.usesTeams;
+	public Boolean getTracksPoints() {
+		return this.tracksPoints;
 	}
 
-	public void setUsesTeams(Boolean usesTeams) {
-		this.usesTeams = usesTeams;
+	public void setTracksPoints(Boolean tracksPoints) {
+		this.tracksPoints = tracksPoints;
 	}
 
 	public Set<LeagueGame> getLeagueGames() {
@@ -144,6 +156,22 @@ public class Game implements Serializable {
 		versusMatch.setGame(null);
 
 		return versusMatch;
+	}
+
+	public ScoreEntryType getEnterScoreType() {
+		return enterScoreType;
+	}
+
+	public void setEnterScoreType(ScoreEntryType enterScoreType) {
+		this.enterScoreType = enterScoreType;
+	}
+
+	public GameType getType() {
+		return type;
+	}
+
+	public void setType(GameType type) {
+		this.type = type;
 	}
 
 }

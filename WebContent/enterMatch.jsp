@@ -4,6 +4,7 @@
 <%@page import="com.erglesoft.dbo.*"%>
 <%@page import="com.erglesoft.mgr.*"%>
 <%@page import="java.util.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 EnterMatchJspModel model = new EnterMatchJspModel(request);
 request.setAttribute("model", model);
@@ -16,6 +17,11 @@ request.setAttribute("model", model);
 	<body>
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
+			<c:forEach var="game" items="${model.getAllowedGames()}">
+			 	 <div data-game-props='${model.getJsonForGame(game)}'>
+			 	 
+			 	 </div>
+			</c:forEach>
 			
 			<jsp:include page="jsp/enterMatch/ping_pong.jsp"></jsp:include>
 			

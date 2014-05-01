@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.Player;
+import com.erglesoft.gson.GameGson;
 import com.erglesoft.mgr.GameManager;
 import com.erglesoft.mgr.PlayerManager;
 import com.erglesoft.mgr.TeamManager;
+import com.google.gson.Gson;
 
 public class EnterMatchJspModel extends JspModel {
 	List<Game> allowedGames;
@@ -45,5 +47,9 @@ public class EnterMatchJspModel extends JspModel {
 	public String getEntryTarget(Game game){
 		String target=game.getType().toString().toLowerCase();
 		return target;
+	}
+	
+	public String getJsonForGame(Game g){
+		return new Gson().toJson(new GameGson(g));
 	}
 }
