@@ -4,7 +4,7 @@
 
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/assets/images/favicon.ico" type="image/x-icon" />
 <link href="<%=request.getContextPath()%>/assets/libs/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="<%=request.getContextPath()%>assets/libs/DataTables-1.9.4/media/css/jquery.dataTables.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/assets/libs/DataTables-1.9.4/media/css/jquery.dataTables.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/css/master.css" rel="stylesheet">
 

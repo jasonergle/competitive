@@ -8,7 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
+import com.erglesoft.dbo.Player;
 import com.erglesoft.dbo.Team;
+import com.erglesoft.dbo.TeamPlayer;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.mgr.GameManager;
@@ -22,13 +24,10 @@ public class ViewStatsJspModel extends JspModel {
 	private VersusMatchManager mMgr;
 	private List<Game> allowedGames;
 	private String targetLabel;
-	private Boolean playerMode;
-	private Integer playerId;
+	private Integer partId;
 	private Team participant;
 	private Integer teamId;
-	
 	private Map<Game, Map<Team,Head2HeadRecord>> opponentInfo;
-
 	
 	public ViewStatsJspModel(HttpServletRequest request) {
 		super(request);
@@ -38,21 +37,12 @@ public class ViewStatsJspModel extends JspModel {
 		allowedGames = gMgr.getAllowedGames(loginData.getCurLeague());
 		
 		if(request.getParameter("participant")!=null){
-			playerId = Integer.parseInt(request.getParameter("participant"));
-			participant = pMgr.getTeam(playerId);
-			playerMode = true;
+			partId = Integer.parseInt(request.getParameter("participant"));
+			participant = pMgr.getTeam(partId);
 			initHead2HeadData();
 			targetLabel = participant.getName();
 		}
 
-	}
-
-	public Boolean getPlayerMode() {
-		return playerMode;
-	}
-
-	public Integer getPlayerId() {
-		return playerId;
 	}
 
 	public Integer getTeamId() {
@@ -140,6 +130,14 @@ public class ViewStatsJspModel extends JspModel {
 
 	public List<Game> getAllowedGames() {
 		return allowedGames;
+	}
+	
+	public List<Player> getPlayersForTeam(){
+		List<Player> ret = new ArrayList<Player>();
+		for(TeamPlayer tp:participant.getTeamPlayers() ){
+			ret.add(tp.getPlayer());
+		}
+		return ret;
 	}
 
 }

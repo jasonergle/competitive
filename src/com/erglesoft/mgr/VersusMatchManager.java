@@ -91,10 +91,10 @@ public class VersusMatchManager extends BaseManager {
 		List<VersusMatch> ret;
 		Criteria c = session.createCriteria(VersusMatch.class);
 		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-		c.add(Restrictions.eq("league", league));
 		c.createAlias("versusEntries", "entries", JoinType.LEFT_OUTER_JOIN);
 		c.createAlias("entries.team", "team", JoinType.LEFT_OUTER_JOIN);
 		c.createAlias("team.associatedLogin", "associatedLogin", JoinType.LEFT_OUTER_JOIN);
+		c.add(Restrictions.eq("league", league));
 		c.addOrder(Order.desc("matchDate"));
 		ret = c.list();
 		return ret;
@@ -114,21 +114,6 @@ public class VersusMatchManager extends BaseManager {
 		VersusMatch match = (VersusMatch) session.get(VersusMatch.class, id);
 		session.delete(match);
 		session.getTransaction().commit();
-	}
-	
-	@Deprecated
-	public static VersusEntry getWinningEntry(VersusMatch match){
-		if(match == null || match.getVersusEntries()==null)
-			return null;
-		else{
-			VersusEntry winner = null;
-			for(VersusEntry entry: match.getVersusEntries()){
-				if(winner == null || entry.getScore().doubleValue()>winner.getScore().doubleValue()){
-					winner = entry;
-				}
-			}
-			return winner;
-		}
 	}
 	
 	public static List<VersusEntry> getWinningEntries(VersusMatch match) {
