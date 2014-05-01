@@ -14,7 +14,7 @@ public class UserLoginData {
 	private Boolean canEnterScore;	
 
 	public UserLoginData(Login login) {
-		canEnterScore = LoginManager.hasCanEnterScoresForLeague(login, login.getLeague());
+		canEnterScore = LoginManager.canCreateMatch(login, login.getLeague());
 		isLeagueAdmin = LoginManager.isAdminForLeague(login, login.getLeague());
 		this.login = login;
 		this.curLeague = login.getLeague();

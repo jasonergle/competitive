@@ -109,7 +109,7 @@ public class LoginManager extends BaseManager {
 		return false;
 	}
 	
-	public static Boolean canCreateMatch(League league, Login login) {
+	public static Boolean canCreateMatch(Login login, League league) {
 		if(login.getSuperUserFlag())
 			return true;
 		if(isAdminForLeague(login, league))

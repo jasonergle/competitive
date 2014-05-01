@@ -14,7 +14,7 @@ public class Head2HeadRecord {
 	private Integer handycap;
 	private String opponentUrlArg;
 	
-	public Head2HeadRecord(Team player, Team opponent, List<VersusMatch> matches) {
+	public Head2HeadRecord(Team team, Team opponent, List<VersusMatch> matches) {
 		this.matchCnt = 0;
 		this.winCnt = 0;
 		this.pointsScored = 0.0;;
@@ -22,16 +22,17 @@ public class Head2HeadRecord {
 		this.handycap = 0;
 		for(VersusMatch match: matches){
 			matchCnt++;
-			VersusEntry winningEntry = VersusMatchManager.getWinningEntry(match);
 			for(VersusEntry entry: match.getVersusEntries()){
-				if(entry.getTeam()!=null && entry.getTeam().getId().equals(player.getId())){
-					if(entry.getId().equals(winningEntry.getId())){
+				if(entry.getTeam()!=null && entry.getTeam().getId().equals(team.getId())){
+					if(entry.getIsWinner()){
 						winCnt++;
 					}
 					pointsScored+=entry.getScore().doubleValue();
 				}
 				else{
-					pointsAllowed+=entry.getScore().doubleValue();
+					if(entry.getTeam()!=null && entry.getTeam().getId().equals(opponent.getId())){
+						pointsAllowed+=entry.getScore().doubleValue();
+					}
 				}
 			}
 		}
