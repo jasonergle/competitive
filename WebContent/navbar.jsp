@@ -22,11 +22,11 @@ NavbarJspModel model = new NavbarJspModel(request);
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<%if(model.getUserData()!=null){%>
-					<li><a href="leaderboards.jsp">Leaderboards</a></li>
+					<li><a href="<%=request.getContextPath() %>/leaderboards.jsp">Leaderboards</a></li>
 					<%if(model.canEnterScores()){ %>
-					<li><a href="enterMatch.jsp">Enter Match</a></li>
+					<li><a href="<%=request.getContextPath() %>/enterMatch.jsp">Enter Match</a></li>
 					<%} %>
-					<li><a href="viewMatches.jsp">See Matches</a></li>
+					<li><a href="<%=request.getContextPath() %>/viewMatches.jsp">See Matches</a></li>
 					<%
 					if(model.getUserData().getLogin().getSuperUserFlag()){
 					%>
@@ -39,14 +39,14 @@ NavbarJspModel model = new NavbarJspModel(request);
 			<ul class="nav navbar-nav navbar-right">
 				<%if(model.getLoginData()!=null){%>
 				<li>
-					<a class="" href="loginProfile.jsp">
+					<a class="" href="<%=request.getContextPath() %>/loginProfile.jsp">
 						<strong>
 							<%=LoginManager.getLabelForLogin(model.getLoginData().getLogin())%>
 						</strong>
 					</a>
 				</li>
 				<li>
-					<form class="navbar-form navbar-left" action="logout">
+					<form class="navbar-form navbar-left" action="<%=request.getContextPath() %>/logout">
 						<button class="btn btn-sm btn-danger" type="submit">Logout</button>
 					</form>
 				</li>

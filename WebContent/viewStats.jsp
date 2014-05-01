@@ -28,6 +28,7 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 						<th>Win %</th>
 						<th>PS</th>
 						<th>PA</th>
+						<th>Handycap</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,13 +41,14 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 						<td><%=model.getFormattedWinningPercentage(wlData)%></td>
 						<td><%=String.format("%1.3f",wlData.get("ps"))  %></td>
 						<td><%=String.format("%1.3f",wlData.get("pa")) %></td>
+						<td><%=String.format("%d",(int)(wlData.get("pa").doubleValue()-wlData.get("ps").doubleValue())) %></td>
 					</tr>
 					<%} %>
 				</tbody>
 			</table>
 			
-			<%for(Game game: model.getOpponentInfo().keySet()){  %>
-			<h4>Head 2 Head for <%=game.getName() %></h4>
+			<%for(Game game: model.getAllowedGames()){  %>
+			<h4>Head To Head for <%=game.getName() %></h4>
 			<table id="h2hTable<%=game.getType() %>" class="table table-striped">
 				<thead>
 					<tr>
@@ -66,7 +68,7 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 						Head2HeadRecord record = records.get(opponent);
 					%>
 						<tr>
-							<td><a class="" href="viewStats.jsp?<%=record.getOpponentUrlArg() %>"> <%=opponent.getName()%></a></td>
+							<td><a class="" href="<%=request.getContextPath() %>/viewStats.jsp?participant=<%=opponent.getId() %>"> <%=opponent.getName()%></a></td>
 							<td><%=record.getWinCnt() %></td>
 							<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
 							<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
@@ -80,16 +82,16 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 			</table>
 			<%} %>
 		</div>
+		<script>
+		$( document ).ready(function() {
+			
+			$('#versusSinglesTable').DataTable({
+							bFilter: false, 
+							bLengthChange: false,
+							bPaginate: false,
+							aaSorting:[[1, "desc"],[3,"desc"]] });
+		});
+		</script>
 	</body>
 </html>
 
-<script>
-$( document ).ready(function() {
-	
-	$('#versusSinglesTable').DataTable({
-					bFilter: false, 
-					bLengthChange: false,
-					bPaginate: false,
-					aaSorting:[[1, "desc"],[3,"desc"]] });
-});
-</script>

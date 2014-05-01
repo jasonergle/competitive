@@ -39,7 +39,7 @@ public class Head2HeadRecord {
 		
 		this.pointsScored = this.pointsScored/matchCnt;
 		this.pointsAllowed = this.pointsAllowed/matchCnt;
-		this.handycap = (int)(pointsScored-pointsAllowed);
+		this.handycap = (int)(pointsAllowed-pointsScored);
 		this.opponentUrlArg = "player="+opponent.getId();
 
 	}
