@@ -9,7 +9,6 @@ import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.mgr.TeamManager;
-import com.erglesoft.mgr.VersusMatchManager;
 
 public class Leaderboard {
 	private League league;
@@ -34,7 +33,7 @@ public class Leaderboard {
 			int winCnt = 0;
 			int matchCnt = part.getVersusEntries().size();
 			for(VersusEntry entry: part.getVersusEntries()){
-				if(VersusMatchManager.getWinningEntry(entry.getVersusMatch()).getId().equals(entry.getId()))
+				if(entry.getIsWinner())
 					winCnt++;
 			}
 			LeaderboardRow row = new LeaderboardRow(winCnt, matchCnt-winCnt, part);

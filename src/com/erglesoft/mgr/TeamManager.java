@@ -1,6 +1,7 @@
 package com.erglesoft.mgr;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,8 +80,7 @@ public class TeamManager extends BaseManager{
 		}
 		Set<VersusEntry> wins = new HashSet<VersusEntry>();
 		for(VersusEntry entry: entries){
-			 VersusEntry winner = VersusMatchManager.getWinningEntry(entry.getVersusMatch());
-			 if(winner.getId().equals(entry.getId()))
+			 if(entry.getIsWinner())
 				 wins.add(entry);
 		}
 		if((entries.size()) == 0){
@@ -95,10 +95,8 @@ public class TeamManager extends BaseManager{
 		if(players == null || players.length==0){
 			return null;
 		}
-		Set<Player> playerSet = new HashSet<Player>();
-		for(Player p: players){
-			playerSet.add(p);
-		}
+		Set<Player> playerSet = new HashSet<Player>(Arrays.asList(players));
+		
 		Criteria criteria = session.createCriteria(Team.class);
 		criteria.add(Restrictions.eq("league", league));
 		criteria.add(Restrictions.eq("isSinglePlayerTeam", players.length==1));
@@ -115,29 +113,33 @@ public class TeamManager extends BaseManager{
 				return team;
 		}
 		// No Suitable Team was found, must create a new one
-		Team newTeam = new Team();
-		newTeam.setLeague(league);
-		newTeam.setTeamPlayers(getTeamPlayersSet(newTeam, playerSet));
-		if(players.length==1){
-			newTeam.setIsSinglePlayerTeam(true);
-			newTeam.setName(players[0].getName());
-		}
-		else{
-			newTeam.setIsSinglePlayerTeam(false);
-			String name = "";
-			for(Player p : players){
-				if(!name.equals(""))
-					name+=" & ";
-				name += p.getName();
-			}
-			newTeam.setName(name);
-		}
-		newTeam.setCreator(loginData.getLogin());
+		Team newTeam = initNewTeamForPlayers(league, playerSet);
 		session.beginTransaction();
 		session.save(newTeam);
 		for(TeamPlayer newTP: newTeam.getTeamPlayers())
 			session.save(newTP);
 		session.getTransaction().commit();
+		return newTeam;
+	}
+
+	private Team initNewTeamForPlayers(League league, Set<Player> playerSet) {
+		Team newTeam = new Team();
+		newTeam.setLeague(league);
+		newTeam.setTeamPlayers(getTeamPlayersSet(newTeam, playerSet));
+		if(playerSet.size()==1){
+			newTeam.setIsSinglePlayerTeam(true);
+		}
+		else{
+			newTeam.setIsSinglePlayerTeam(false);
+		}
+		String name = "";
+		for(Player p : playerSet){
+			if(!name.equals(""))
+				name+=" & ";
+			name += p.getName();
+		}
+		newTeam.setName(name);
+		newTeam.setCreator(loginData.getLogin());
 		return newTeam;
 	}
 
