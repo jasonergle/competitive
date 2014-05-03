@@ -1,7 +1,6 @@
 package com.erglesoft.mgr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -91,15 +90,15 @@ public class TeamManager extends BaseManager{
 		}
 	}
 
-	public Team getTeamForPlayers(League league, Player ... players) {
-		if(players == null || players.length==0){
+	public Team getTeamForPlayers(League league, List<Player> players) {
+		if(players == null || players.size()==0){
 			return null;
 		}
-		Set<Player> playerSet = new HashSet<Player>(Arrays.asList(players));
+		Set<Player> playerSet = new HashSet<Player>(players);
 		
 		Criteria criteria = session.createCriteria(Team.class);
 		criteria.add(Restrictions.eq("league", league));
-		criteria.add(Restrictions.eq("isSinglePlayerTeam", players.length==1));
+		criteria.add(Restrictions.eq("isSinglePlayerTeam", players.size()==1));
 		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		criteria.createAlias("teamPlayers", "tps", JoinType.LEFT_OUTER_JOIN);
 		@SuppressWarnings("unchecked")

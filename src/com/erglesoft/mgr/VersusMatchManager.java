@@ -23,7 +23,6 @@ import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
-import com.erglesoft.game.GameType;
 import com.erglesoft.login.UserLoginData;
 
 public class VersusMatchManager extends BaseManager {
@@ -36,7 +35,7 @@ public class VersusMatchManager extends BaseManager {
 		super(session, loginData);
 	}
 	
-	public void createNewVersusMatch(GameType type,Set<VersusEntry> entries){
+	public void createNewVersusMatch(String type,Set<VersusEntry> entries){
 		session.beginTransaction();
 		GameManager gMgr = new GameManager(session , loginData);
 		VersusMatch vm= new VersusMatch();

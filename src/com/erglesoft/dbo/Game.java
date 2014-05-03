@@ -1,13 +1,17 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
-import com.erglesoft.game.GameType;
-import com.erglesoft.game.ScoreEntryType;
-
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -26,12 +30,14 @@ public class Game implements Serializable {
 	@Column(name="allows_ties")
 	private Boolean allowsTies;
 
-	@Column(name="enter_score_type")
-	@Enumerated(EnumType.STRING)
-	private ScoreEntryType enterScoreType;
+	@Column(name="uses_teams")
+	private Boolean usesTeams;
 
 	@Column(name="max_score")
 	private Integer maxScore;
+	
+	@Column(name="absolute_max_score")
+	private Integer absoluteMaxScore;
 
 	@Column(name="min_winning_score")
 	private Integer minWinningScore;
@@ -39,13 +45,13 @@ public class Game implements Serializable {
 	private String name;
 
 	@Column(name="team_size")
-	private Short teamSize;
+	private Integer teamSize;
 
 	@Column(name="tracks_points")
 	private Boolean tracksPoints;
 
-	@Enumerated(EnumType.STRING)
-	private GameType type;
+	@Column(name="type")
+	private String type;
 
 	//bi-directional many-to-one association to LeagueGame
 	@OneToMany(mappedBy="game")
@@ -98,11 +104,11 @@ public class Game implements Serializable {
 		this.name = name;
 	}
 
-	public Short getTeamSize() {
+	public Integer getTeamSize() {
 		return this.teamSize;
 	}
 
-	public void setTeamSize(Short teamSize) {
+	public void setTeamSize(Integer teamSize) {
 		this.teamSize = teamSize;
 	}
 
@@ -158,19 +164,27 @@ public class Game implements Serializable {
 		return versusMatch;
 	}
 
-	public ScoreEntryType getEnterScoreType() {
-		return enterScoreType;
+	public Boolean getUsesTeams() {
+		return usesTeams;
 	}
 
-	public void setEnterScoreType(ScoreEntryType enterScoreType) {
-		this.enterScoreType = enterScoreType;
+	public void setUsesTeams(Boolean usesTeams) {
+		this.usesTeams = usesTeams;
 	}
 
-	public GameType getType() {
+	public Integer getAbsoluteMaxScore() {
+		return absoluteMaxScore;
+	}
+
+	public void setAbsoluteMaxScore(Integer absoluteMaxScore) {
+		this.absoluteMaxScore = absoluteMaxScore;
+	}
+
+	public String getType() {
 		return type;
 	}
 
-	public void setType(GameType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

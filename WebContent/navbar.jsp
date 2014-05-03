@@ -24,7 +24,7 @@ NavbarJspModel model = new NavbarJspModel(request);
 				<%if(model.getUserData()!=null){%>
 					<li><a href="<%=request.getContextPath() %>/leaderboards.jsp">Leaderboards</a></li>
 					<%if(model.canEnterScores()){ %>
-					<li><a href="<%=request.getContextPath() %>/enterMatch.jsp">Enter Match</a></li>
+					<li><a href="<%=request.getContextPath() %>/jsp/enterMatch/enterMatch.jsp">Enter Match</a></li>
 					<%} %>
 					<li><a href="<%=request.getContextPath() %>/viewMatches.jsp">See Matches</a></li>
 					<%

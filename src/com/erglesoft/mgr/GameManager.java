@@ -13,7 +13,6 @@ import org.hibernate.criterion.Restrictions;
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.LeagueGame;
-import com.erglesoft.game.GameType;
 import com.erglesoft.login.UserLoginData;
 
 public class GameManager extends BaseManager{
@@ -30,7 +29,7 @@ public class GameManager extends BaseManager{
 		super(loginData);
 	}
 
-	public Game getGameByType(GameType type){
+	public Game getGameByType(String type){
 		Criteria criteria = session.createCriteria(Game.class);
 		criteria.add(Restrictions.eq("type", type));
 		return (Game)criteria.uniqueResult();
