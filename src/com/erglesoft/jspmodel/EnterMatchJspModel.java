@@ -46,7 +46,7 @@ public class EnterMatchJspModel extends JspModel {
 					ret.add(t);
 				}
 			}
-			else if(game.getTeamSize().equals(t.getTeamPlayers().size())){
+			else if(game.getTeamSize() <=t.getTeamPlayers().size() || t.getTeamPlayers().size()==0){
 				if(!t.getIsSinglePlayerTeam()){
 					ret.add(t);
 				}

@@ -9,15 +9,29 @@
 				<label for="entry${entryNum}"><i class="fa fa-thumbs-o-up"></i> Entry ${entryNum}</label>
 				<div class="row">
 					<div class=" col-sm-12">
-						<c:forEach var="cnt" begin="1" end="${game.teamSize}">
-							<select id="entry${entryNum}_${cnt}" name="entry${entryNum}_${cnt}" 
-									class="form-control matchEntry">
-								<option value="-1"></option>
-								<c:forEach var="team" items="${model.getTeamsForGame(game)}">
-									<option value="${team.id}">${team.name}</option>
-								</c:forEach>
-							</select>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${game.usesTeams}">
+    							<select id="entry${entryNum}_${cnt}" name="entry${entryNum}_1" 
+										class="form-control matchEntry">
+									<option value="-1"></option>  									
+									<c:forEach var="team" items="${model.getTeamsForGame(game)}">
+										<option value="${team.id}">${team.name}</option>
+									</c:forEach>
+								</select>
+							</c:when>
+		
+							<c:otherwise>
+								<c:forEach var="cnt" begin="1" end="${game.teamSize}">
+									<select id="entry${entryNum}_${cnt}" name="entry${entryNum}_${cnt}" 
+											class="form-control matchEntry">
+										<option value="-1"></option>  									
+										<c:forEach var="player" items="${model.players}">
+											<option value="${player.id}">${player.name}</option>
+										</c:forEach>
+									</select>
+								</c:forEach>   
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
