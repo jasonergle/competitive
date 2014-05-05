@@ -66,7 +66,6 @@ public class ViewStatsJspModel extends JspModel {
 		opponentInfo = new HashMap<Game, Map<Team, Head2HeadRecord>>();
 		for(Game game : allowedGames){
 			opponentInfo.put(game, getVersusData(game));
-			
 		}
 	}
 

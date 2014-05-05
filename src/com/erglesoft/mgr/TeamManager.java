@@ -8,10 +8,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
@@ -53,23 +51,6 @@ public class TeamManager extends BaseManager{
 		List<Team> team = new ArrayList<Team>();
 		team.addAll(l.getTeams());
 		return team;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public List<Team> getAllTeamsForGameAndLeague(League league, Game game){
-		Criteria c = session.createCriteria(Team.class);
-		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-		c.createAlias("versusEntries", "entries", JoinType.LEFT_OUTER_JOIN);
-		c.createAlias("entries.versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
-		c.createAlias("match.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
-		c.add(Restrictions.eq("match.league",league));
-		c.add(Restrictions.eq("match.game",game));
-		c.setFetchMode("versusEntries", FetchMode.JOIN);
-		c.setFetchMode("entries", FetchMode.JOIN);
-		c.addOrder(Order.desc("name"));
-		List<Team> ret = c.list();
-		return ret;
 	}
 	
 	public static Double getWinningPercentage(Team player, Game game){

@@ -53,7 +53,7 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 				Map<Team, Head2HeadRecord> records = model.getOpponentInfo().get(game); 
 				if(records.size()>0){%>
 					<h5>Head To Head for <%=game.getName() %></h5>
-					<table id="h2hTable<%=game.getType() %>" class="table table-striped">
+					<table id="h2hTable<%=game.getType() %>" class="h2hTable table table-striped">
 						<thead>
 							<tr>
 								<th>Opponent</th>
@@ -86,7 +86,7 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 		<script>
 		$( document ).ready(function() {
 			
-			$('#versusSinglesTable').DataTable({
+			$('.h2hTable').DataTable({
 							bFilter: false, 
 							bLengthChange: false,
 							bPaginate: false,
