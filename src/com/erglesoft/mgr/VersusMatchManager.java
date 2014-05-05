@@ -110,7 +110,7 @@ public class VersusMatchManager extends BaseManager {
 	}
 	
 	public static String getFormattedDate(Date d){
-		SimpleDateFormat fmt = new SimpleDateFormat("MMM dd,yy HH:mm");
+		SimpleDateFormat fmt = new SimpleDateFormat("MMM dd,yy hh:mm a");
 		return fmt.format(d);
 	}
 	
