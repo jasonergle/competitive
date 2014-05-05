@@ -186,4 +186,9 @@ public class Game implements Serializable {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "Game [id=" + id + ", name=" + name + "]";
+	}
+
 }

@@ -136,4 +136,9 @@ public class VersusMatch implements Serializable {
 		this.creator = creator;
 	}
 
+	@Override
+	public String toString() {
+		return "VersusMatch [id=" + id + ", createDate=" + createDate + ", game=" + game + "]";
+	}
+
 }

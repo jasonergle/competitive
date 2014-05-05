@@ -87,4 +87,9 @@ public class VersusEntry implements Serializable {
 		this.versusMatch = versusMatch;
 	}
 
+	@Override
+	public String toString() {
+		return "VersusEntry [id=" + id + ", isWinner=" + isWinner + ", score=" + score + ", team=" + team + "]";
+	}
+
 }

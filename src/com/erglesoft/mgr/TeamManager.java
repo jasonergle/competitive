@@ -56,12 +56,13 @@ public class TeamManager extends BaseManager{
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Deprecated
 	public List<Team> getAllTeamsForGameAndLeague(League league, Game game){
 		Criteria c = session.createCriteria(Team.class);
 		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		c.createAlias("versusEntries", "entries", JoinType.LEFT_OUTER_JOIN);
-		c.createAlias("versusEntries.versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
-		c.createAlias("versusEntries.versusMatch.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("entries.versusMatch", "match", JoinType.LEFT_OUTER_JOIN);
+		c.createAlias("match.versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
 		c.add(Restrictions.eq("match.league",league));
 		c.add(Restrictions.eq("match.game",game));
 		c.setFetchMode("versusEntries", FetchMode.JOIN);

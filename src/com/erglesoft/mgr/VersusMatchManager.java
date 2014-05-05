@@ -23,6 +23,7 @@ import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
+import com.erglesoft.hibernate.HibernateUtil;
 import com.erglesoft.login.UserLoginData;
 
 public class VersusMatchManager extends BaseManager {
@@ -35,6 +36,10 @@ public class VersusMatchManager extends BaseManager {
 		super(session, loginData);
 	}
 	
+	public VersusMatchManager() {
+		super(HibernateUtil.currentSession(), null);
+	}
+
 	public void createNewVersusMatch(String type,Set<VersusEntry> entries){
 		session.beginTransaction();
 		GameManager gMgr = new GameManager(session , loginData);
@@ -65,6 +70,7 @@ public class VersusMatchManager extends BaseManager {
 	@SuppressWarnings("unchecked")
 	public List<VersusMatch> getAllMatchesForGame(League league, Game game){
 		Criteria c = session.createCriteria(VersusMatch.class);
+		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		c.add(Restrictions.eq("game", game));
 		c.add(Restrictions.eq("league", league));
 		c.createAlias("versusEntries", "entries");

@@ -114,4 +114,9 @@ public class Player implements Serializable {
 		return teamPlayer;
 	}
 
+	@Override
+	public String toString() {
+		return "Player [id=" + id + ", name=" + name + "]";
+	}
+
 }

@@ -11,7 +11,7 @@
 					<div class=" col-sm-12">
 						<c:choose>
 							<c:when test="${game.usesTeams}">
-    							<select id="entry${entryNum}_${cnt}" name="entry${entryNum}_1" 
+    							<select id="entry${entryNum}_1" name="entry${entryNum}_1" 
 										class="form-control matchEntry">
 									<option value="-1"></option>  									
 									<c:forEach var="team" items="${model.getTeamsForGame(game)}">

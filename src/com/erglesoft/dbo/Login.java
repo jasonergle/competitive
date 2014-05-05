@@ -368,4 +368,9 @@ public class Login implements Serializable {
 		return createdVersusMatch;
 	}
 
+	@Override
+	public String toString() {
+		return "Login [id=" + id + ", login=" + login + "]";
+	}
+
 }
