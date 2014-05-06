@@ -119,4 +119,28 @@ public class LoginManager extends BaseManager {
 		return false;
 	}
 
+	public Boolean setCurrentLeague(Login login, League league) {
+		if(!login.getSuperUserFlag()){
+			for(LeagueLogin ll : login.getLeagueLogins()){
+				if(ll.getLeague().getId().equals(league.getId())){
+					login.setLeague(league);
+					league.addLogin(login);
+					session.beginTransaction();
+					session.save(login);
+					session.getTransaction().commit();
+					return true;
+				}
+			}
+			throw new SecurityException(String.format("%s is NOT a member of %s, and cannot switch to that league", login, league));
+		}
+		else{
+			login.setLeague(league);
+			session.beginTransaction();
+			session.save(login);
+			session.getTransaction().commit();
+			return true;
+		}
+		
+	}
+
 }

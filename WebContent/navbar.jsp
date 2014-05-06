@@ -1,4 +1,4 @@
-<%@page import="com.erglesoft.dbo.Team"%>
+<%@page import="com.erglesoft.dbo.*"%>
 <%@page import="com.erglesoft.jspmodel.NavbarJspModel"%>
 <%@page import="com.erglesoft.mgr.*"%>
 <%@page import="com.erglesoft.login.*"%>
@@ -17,7 +17,7 @@ NavbarJspModel model = new NavbarJspModel(request);
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<span class="navbar-brand logoBase">Head<span class="text-muted">to</span>Head</span>
+			<img src="<%=request.getContextPath()%>/assets/images/h2hlogo.png" style="height:50px;padding:5px;"/>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
@@ -38,17 +38,29 @@ NavbarJspModel model = new NavbarJspModel(request);
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%if(model.getLoginData()!=null){%>
-				<li>
-					<a class="" href="<%=request.getContextPath() %>/loginProfile.jsp">
-						<strong>
-							<%=LoginManager.getLabelForLogin(model.getLoginData().getLogin())%>
-						</strong>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">
+						<%=LoginManager.getLabelForLogin(model.getLoginData().getLogin())%> 
+						@ <%=model.getLoginData().getCurLeague().getName()%> 
+						<b class="caret"></b>
 					</a>
-				</li>
-				<li>
-					<form class="navbar-form navbar-left" action="<%=request.getContextPath() %>/logout">
-						<button class="btn btn-sm btn-danger" type="submit">Logout</button>
-					</form>
+					<ul class="dropdown-menu">
+						<li>
+							<a class="btn btn-sm btn-danger" style="color:white;margin-left:20px;margin-right:20px;" href="<%=request.getContextPath() %>/logout">Logout</a>
+							<a class="" href="<%=request.getContextPath() %>/loginProfile.jsp">Manage Profile</a>
+						</li>
+						<li class="dropdown-header">League</li>
+						<li><a href="#">Manage <%=model.getLoginData().getCurLeague().getName()%></a></li>
+						<li><a href="#">Create New League...</a></li>
+						<li><a href="#">Join Another League...</a></li>
+						<li class="divider"></li>
+						<li class="dropdown-header">My Other Leagues</li>
+						<%for(League l: model.getAvailableLeagues()){ 
+							if(l.getId()!=model.getLoginData().getCurLeague().getId()){%>
+							<li><a href="setCurrentLeague?id=<%=l.getId()%>"><%=l.getName() %></a></li>
+						<%}} %>
+					</ul>
 				</li>
 				<%}else{ %>
 				<p class="navbar-text">Not Logged In</p>

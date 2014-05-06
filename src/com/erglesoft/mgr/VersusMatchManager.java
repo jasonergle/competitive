@@ -11,7 +11,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
@@ -73,8 +72,7 @@ public class VersusMatchManager extends BaseManager {
 		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		c.add(Restrictions.eq("game", game));
 		c.add(Restrictions.eq("league", league));
-		c.createAlias("versusEntries", "entries");
-		c.setFetchMode("entries", FetchMode.JOIN);
+		c.createAlias("versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
 		return c.list();
 	}
 	
