@@ -1,5 +1,4 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
 if(request.getSession().getAttribute("player")!=null){
@@ -7,10 +6,11 @@ if(request.getSession().getAttribute("player")!=null){
 	response.sendRedirect("main.jsp");
 }
 %>
+
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Pong Score Tracking - Login</title>
+		<title>Head to Head</title>
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>
