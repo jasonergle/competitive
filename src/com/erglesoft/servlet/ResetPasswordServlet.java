@@ -34,7 +34,7 @@ public class ResetPasswordServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
+		response.setContentType("text/html");
 		Owasp owasp = new Owasp();
 		LoginManager pMgr = new LoginManager(request);
 		UserLoginData loginData = UserLoginData.fromHttpSession(request);
@@ -43,20 +43,23 @@ public class ResetPasswordServlet extends HttpServlet {
 		String newPw = request.getParameter("newPassword");
 		String confirmPw = request.getParameter("confirmPassword");
 		if(oldPw == null || newPw == null || confirmPw == null){
-			throw new ServletException("Passwords not found on post");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Passwords not found on post");
+			return;
 		}
 		if(!newPw.equals(confirmPw) || newPw.length()<4){
-			throw new ServletException("New Password does not match confirmation password, or passwords are too short, min length 4 characters");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"New Password does not match confirmation password, or passwords are too short, min length 4 characters");
+			return;
 		}
 			
 		try {
 			authenticated = owasp.authenticate(loginData.getLogin(), oldPw);
 		} catch (NoSuchAlgorithmException | SQLException e) {
-			log.error("Authentication attempt failed for player "+loginData.getLogin().toString());
-			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Authentication attempt failed for player "+loginData.getLogin().toString());
+			return;
 		}
 		if(!authenticated){
-			throw new ServletException("Old password could not be used to authenticate this user");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Old password could not be used to authenticate this user");
+			return;
 		}
 		else{
 			log.debug(String.format("Resetting Password for Player: %s", loginData.getLogin()));
@@ -64,15 +67,11 @@ public class ResetPasswordServlet extends HttpServlet {
 				owasp.createUserPassword(loginData.getLogin(), newPw);
 				pMgr.commitLogin(loginData.getLogin());
 			} catch (NoSuchAlgorithmException | SQLException e) {
-				log.error(String.format("Failed to update password[%s] for player[%s]", newPw, loginData.getLogin()));
-				e.printStackTrace();
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,String.format("Failed to update password[%s] for player[%s]", newPw, loginData.getLogin()));
+				return;
 			}
 		}
-		
-	}
-	
-	protected class ReturnData{
-		Boolean success;
+		response.getWriter().print("SUCCESS");
 		
 	}
 

@@ -17,12 +17,12 @@
     <param-name>configFile</param-name>
     <param-value>/nuttin</param-value>
   </context-param>
-  <error-page>
+<!--   <error-page>
     <error-code>404</error-code>
     <location>/error.jsp</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
     <location>/error.jsp</location>
-  </error-page>
+  </error-page> -->
 </web-app>
