@@ -17,7 +17,9 @@ NavbarJspModel model = new NavbarJspModel(request);
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<img src="<%=request.getContextPath()%>/assets/images/h2hlogo.png" style="height:50px;padding:5px;"/>
+			<a href="<%=request.getContextPath()%>">
+				<img src="<%=request.getContextPath()%>/assets/images/h2hlogo.png" style="height:50px;padding:5px;"/>
+			</a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">

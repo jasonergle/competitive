@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Login;
 import com.erglesoft.login.UserLoginData;
 import com.erglesoft.mgr.LeagueManager;
 import com.erglesoft.mgr.LoginManager;
@@ -43,8 +44,12 @@ public class SetCurrentLeagueServlet extends HttpServlet {
 		LoginManager logMgr = new LoginManager(request);
 		LeagueManager leagueMgr = new LeagueManager(request);
 		League league = leagueMgr.getLeagueById(Integer.parseInt(id));
-		logMgr.setCurrentLeague(logMgr.getLogin(loginData.getLogin().getId()),league);
-		response.sendRedirect(request.getContextPath());
+		if(logMgr.setCurrentLeague(logMgr.getLogin(loginData.getLogin().getId()),league)){
+			Login refreshedLogin = logMgr.getLogin(loginData.getLogin().getId());
+			UserLoginData newLoginData = new UserLoginData(refreshedLogin);
+			UserLoginData.toHttpSession(request, newLoginData);
+			response.sendRedirect(request.getContextPath());
+		}
 	}
 
 }
