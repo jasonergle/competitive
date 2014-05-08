@@ -60,7 +60,7 @@ NavbarJspModel model = new NavbarJspModel(request);
 						<li class="dropdown-header">My Other Leagues</li>
 						<%for(League l: model.getAvailableLeagues()){ 
 							if(l.getId()!=model.getLoginData().getCurLeague().getId()){%>
-							<li><a href="setCurrentLeague?id=<%=l.getId()%>"><%=l.getName() %></a></li>
+							<li><a href="<%=request.getContextPath() %>/setCurrentLeague?id=<%=l.getId()%>"><%=l.getName() %></a></li>
 						<%}} %>
 					</ul>
 				</li>

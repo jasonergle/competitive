@@ -44,6 +44,10 @@ public class ViewStatsJspModel extends JspModel {
 		}
 
 	}
+	
+	public Integer getParticipantId(){
+		return partId;
+	}
 
 	public Integer getTeamId() {
 		return teamId;

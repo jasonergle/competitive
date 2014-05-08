@@ -15,6 +15,8 @@ import com.erglesoft.mgr.VersusMatchManager;
 
 public class ViewMatchesJspModel extends JspModel {
 
+	private String team1Id;
+	private String team2Id;
 	private TeamManager pMgr;
 	private LoginManager logMgr;
 	private LeagueManager leagueMgr;
@@ -26,11 +28,16 @@ public class ViewMatchesJspModel extends JspModel {
 	
 	public ViewMatchesJspModel(HttpServletRequest request) {
 		super(request);
+		team1Id = request.getParameter("team1");
+		team2Id = request.getParameter("team2");
 		pMgr =  new TeamManager(request);
 		mMgr = new VersusMatchManager(request);
 		logMgr = new LoginManager(request);
 		leagueMgr = new LeagueManager(request);
-		matches =  mMgr.getAllMatchesForCurrentLeague();
+		if(team1Id!=null && team2Id!=null)
+			matches =  mMgr.getAllMatchesBetween(Integer.parseInt(team1Id), Integer.parseInt(team2Id), loginData.getCurLeague());
+		else
+			matches =  mMgr.getAllMatchesForCurrentLeague();
 		login = logMgr.getLogin(loginData.getLogin().getId());
 		league = leagueMgr.getLeagueById(loginData.getCurLeague().getId());
 	}

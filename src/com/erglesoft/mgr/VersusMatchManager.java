@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -147,6 +148,27 @@ public class VersusMatchManager extends BaseManager {
 		else{
 			return entry.getTeam().getName();
 		}
+	}
+
+	public List<VersusMatch> getAllMatchesBetween(Integer team1Id, Integer team2Id, League curLeague) {
+		List<VersusMatch> list = getAllMatches(curLeague);
+		List<VersusMatch> ret = new ArrayList<VersusMatch>();
+		Set<Integer> targetIds = new HashSet<Integer>();
+		Set<Integer> entryIds;
+		targetIds.add(team1Id);
+		targetIds.add(team2Id);
+		for(VersusMatch match : list){
+			if(match.getVersusEntries().size()>0){
+				entryIds = new HashSet<Integer>();
+				for(VersusEntry entry : match.getVersusEntries()){
+					entryIds.add(entry.getTeam().getId());
+				}
+				if(entryIds.equals(targetIds))
+					ret.add(match);
+			}
+			
+		}
+		return ret;
 	}
 
 }

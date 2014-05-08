@@ -69,7 +69,7 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 							<%for(Team opponent: records.keySet()){ 
 								Head2HeadRecord record = records.get(opponent);%>
 								<tr>
-									<td><a class="" href="<%=request.getContextPath() %>/viewStats.jsp?participant=<%=opponent.getId() %>"> <%=opponent.getName()%></a></td>
+									<td><a class="" href="<%=request.getContextPath() %>/viewMatches.jsp?team1=<%=opponent.getId() %>&team2=<%=model.getParticipantId()%>"> <%=opponent.getName()%></a></td>
 									<td><%=record.getWinCnt() %></td>
 									<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
 									<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>

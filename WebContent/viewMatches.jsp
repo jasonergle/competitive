@@ -17,7 +17,7 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 		<div class="container">
 			<jsp:include page="navbar.jsp"></jsp:include>
 			<h3>Match Data</h3>
-			<table id="singlesTable" class="table table-striped">
+			<table id="singlesTable" class="table table-striped" hidden=true>
 				<thead>
 					<tr>
 						<th>Date</th>
@@ -63,12 +63,13 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 	</body>
 	<script>
 		$( document ).ready(function() {
-			
 			$('#singlesTable').DataTable({
 							bFilter: true, 
 							bLengthChange: true,
+							iDisplayLength: 50,
 							bPaginate: true,
 							aaSorting:[[0, "desc"]] });
+			$('#singlesTable').show();
 		});
 	</script>
 </html>
