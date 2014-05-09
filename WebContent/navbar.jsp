@@ -50,7 +50,7 @@ NavbarJspModel model = new NavbarJspModel(request);
 					<ul class="dropdown-menu">
 						<li>
 							<a class="btn btn-sm btn-danger" style="color:white;margin-left:20px;margin-right:20px;" href="<%=request.getContextPath() %>/logout">Logout</a>
-							<a class="" href="<%=request.getContextPath() %>/loginProfile.jsp">Manage Profile</a>
+							<a class="" href="<%=request.getContextPath() %>/profileEdit.jsp">Manage Profile</a>
 						</li>
 						<li class="dropdown-header">League</li>
 						<li><a href="#">Manage <%=model.getLoginData().getCurLeague().getName()%></a></li>

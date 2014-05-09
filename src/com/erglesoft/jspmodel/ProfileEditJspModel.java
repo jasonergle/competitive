@@ -4,10 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.mgr.LoginManager;
 
-public class LoginProfileJspModel extends JspModel{
+public class ProfileEditJspModel extends JspModel{
 	
 	
-	public LoginProfileJspModel(HttpServletRequest request) {
+	public ProfileEditJspModel(HttpServletRequest request) {
 		super(request);
 	}
 	

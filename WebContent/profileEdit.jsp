@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <%@page import="com.erglesoft.jspmodel.*"%>
 <%
-LoginProfileJspModel model = new LoginProfileJspModel(request);
+	ProfileEditJspModel model = new ProfileEditJspModel(request);
 %>
 <html>
 	<head>

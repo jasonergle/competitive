@@ -65,6 +65,7 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 			  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 		
 			  ga('create', 'UA-50481107-1', 'headtohead.us');
+			  ga('require', 'displayfeatures');
 			  ga('send', 'pageview');
 		</script>
 	</body>
