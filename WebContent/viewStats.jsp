@@ -57,8 +57,8 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 						<thead>
 							<tr>
 								<th>Opponent</th>
-								<th>Wins</th>
-								<th>Losses</th>
+								<th>W</th>
+								<th>L</th>
 								<th>Win %</th>
 								<th>PS</th>
 								<th>PA</th>
@@ -69,10 +69,20 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 							<%for(Team opponent: records.keySet()){ 
 								Head2HeadRecord record = records.get(opponent);%>
 								<tr>
-									<td><a class="" href="<%=request.getContextPath() %>/viewMatches.jsp?team1=<%=opponent.getId() %>&team2=<%=model.getParticipantId()%>"> <%=opponent.getName()%></a></td>
+									<td>
+										<a class="" href="<%=request.getContextPath() %>/viewStats.jsp?participant=<%=opponent.getId() %>"> 
+										<%=opponent.getName()%>
+										</a>
+										<a class="btn btn-xs btn-default" 
+											href="<%=request.getContextPath() %>/viewMatches.jsp?team1=<%=opponent.getId() %>&team2=<%=model.getParticipantId()%>">
+											Matches
+										</a>
+									</td>
 									<td><%=record.getWinCnt() %></td>
 									<td><%=record.getMatchCnt()-record.getWinCnt()%></td>
-									<td><%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%></td>
+									<td class="<%=(double)record.getWinCnt()/record.getMatchCnt()>.5? "success":"danger" %>">
+										<%=String.format("%1.3f",(double)record.getWinCnt()/record.getMatchCnt())%>
+									</td>
 									<td><%=String.format("%2.2f",record.getPointsScored()) %></td>
 									<td><%=String.format("%2.2f",record.getPointsAllowed()) %></td>
 									<td><%=record.getHandycap() %></td>
@@ -90,7 +100,7 @@ ViewStatsJspModel model = new ViewStatsJspModel(request);
 							bFilter: false, 
 							bLengthChange: false,
 							bPaginate: false,
-							aaSorting:[[1, "desc"],[3,"desc"]] });
+							aaSorting:[[2, "desc"],[1, "desc"]] });
 		});
 		</script>
 	</body>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Login;
+import com.erglesoft.dbo.Team;
 import com.erglesoft.dbo.VersusEntry;
 import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.mgr.LeagueManager;
@@ -17,7 +18,9 @@ public class ViewMatchesJspModel extends JspModel {
 
 	private String team1Id;
 	private String team2Id;
-	private TeamManager pMgr;
+	private Team team1;
+	private Team team2;
+	private TeamManager tMgr;
 	private LoginManager logMgr;
 	private LeagueManager leagueMgr;
 	
@@ -30,12 +33,15 @@ public class ViewMatchesJspModel extends JspModel {
 		super(request);
 		team1Id = request.getParameter("team1");
 		team2Id = request.getParameter("team2");
-		pMgr =  new TeamManager(request);
+		tMgr =  new TeamManager(request);
 		mMgr = new VersusMatchManager(request);
 		logMgr = new LoginManager(request);
 		leagueMgr = new LeagueManager(request);
-		if(team1Id!=null && team2Id!=null)
-			matches =  mMgr.getAllMatchesBetween(Integer.parseInt(team1Id), Integer.parseInt(team2Id), loginData.getCurLeague());
+		if(team1Id!=null && team2Id!=null){
+			team1 = tMgr.getTeam(Integer.parseInt(team1Id));
+			team2 = tMgr.getTeam(Integer.parseInt(team2Id));
+			matches =  mMgr.getAllMatchesBetween(team1.getId(), team2.getId(), loginData.getCurLeague());
+		}
 		else
 			matches =  mMgr.getAllMatchesForCurrentLeague();
 		login = logMgr.getLogin(loginData.getLogin().getId());
@@ -43,7 +49,7 @@ public class ViewMatchesJspModel extends JspModel {
 	}
 
 	public TeamManager getpMgr() {
-		return pMgr;
+		return tMgr;
 	}
 
 	public VersusMatchManager getmMgr() {
@@ -78,4 +84,17 @@ public class ViewMatchesJspModel extends JspModel {
 		return league;
 	}
 	
+	public Boolean isHeadToHeadMatches(){
+		if(team1!=null && team2!=null)
+			return true;
+		return false;
+	}
+
+	public Team getTeam1() {
+		return team1;
+	}
+
+	public Team getTeam2() {
+		return team2;
+	}
 }
