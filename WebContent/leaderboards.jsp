@@ -9,7 +9,7 @@ LeaderboardsJspModel model = new LeaderboardsJspModel(request);
 %>
 <html>
 	<head>
-		<title>Head2Head - Main Page</title>
+		<title>Head to Head - Leaderboards</title>
 		<jsp:include page="/header.jsp"></jsp:include>
 	</head>
 	<body>

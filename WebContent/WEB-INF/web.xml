@@ -5,9 +5,9 @@
     <session-timeout>120</session-timeout>
   </session-config>
   <welcome-file-list>
+  	<welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>landing.jsp</welcome-file>
-    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <context-param>
     <param-name>version</param-name>

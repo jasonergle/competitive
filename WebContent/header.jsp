@@ -12,5 +12,6 @@
 <script src="<%=request.getContextPath()%>/assets/libs/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 <script src="<%=request.getContextPath()%>/assets/libs/jquery.form.min.js"></script>
+<script src="<%=request.getContextPath() %>/assets/js/validate-1.4.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/erglesoft.js"></script>
 

@@ -46,6 +46,7 @@ public class AuthenticateFilter implements Filter {
 					&& !path.startsWith("/login") 
 					&& !path.startsWith("/assets/") 
 					&& !path.startsWith("/index.jsp")
+					&& !path.startsWith("/index.html")
 					&& !path.startsWith("/resetPassword")){
 				if(httpRequest.getSession()==null || UserLoginData.fromHttpSession(httpRequest)==null){
 					System.out.println("No userData on Session, redirecting to landing");
