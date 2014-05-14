@@ -49,6 +49,7 @@ public class AuthenticateFilter implements Filter {
 					&& !path.startsWith("/index.html")
 					&& !path.startsWith("/signin.jsp")
 					&& !path.startsWith("/jsp/user/createAccount.jsp")
+					&& !path.startsWith("/createNewAccount")
 					&& !path.startsWith("/resetPassword")){
 				if(httpRequest.getSession()==null || UserLoginData.fromHttpSession(httpRequest)==null){
 					System.out.println("No userData on Session, redirecting to landing");
@@ -56,7 +57,7 @@ public class AuthenticateFilter implements Filter {
 					return;
 				}
 			}
-			else if(path.startsWith("/index.jsp") && httpRequest.getSession()!=null && UserLoginData.fromHttpSession(httpRequest)!=null){
+			else if(path.startsWith("/index.") && httpRequest.getSession()!=null && UserLoginData.fromHttpSession(httpRequest)!=null){
 				System.out.println("Already logged in, redirecting to leaderboards.jsp");
 				((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath()+"/leaderboards.jsp");
 				return;

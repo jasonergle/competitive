@@ -1,5 +1,8 @@
 package com.erglesoft.mgr;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -15,6 +18,7 @@ import com.erglesoft.dbo.LeagueLogin;
 import com.erglesoft.dbo.Login;
 import com.erglesoft.dbo.VersusMatch;
 import com.erglesoft.hibernate.HibernateUtil;
+import com.erglesoft.login.Owasp;
 import com.erglesoft.login.UserLoginData;
 
 public class LoginManager extends BaseManager {
@@ -141,6 +145,24 @@ public class LoginManager extends BaseManager {
 			return true;
 		}
 		
+	}
+
+	public void createNewLogin(String firstName, String lastName, String displayName, String email, String phone, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
+		Owasp owasp = new Owasp();
+		Login newLogin = new Login();
+		newLogin.setActiveFlag(true);
+		newLogin.setFirstName(firstName);
+		newLogin.setLastName(lastName);
+		newLogin.setLogin(email);
+		newLogin.setPhone(phone);
+		newLogin.setLoginCount(1);
+		newLogin.setSuperUserFlag(false);
+		newLogin.setLastLoginDate(new Timestamp(new Date().getTime()));
+		newLogin.setCreateDate(new Timestamp(new Date().getTime()));
+		owasp.createUserPassword(newLogin, password);
+		session.beginTransaction();
+		session.save(newLogin);
+		session.getTransaction().commit();
 	}
 
 }

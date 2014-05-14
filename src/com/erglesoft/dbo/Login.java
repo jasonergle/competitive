@@ -35,6 +35,8 @@ public class Login implements Serializable {
 	private String lastName;
 
 	private String login;
+	
+	private String phone;
 
 	@Column(name="login_count")
 	private Integer loginCount;
@@ -371,6 +373,14 @@ public class Login implements Serializable {
 	@Override
 	public String toString() {
 		return "Login [id=" + id + ", login=" + login + "]";
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }
