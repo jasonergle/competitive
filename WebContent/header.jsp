@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/css/master.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/assets/css/pong.webflow.css">
 
 <script src="<%=request.getContextPath()%>/assets/libs/jquery-1.11.0.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/libs/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>

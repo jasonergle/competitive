@@ -47,6 +47,8 @@ public class AuthenticateFilter implements Filter {
 					&& !path.startsWith("/assets/") 
 					&& !path.startsWith("/index.jsp")
 					&& !path.startsWith("/index.html")
+					&& !path.startsWith("/plans.html")
+					&& !path.startsWith("/plans.jsp")
 					&& !path.startsWith("/signin.jsp")
 					&& !path.startsWith("/jsp/user/createAccount.jsp")
 					&& !path.startsWith("/createNewAccount")

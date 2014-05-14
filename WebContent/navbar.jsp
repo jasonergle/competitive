@@ -17,8 +17,9 @@ NavbarJspModel model = new NavbarJspModel(request);
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a href="<%=request.getContextPath()%>">
-				<img src="<%=request.getContextPath()%>/assets/images/h2hlogo.png" style="height:50px;padding:5px;"/>
+			<a class="navbar-text" href="<%=request.getContextPath()%>">
+				<img alt="head to head" src="<%=request.getContextPath()%>/assets/images/ramHead_l_sq.png" class="h2hlogo" />
+				<img alt="head to head" src="<%=request.getContextPath()%>/assets/images/ramHead_r_sq.png" class="h2hlogo" />
 			</a>
 		</div>
 		<div class="navbar-collapse collapse">
