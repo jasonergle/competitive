@@ -76,8 +76,8 @@ public class SubmitMatchServlet extends HttpServlet {
 			t2 = tMgr.getTeamForPlayers(loginData.getCurLeague(), players2);
 		}
 		else{
-			t1 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry1_1")));
-			t2 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry2_1")));
+			t1 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry1")));
+			t2 = tMgr.getTeam(Integer.parseInt(request.getParameter("entry2")));
 		}
 		
 		score1 = Double.parseDouble(request.getParameter("score1"));

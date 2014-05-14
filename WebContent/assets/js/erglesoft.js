@@ -40,7 +40,7 @@ $.fn.sort_select_box = function(){
 		init: function() {
 			var _this = this;
 			//Add our own lookup (TODO: make unique)
-			this.$el.addClass('xxx');
+			this.$el.addClass('makeUniqueChoice');
 			this.$el.on('change', function() {
 				var player = $(this).val()
 					, widget = $(this).data('makeUniqueChoice');
@@ -52,21 +52,27 @@ $.fn.sort_select_box = function(){
 		DisableOtherGuys : function() {
 				var $inputs = this.opts.selectorGroup
 					, $theSelect = this.$el
-					, playerVal = this.$el.val();
+					, playerVal = this.$el.val()
+					, valSelector = [];
+
+				$inputs.each(function() {
+						valSelector.push( '[value=' + $(this).find(":selected").val() + ']' );
+						});
 
 				// Reset the other box if already selected this value.
+				// -Happens when form is autopopulated with prev selections.
 				$inputs.not($theSelect).each(function(){
 					if ($(this).find(":selected").val() === playerVal) {
 						$(this).val('-1');
 					}
 				});
-				
-				// Disable the chosen player from second player options
-				$inputs.not($theSelect).each(function(){
-					$(this)
-					.find('option[value=' + playerVal + ']')
+			
+				// Disable the chosen player(s) from other player options
+				$inputs.find('option')
+					.prop("disabled", false)
+					.not(":selected")
+					.filter(valSelector.join(", "))
 					.prop("disabled", true);
-				});
 			}
 	};
 
