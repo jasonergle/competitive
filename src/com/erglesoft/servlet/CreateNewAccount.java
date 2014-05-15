@@ -1,8 +1,6 @@
 package com.erglesoft.servlet;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.erglesoft.dbo.Login;
-import com.erglesoft.login.Owasp;
 import com.erglesoft.login.UserLoginData;
 import com.erglesoft.mgr.LoginManager;
-import com.erglesoft.servlet.LoginServlet.Response;
 
 /**
  * Servlet implementation class CreateNewAccount
@@ -62,7 +58,7 @@ public class CreateNewAccount extends HttpServlet {
 			return;
 		}
 		try {
-			logMgr.createNewLogin(first_name, last_name, display_name, email, phone, password);
+			target= logMgr.createNewLogin(first_name, last_name, display_name, email, phone, password);
 		} catch (Exception e){
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"Login Creation failed");
@@ -70,7 +66,7 @@ public class CreateNewAccount extends HttpServlet {
 		}
 		UserLoginData userData = new UserLoginData(target);
 		UserLoginData.toHttpSession(request, userData);
-		
+		response.sendRedirect(request.getContextPath()+"/");
 	}
 
 }

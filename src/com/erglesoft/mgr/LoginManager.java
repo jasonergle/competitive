@@ -147,7 +147,7 @@ public class LoginManager extends BaseManager {
 		
 	}
 
-	public void createNewLogin(String firstName, String lastName, String displayName, String email, String phone, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
+	public Login createNewLogin(String firstName, String lastName, String displayName, String email, String phone, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, SQLException {
 		Owasp owasp = new Owasp();
 		Login newLogin = new Login();
 		newLogin.setActiveFlag(true);
@@ -163,6 +163,7 @@ public class LoginManager extends BaseManager {
 		session.beginTransaction();
 		session.save(newLogin);
 		session.getTransaction().commit();
+		return newLogin;
 	}
 
 }

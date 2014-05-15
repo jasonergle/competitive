@@ -44,8 +44,7 @@ NavbarJspModel model = new NavbarJspModel(request);
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">
-						<%=LoginManager.getLabelForLogin(model.getLoginData().getLogin())%> 
-						@ <%=model.getLoginData().getCurLeague().getName()%> 
+						<%=model.getCurrentUserString() %> 
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
@@ -54,7 +53,9 @@ NavbarJspModel model = new NavbarJspModel(request);
 							<a class="" href="<%=request.getContextPath() %>/profileEdit.jsp">Manage Profile</a>
 						</li>
 						<li class="dropdown-header">League</li>
-						<li><a href="#">Manage <%=model.getLoginData().getCurLeague().getName()%></a></li>
+						<%if(model.getLoginData()!=null && model.getLoginData().getCurLeague()!=null ){ %>
+							<li><a href="#">Manage <%=model.getLoginData().getCurLeague().getName()%></a></li>
+						<%} %>
 						<li><a href="#">Create New League...</a></li>
 						<li><a href="#">Join Another League...</a></li>
 						<li class="divider"></li>

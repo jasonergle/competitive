@@ -57,5 +57,11 @@ public class NavbarJspModel extends JspModel {
 			return ret;
 		}
 	}
+	
+	public String getCurrentUserString(){
+		String userName = loginData==null || loginData.getLogin()==null ? "N/A" : LoginManager.getLabelForLogin(loginData.getLogin());
+		String leagueName = loginData==null || loginData.getCurLeague() == null ? "N/A" : getLoginData().getCurLeague().getName();
+		return String.format("%s @ %s",userName, leagueName);
+	}
 
 }
