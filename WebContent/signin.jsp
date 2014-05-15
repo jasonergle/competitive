@@ -50,7 +50,7 @@ if(request.getSession().getAttribute("player")!=null){
 					$('#signingInLabel').addClass("hidden");
 					if (data.success) {
 						$('#signingInFailedLabel').addClass("hidden");
-						window.location = 'leaderboards.jsp';
+						window.location = 'home.jsp';
 					} else {
 						$('#signingInFailedLabel').removeClass("hidden");
 					}

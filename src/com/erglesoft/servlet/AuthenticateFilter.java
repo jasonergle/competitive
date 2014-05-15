@@ -60,8 +60,8 @@ public class AuthenticateFilter implements Filter {
 				}
 			}
 			else if(path.startsWith("/index.") && httpRequest.getSession()!=null && UserLoginData.fromHttpSession(httpRequest)!=null){
-				System.out.println("Already logged in, redirecting to leaderboards.jsp");
-				((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath()+"/leaderboards.jsp");
+				System.out.println("Already logged in, redirecting to home.jsp");
+				((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath()+"/home.jsp");
 				return;
 			}
 				

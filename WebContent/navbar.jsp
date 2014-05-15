@@ -24,11 +24,13 @@ NavbarJspModel model = new NavbarJspModel(request);
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<%if(model.getUserData()!=null){%>
-					<li><a href="<%=request.getContextPath() %>/leaderboards.jsp">Leaderboards</a></li>
-					<%if(model.canEnterScores()){ %>
+					<li><a href="<%=request.getContextPath() %>/home.jsp">Home</a></li>
+					<%if(model.canEnterScores() && model.getLoginData().getCurLeague()!=null){ %>
 					<li><a href="<%=request.getContextPath() %>/jsp/enterMatch/enterMatch.jsp">Enter Match</a></li>
 					<%} %>
+					<%if(model.getLoginData().getCurLeague()!=null){ %>
 					<li><a href="<%=request.getContextPath() %>/viewMatches.jsp">See Matches</a></li>
+					<%} %>
 					<%
 					if(model.getUserData().getLogin().getSuperUserFlag()){
 					%>

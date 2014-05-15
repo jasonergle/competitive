@@ -12,6 +12,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.JDBCConnectionException;
 
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.LeagueLogin;
@@ -58,7 +59,12 @@ public class LoginManager extends BaseManager {
 	public Login getLogin(String login){
 		Criteria criteria = session.createCriteria(Login.class);
 		criteria.add(Restrictions.eq("login", login));
-		Login p = (Login) criteria.uniqueResult();
+		Login p;
+		try{
+			p = (Login) criteria.uniqueResult();
+		}catch(JDBCConnectionException e){
+			p = (Login) criteria.uniqueResult();
+		}
 		if(p!=null){
 			p.setLastLoginDate(new Timestamp(new Date().getTime()));
 			p.setLoginCount(p.getLoginCount()+1);
