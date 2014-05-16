@@ -54,13 +54,13 @@ NavbarJspModel model = new NavbarJspModel(request);
 							<a class="" href="<%=request.getContextPath() %>/profileEdit.jsp">Manage Profile</a>
 						</li>
 						<li class="dropdown-header">League</li>
-						<%if(model.getLoginData()!=null && model.getLoginData().getCurLeague()!=null ){ %>
-							<li><a href="#">Manage <%=model.getLoginData().getCurLeague().getName()%></a></li>
+						<%if(model.getLoginData()!=null && model.getLoginData().getCurLeague()!=null && model.getLoginData().getIsLeagueAdmin()){ %>
+							<li><a href="<%=request.getContextPath()%>/jsp/league/editLeague.jsp?action=EDIT">Manage <%=model.getLoginData().getCurLeague().getName()%></a></li>
 						<%} %>
 						<li><a href="#">Create New League...</a></li>
 						<li><a href="#">Join Another League...</a></li>
 						<li class="divider"></li>
-						<li class="dropdown-header">My Other Leagues</li>
+						<li class="dropdown-header">Switch Leagues</li>
 						<%for(League l: model.getAvailableLeagues()){ 
 							if(l.getId()!=model.getLoginData().getCurLeague().getId()){%>
 							<li><a href="<%=request.getContextPath() %>/setCurrentLeague?id=<%=l.getId()%>"><%=l.getName() %></a></li>
