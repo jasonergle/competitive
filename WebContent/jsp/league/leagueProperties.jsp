@@ -3,7 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <h4>League Properties</h4>
-<form class="form-horizontal">
+<div class="pull-right">
+	<button class="btn btn-danger">Cancel</button>
+	<button class="btn btn-primary">Save Properties</button> 
+</div>
+<form id="league-properties" class="form-horizontal">
 	<fieldset>
 		<div class="form-group">
 			<label class="col-md-4 control-label" for="name">League Name</label>
@@ -17,7 +21,7 @@
 
 		<div class="form-group">
 			<label class="col-md-4 control-label" for="abbreviation">Abbreviation</label>
-			<div class="col-md-1">
+			<div class="col-md-2">
 				<input id="abbreviation" name="abbreviation" type="text"
 					placeholder="abbr" class="form-control input-md"
 					required="required" value="${model.league.abbr }"> 
@@ -66,3 +70,7 @@
 		</div>
 	</fieldset>
 </form>
+
+<script>
+
+</script>
