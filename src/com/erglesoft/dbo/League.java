@@ -26,6 +26,12 @@ public class League implements Serializable {
 
 	@Column(name="is_public")
 	private Boolean isPublic;
+	
+	@Column(name="enable_standings")
+	private Boolean enableStandings;
+	
+	@Column(name="enable_leaderboards")
+	private Boolean enableLeaderboards;
 
 	@Column(name="join_password")
 	private String joinPassword;
@@ -261,6 +267,22 @@ public class League implements Serializable {
 		versusMatch.setLeague(null);
 
 		return versusMatch;
+	}
+
+	public Boolean getEnableStandings() {
+		return enableStandings;
+	}
+
+	public void setEnableStandngs(Boolean enableStandings) {
+		this.enableStandings = enableStandings;
+	}
+
+	public Boolean getEnableLeaderboards() {
+		return enableLeaderboards;
+	}
+
+	public void setEnableLeaderboards(Boolean enableLeaderboards) {
+		this.enableLeaderboards = enableLeaderboards;
 	}
 
 }
