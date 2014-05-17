@@ -31,5 +31,5 @@ request.setAttribute("contextPath", request.getContextPath());
 			</div>
 		</div>
 	</body>
-	<script type="text/javascript" src="../../assets/js/enterMatch.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/assets/js/enterMatch.js"></script>
 </html>

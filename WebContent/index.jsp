@@ -39,8 +39,8 @@
 							</div>
 						</div>
 						<div class="w-col w-col-8 nav-bar">
-							<a class="nav-link" href="#page-nav-Section-1" target="_self">Search Leagues</a>
-							<a class="nav-link" href="#page-nav-Section-2" target="_self">View Leader Boards</a>
+							<a class="nav-link" href="#page-nav-Section-1" target="_self">About</a>
+							<a class="nav-link" href="#page-nav-Section-2" target="_self">Search Leagues</a>
 							<a class="nav-link register" href="jsp/user/createAccount.jsp">Register</a>
 							<a class="nav-link sign-up" href="signin.jsp">Sign In</a>
 						</div>
