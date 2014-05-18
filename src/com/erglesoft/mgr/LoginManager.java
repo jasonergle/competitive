@@ -92,6 +92,8 @@ public class LoginManager extends BaseManager {
 	public static Boolean hasCanEnterScoresForLeague(Login login, League league){
 		if(login == null || league == null)
 			return false;
+		if(league.getOwner().getId().equals(login.getId()))
+			return true;
 		for(LeagueLogin ll: league.getLeagueLogins()){
 			if(ll.getLogin().getId().equals(login.getId())){
 				return ll.getCanEnterScores();
@@ -103,6 +105,8 @@ public class LoginManager extends BaseManager {
 	public static Boolean isAdminForLeague(Login login, League league){
 		if(login == null || league == null)
 			return false;
+		if(league.getOwner().getId().equals(login.getId()))
+			return true;
 		for(LeagueLogin ll: league.getLeagueLogins()){
 			if(ll.getLogin().getId().equals(login.getId())){
 				return ll.getIsAdmin();
