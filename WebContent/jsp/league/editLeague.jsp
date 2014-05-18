@@ -34,7 +34,7 @@ request.setAttribute("model", model);
 		</div>
 	</div>
 	<script>
-
+	
 	</script>
 </body>
 </html>

@@ -62,7 +62,7 @@ NavbarJspModel model = new NavbarJspModel(request);
 						<li class="divider"></li>
 						<li class="dropdown-header">Switch Leagues</li>
 						<%for(League l: model.getAvailableLeagues()){ 
-							if(l.getId()!=model.getLoginData().getCurLeague().getId()){%>
+							if(model.getLoginData().getCurLeague()==null || l.getId()!=model.getLoginData().getCurLeague().getId()){%>
 							<li><a href="<%=request.getContextPath() %>/setCurrentLeague?id=<%=l.getId()%>"><%=l.getName() %></a></li>
 						<%}} %>
 					</ul>

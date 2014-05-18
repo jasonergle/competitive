@@ -35,5 +35,11 @@ public class LeagueManager extends BaseManager {
 		c.addOrder(Order.desc("name"));
 		return c.list();
 	}
+	
+	public void commitLeague(League league){
+		session.beginTransaction();
+		session.saveOrUpdate(league);
+		session.getTransaction().commit();
+	}
 
 }

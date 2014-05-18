@@ -1,9 +1,18 @@
 package com.erglesoft.dbo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -65,7 +74,7 @@ public class Login implements Serializable {
 	//bi-directional many-to-one association to League
 	@ManyToOne
 	@JoinColumn(name="current_league")
-	private League league;
+	private League currentLeague;
 
 	//bi-directional many-to-one association to Player
 	@OneToMany(mappedBy="creator")
@@ -252,12 +261,12 @@ public class Login implements Serializable {
 		return leagueLogin;
 	}
 
-	public League getLeague() {
-		return this.league;
+	public League getCurrentLeague() {
+		return this.currentLeague;
 	}
 
-	public void setLeague(League league) {
-		this.league = league;
+	public void setCurrentLeague(League league) {
+		this.currentLeague = league;
 	}
 
 	public Set<Player> getCreatedPlayers() {

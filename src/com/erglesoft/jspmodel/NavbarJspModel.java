@@ -53,7 +53,9 @@ public class NavbarJspModel extends JspModel {
 			for(LeagueLogin ll: login.getLeagueLogins()){
 				ret.add(ll.getLeague());
 			}
-			
+			for(League l: login.getOwnedLeagues()){
+				ret.add(l);
+			}
 			return ret;
 		}
 	}

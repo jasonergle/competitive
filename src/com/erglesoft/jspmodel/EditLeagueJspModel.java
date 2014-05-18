@@ -7,12 +7,13 @@ import com.erglesoft.mgr.LeagueManager;
 
 public class EditLeagueJspModel extends JspModel{
 	LeagueManager leagueMgr;
-	League league ;
+	League league;
+	JspModelAction action;
 	
 	public EditLeagueJspModel(HttpServletRequest request) throws Exception{
 		super(request);
 		leagueMgr = new LeagueManager(request);
-		JspModelAction action = JspModelAction.valueOf(request.getParameter("action"));
+		action = JspModelAction.valueOf(request.getParameter("action"));
 		if(action==JspModelAction.EDIT){
 			if(!loginData.getIsLeagueAdmin()){
 				throw new Exception("Logged in user does not have access to edit this league!");
@@ -31,4 +32,7 @@ public class EditLeagueJspModel extends JspModel{
 		return league;
 	}
 	
+	public String getAction(){
+		return action.toString();
+	}
 }

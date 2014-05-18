@@ -14,16 +14,16 @@ public class UserLoginData {
 	private Boolean canEnterScore;	
 
 	public UserLoginData(Login login) {
-		if(login.getLeague()!=null){
-			canEnterScore = LoginManager.canCreateMatch(login, login.getLeague());
-			isLeagueAdmin = LoginManager.isAdminForLeague(login, login.getLeague());
+		if(login.getCurrentLeague()!=null){
+			canEnterScore = LoginManager.canCreateMatch(login, login.getCurrentLeague());
+			isLeagueAdmin = LoginManager.isAdminForLeague(login, login.getCurrentLeague());
 		}
 		else{
 			isLeagueAdmin = false;
 			canEnterScore = false;
 		}
 		this.login = login;
-		this.curLeague = login.getLeague();
+		this.curLeague = login.getCurrentLeague();
 	}
 	
 	public static UserLoginData fromHttpSession(HttpServletRequest request){

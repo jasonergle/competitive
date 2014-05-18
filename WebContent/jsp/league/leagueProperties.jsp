@@ -3,12 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <h4>League Properties</h4>
-<div class="pull-right">
-	<button class="btn btn-danger">Cancel</button>
-	<button class="btn btn-primary">Save Properties</button> 
-</div>
-<form id="league-properties" class="form-horizontal">
+<form id="league-properties" class="form-horizontal" method="post" action="<%=request.getContextPath() %>/saveLeague">
 	<fieldset>
+		<div class="pull-right">
+			<button class="btn btn-danger">Cancel</button>
+			<input type="hidden" name="leagueId" value="${model.league.id}">
+			<input type="hidden" name="action" value='${model.action}'>
+			<input type="submit" class="btn btn-primary" value="Save Properties">
+		</div>
 		<div class="form-group">
 			<label class="col-md-4 control-label" for="name">League Name</label>
 			<div class="col-md-4">
@@ -32,7 +34,7 @@
 		<div class="form-group">
 			<label class="col-md-4 control-label" for="public">Is Public</label>
 			<div class="col-md-4">
-				<label class="radio-inline" for="public-0"> 
+				<label class="radio-inline" for="isPublic"> 
 					<input type="radio" name="public" id="public-0" value="Yes"
 						<c:if test="${model.league.isPublic}">checked="checked"</c:if>> Yes
 				</label> 
@@ -56,13 +58,13 @@
 		<div class="form-group">
 			<label class="col-md-4 control-label" for="rankingMethods">Ranking Methods</label>
 			<div class="col-md-4">
-				<label class="checkbox-inline" for="rankingMethods-0"> 
-					<input type="checkbox" name="rankingMethods" id="rankingMethods-0"
+				<label class="checkbox-inline" for="enableLeaderboards"> 
+					<input type="checkbox" name="enableLeaderboards" id="enableLeaderboards"
 						value="Leaderboards" <c:if test="${model.league.enableLeaderboards}">checked="checked"</c:if>> 
 						Leaderboards
 				</label> 
-				<label class="checkbox-inline" for="rankingMethods-1"> 
-					<input type="checkbox" name="rankingMethods" id="rankingMethods-1"
+				<label class="checkbox-inline" for="enableStandings"> 
+					<input type="checkbox" name="enableStandings" id="enableStandings""
 						value="Standings" <c:if test="${model.league.enableStandings}">checked="checked"</c:if>> 
 						Standings
 				</label>
@@ -72,5 +74,7 @@
 </form>
 
 <script>
+$(document).ready(function() {
 
+});
 </script>

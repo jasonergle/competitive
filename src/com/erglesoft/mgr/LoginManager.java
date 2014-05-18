@@ -4,7 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -133,8 +135,18 @@ public class LoginManager extends BaseManager {
 		if(!login.getSuperUserFlag()){
 			for(LeagueLogin ll : login.getLeagueLogins()){
 				if(ll.getLeague().getId().equals(league.getId())){
-					login.setLeague(league);
-					league.addLogin(login);
+					login.setCurrentLeague(league);
+					league.addCurrentLogin(login);
+					session.beginTransaction();
+					session.save(login);
+					session.getTransaction().commit();
+					return true;
+				}
+			}
+			for(League ownedLeague : login.getOwnedLeagues()){
+				if(ownedLeague.getId().equals(league.getId())){
+					login.setCurrentLeague(league);
+					league.addCurrentLogin(login);
 					session.beginTransaction();
 					session.save(login);
 					session.getTransaction().commit();
@@ -144,7 +156,7 @@ public class LoginManager extends BaseManager {
 			throw new SecurityException(String.format("%s is NOT a member of %s, and cannot switch to that league", login, league));
 		}
 		else{
-			login.setLeague(league);
+			login.setCurrentLeague(league);
 			session.beginTransaction();
 			session.save(login);
 			session.getTransaction().commit();
@@ -170,6 +182,17 @@ public class LoginManager extends BaseManager {
 		session.save(newLogin);
 		session.getTransaction().commit();
 		return newLogin;
+	}
+	
+	public static List<League> getAllowedLeagues(Login login){
+		List<League> ret = new ArrayList<League>();
+		for(LeagueLogin ll: login.getLeagueLogins()){
+			ret.add(ll.getLeague());
+		}
+		for(League l: login.getOwnedLeagues()){
+			ret.add(l);
+		}
+		return ret;
 	}
 
 }
