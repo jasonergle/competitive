@@ -50,5 +50,13 @@ public class GameManager extends BaseManager{
 			games.add(lg.getGame());
 		return games;
 	}
+	
+	public List<Game> getAllGames() {
+		Criteria c = session.createCriteria(Game.class);
+		c.addOrder(Order.asc("name"));
+		@SuppressWarnings("unchecked")
+		List<Game> gs = c.list();
+		return gs;
+	}
 
 }

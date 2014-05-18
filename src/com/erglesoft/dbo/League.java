@@ -35,6 +35,9 @@ public class League implements Serializable {
 	@Column(name="is_public")
 	private Boolean isPublic;
 	
+	@Column(name="active_flag")
+	private Boolean activeFlag;
+	
 	@Column(name="enable_standings")
 	private Boolean enableStandings;
 	
@@ -291,6 +294,14 @@ public class League implements Serializable {
 
 	public void setEnableLeaderboards(Boolean enableLeaderboards) {
 		this.enableLeaderboards = enableLeaderboards;
+	}
+
+	public Boolean getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Boolean activeFlag) {
+		this.activeFlag = activeFlag;
 	}
 
 }

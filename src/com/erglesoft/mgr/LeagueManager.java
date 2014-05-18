@@ -57,6 +57,7 @@ public class LeagueManager extends BaseManager {
 		league.setEnableLeaderboards(enableLeaderboards);
 		league.setEnableStandngs(enableStandings);
 		league.setIsPublic(isPublic);
+		league.setActiveFlag(true);
 	
 		LeagueLogin ll = new LeagueLogin();
 		ll.setLeague(league);

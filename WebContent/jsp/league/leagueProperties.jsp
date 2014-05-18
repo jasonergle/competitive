@@ -6,9 +6,9 @@
 <form id="league-properties" class="form-horizontal" method="post" action="<%=request.getContextPath() %>/saveLeague">
 	<fieldset>
 		<div class="pull-right">
-			<button class="btn btn-danger">Cancel</button>
 			<input type="hidden" name="leagueId" value="${model.league.id}">
 			<input type="hidden" name="action" value='${model.action}'>
+			<button class="btn btn-danger">Cancel</button>
 			<input type="submit" class="btn btn-primary" value="Save Properties">
 		</div>
 		<div class="form-group">
@@ -64,7 +64,7 @@
 						Leaderboards
 				</label> 
 				<label class="checkbox-inline" for="enableStandings"> 
-					<input type="checkbox" name="enableStandings" id="enableStandings""
+					<input type="checkbox" name="enableStandings" id="enableStandings"
 						value="Standings" <c:if test="${model.league.enableStandings}">checked="checked"</c:if>> 
 						Standings
 				</label>
@@ -74,7 +74,10 @@
 </form>
 
 <script>
-$(document).ready(function() {
-
-});
+$(document).ready(function() { 
+    // bind 'myForm' and provide a simple callback function 
+    $('#league-properties').ajaxForm(function() { 
+        alert("League Saved"); 
+    }); 
+}); 
 </script>

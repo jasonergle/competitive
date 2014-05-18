@@ -24,12 +24,10 @@ request.setAttribute("model", model);
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane active" id="tab_properties">
-					<%@include file="leagueProperties.jsp" %>
-				</div>
-				<div class="tab-pane" id="tab_participants"><h4>Teams and Players</h4></div>
+				<div class="tab-pane active" id="tab_properties"><%@include file="leagueProperties.jsp" %></div>
+				<div class="tab-pane" id="tab_participants"><%@include file="leagueParticipants.jsp" %></div>
 				<div class="tab-pane" id="tab_logins"><h4>Associated Logins</h4></div>	
-				<div class="tab-pane" id="tab_games"><h4>Supported Games</h4></div>	
+				<div class="tab-pane" id="tab_games"><%@include file="leagueGames.jsp" %></div>	
 			</div>	
 		</div>
 	</div>
