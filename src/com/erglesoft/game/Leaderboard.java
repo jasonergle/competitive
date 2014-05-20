@@ -56,6 +56,10 @@ public class Leaderboard {
 			rows.add(row);
 		}
 		Collections.sort(rows);
+		int rank = 1;
+		for(LeaderboardRow row: rows){
+			row.setRank(rank++);
+		}
 	}
 
 	public League getLeague() {

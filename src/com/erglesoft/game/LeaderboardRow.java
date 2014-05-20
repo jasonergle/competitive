@@ -11,6 +11,7 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 	private BigDecimal winPercentage;
 	private String urlParam;
 	private BigDecimal score;
+	private Integer rank;
 
 	public LeaderboardRow(Integer winCnt, Integer lossCnt, Team participant) {
 		this.label = participant.getName();
@@ -22,7 +23,7 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 			winPercentage = BigDecimal.valueOf((double)wins/(wins+losses));
 		score = BigDecimal.valueOf(((wins * 10) + (losses)) * winPercentage.doubleValue());
 		urlParam = String.format("%s=%s", "participant", participant.getId());
-		
+		rank = 0;
 	}
 
 	public String getLabel() {
@@ -48,6 +49,10 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 	public BigDecimal getScore() {
 		return score;
 	}
+	
+	public Integer getRank(){
+		return rank;
+	}
 
 	@Override
 	public int compareTo(LeaderboardRow o) {
@@ -59,6 +64,10 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 			return -1;
 		else
 			return -1 * score.compareTo(o.getScore());
+	}
+
+	public void setRank(int i) {
+		this.rank = i;
 	}
 	
 }

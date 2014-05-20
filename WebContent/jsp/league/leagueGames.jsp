@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <h4>Supported Games</h4>
-<table>
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>Name</th>
@@ -16,7 +16,10 @@
 		<tr>
 			<td>${game.name }</td>
 			<td>${game.teamSize }</td>
-			<td>${"" }</td>
+			<td>
+				<input type="checkbox" data-gameId="${game.id}" 
+						<c:if test="${model.isGameEnabled(game)}">checked="checked"</c:if>>
+			</td>
 		</tr>
 		</c:forEach>
 	</tbody>

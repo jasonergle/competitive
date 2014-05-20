@@ -38,10 +38,6 @@
 						<td><input type="text" value="<%=model.getLoginData().getLogin().getTitle() %>"/></td>
 					</tr>
 					<tr>
-						<td>Current League</td>
-						<td><%=model.getLoginData().getCurLeague().getName() %></td>
-					</tr>
-					<tr>
 						<td>Earned Achievements</td>
 						<td></td>
 					</tr>

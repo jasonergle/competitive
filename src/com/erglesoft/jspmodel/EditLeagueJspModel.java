@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.LeagueGame;
 import com.erglesoft.mgr.GameManager;
 import com.erglesoft.mgr.LeagueManager;
 
@@ -44,5 +45,14 @@ public class EditLeagueJspModel extends JspModel{
 	
 	public List<Game> getGames(){
 		return gMgr.getAllGames();
+	}
+	
+	public Boolean isGameEnabled(Game game){
+		for(LeagueGame lg: league.getLeagueGames()){
+			if(lg.getGame().getId().equals(game.getId())){
+				return true;
+			}
+		}
+		return false;
 	}
 }

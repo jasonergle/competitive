@@ -11,7 +11,7 @@ import com.erglesoft.game.Leaderboard;
 import com.erglesoft.mgr.GameManager;
 import com.erglesoft.mgr.TeamManager;
 
-public class LeaderboardsJspModel extends JspModel{
+public class HomeJspModel extends JspModel{
 
 	protected TeamManager pMgr;
 	protected GameManager gMgr;
@@ -19,7 +19,7 @@ public class LeaderboardsJspModel extends JspModel{
 	protected List<Game> allowedGames;
 	protected List<Leaderboard> leaderboards;
 	
-	public LeaderboardsJspModel(HttpServletRequest request) {
+	public HomeJspModel(HttpServletRequest request) {
 		super(request);
 		gMgr = new GameManager(request);
 		allowedGames = gMgr.getAllowedGames(loginData.getCurLeague());
@@ -39,6 +39,13 @@ public class LeaderboardsJspModel extends JspModel{
 
 	public List<Leaderboard> getLeaderboards() {
 		return leaderboards;
+	}
+	
+	public Boolean hasCurrentLeague(){
+		if(loginData.getCurLeague()==null)
+			return false;
+		else
+			return true;
 	}
 
 	
