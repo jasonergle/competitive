@@ -36,10 +36,13 @@ public class UpdateLeagueLoginsServlet extends HttpServlet {
 		String leagueLoginIdStr = request.getParameter("leagueLoginId");
 		String toAddStr = request.getParameter("toAdd");
 		String permissionTypeStr = request.getParameter("permissionType");
+		String toDeleteIdStr = request.getParameter("toDeleteId");
+		
 		Integer leagueLoginId = null;
 		Boolean toAdd = null;
 		LeaguePermission perm = null;
-		if(loginData == null || leagueLoginIdStr==null || toAddStr==null || permissionTypeStr==null){
+		Integer toDeleteId = null;
+		if(toDeleteIdStr == null && (loginData == null || leagueLoginIdStr==null || toAddStr==null || permissionTypeStr==null)){
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().write(gson.toJson(new ReturnData(false)));
 			return;
@@ -50,9 +53,14 @@ public class UpdateLeagueLoginsServlet extends HttpServlet {
 			perm = LeaguePermission.valueOf(permissionTypeStr);
 		}
 		catch(Exception e){
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().write(gson.toJson(new ReturnData(false)));
-			return;
+			try{
+				toDeleteId = Integer.parseInt(toDeleteIdStr);
+			}
+			catch(Exception e2){
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().write(gson.toJson(new ReturnData(false)));
+				return;
+			}
 		}
 		if(!loginData.getIsLeagueAdmin()){
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -60,7 +68,11 @@ public class UpdateLeagueLoginsServlet extends HttpServlet {
 			return;
 		}
 		LeagueManager leagueMgr = new LeagueManager(request);
-		leagueMgr.updateLeagueLogin(leagueLoginId, toAdd, perm);
+		if(toDeleteId==null)
+			leagueMgr.updateLeagueLogin(leagueLoginId, toAdd, perm);
+		else
+			leagueMgr.deleteLeagueLogin(toDeleteId);
+		
 		response.getWriter().write(gson.toJson(new ReturnData(true)));
 	}
 	

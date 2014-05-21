@@ -119,4 +119,11 @@ public class LeagueManager extends BaseManager {
 		session.getTransaction().commit();
 	}
 
+	public void deleteLeagueLogin(Integer toDeleteId) {
+		session.beginTransaction();
+		LeagueLogin ll = (LeagueLogin) session.get(LeagueLogin.class, toDeleteId);
+		session.delete(ll);
+		session.getTransaction().commit();
+	}
+
 }

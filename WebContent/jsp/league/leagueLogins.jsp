@@ -35,7 +35,7 @@
 					<c:if test="${leagueLogin.canEnterScores}">checked="checked"</c:if>>
 			</td>
 			<td>
-				<button class="btn btn-xs btn-danger delete-login" data-league-login-id="${leagueLogin.id}">
+				<button class="btn btn-xs btn-danger league-login-delete" data-league-login-id="${leagueLogin.id}">
 					Delete
 				</button>
 			</td>
@@ -48,6 +48,20 @@
 <script>
 $(document).ready(function() {
 	var $leagueLoginsTable = $('#leagueLoginsTable');
+	
+	var llDelete = $('.league-login-delete', $leagueLoginsTable);
+	llDelete.on("click", function(){
+		var $btn = $(this);
+		var leagueLoginId = $btn.attr("data-league-login-id");
+		$.ajax({
+			type: "POST",
+			url: $.erglesoft.contextPath+ '/updateLeagueLogins',
+			data: { toDeleteId : leagueLoginId},
+			dataType: 'json',
+			success: function(data) {
+				$btn.closest('tr').remove()
+			}});
+	});
 	
 	var llCheckbox = $('.league-login-checkbox', $leagueLoginsTable);
 	llCheckbox.on("click", function(){
