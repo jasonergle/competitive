@@ -14,4 +14,4 @@
 <script src="<%=request.getContextPath()%>/assets/libs/jquery.form.min.js"></script>
 <script src="<%=request.getContextPath() %>/assets/libs/bootbox-4.2.0.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/erglesoft.js"></script>
-
+<script>$.erglesoft.contextPath='<%=request.getContextPath()%>';</script>

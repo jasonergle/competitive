@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 
 import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.LeagueGame;
 import com.erglesoft.dbo.LeagueLogin;
 import com.erglesoft.dbo.Login;
 import com.erglesoft.login.UserLoginData;
@@ -73,6 +74,31 @@ public class LeagueManager extends BaseManager {
 		session.save(ll);
 		session.getTransaction().commit();
 		return league;
+	}
+
+	public void updateLeagueGameAssociation(League league, Integer gameId, Boolean toAdd) {
+		if(!toAdd){ // Removing
+			for(LeagueGame lg: league.getLeagueGames()){
+				if(lg.getGame().getId().equals(gameId)){
+					session.beginTransaction();
+					session.delete(lg);
+					session.getTransaction().commit();
+					return;
+				}
+				
+			}
+		}
+		else{ //Adding
+			GameManager gMgr = new GameManager(session,loginData);
+			LeagueGame lg = new LeagueGame();
+			lg.setLeague(league);
+			lg.setGame(gMgr.getGameById(gameId));
+			lg.setSortOrder((short)league.getLeagueGames().size());
+			session.beginTransaction();
+			session.save(lg);
+			session.getTransaction().commit();
+		}
+		
 	}
 
 }
