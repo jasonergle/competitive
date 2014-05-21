@@ -119,9 +119,11 @@ public class LeagueManager extends BaseManager {
 		session.getTransaction().commit();
 	}
 
-	public void deleteLeagueLogin(Integer toDeleteId) {
+	public void deleteLeagueLogin(Integer toDeleteId, League league) throws Exception {
 		session.beginTransaction();
 		LeagueLogin ll = (LeagueLogin) session.get(LeagueLogin.class, toDeleteId);
+		if(!ll.getLeague().getId().equals(league.getId()))
+			throw new Exception("ILLEGAL DELETE ASSOCIATION");
 		session.delete(ll);
 		session.getTransaction().commit();
 	}

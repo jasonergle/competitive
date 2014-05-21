@@ -71,7 +71,13 @@ public class UpdateLeagueLoginsServlet extends HttpServlet {
 		if(toDeleteId==null)
 			leagueMgr.updateLeagueLogin(leagueLoginId, toAdd, perm);
 		else
-			leagueMgr.deleteLeagueLogin(toDeleteId);
+			try {
+				leagueMgr.deleteLeagueLogin(toDeleteId, loginData.getCurLeague());
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				response.getWriter().write(gson.toJson(new ReturnData(false)));
+				return;
+			}
 		
 		response.getWriter().write(gson.toJson(new ReturnData(true)));
 	}

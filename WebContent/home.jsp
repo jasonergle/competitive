@@ -48,10 +48,8 @@
 										href="${pageContext.servletContext.contextPath}/viewStats.jsp?${row.getUrlParam()}">
 											${row.getLabel()} </a></td>
 									<td>${row.getWins()}/${row.getLosses()}</td>
-									<td><fmt:formatNumber type="number" maxIntegerDigits="1"
-											value="${row.getWinPercentage()}" /></td>
-									<td><fmt:formatNumber type="number" maxIntegerDigits="1"
-											value="${row.getScore()}" /></td>
+									<td><fmt:formatNumber type="number" maxIntegerDigits="1" value="${row.getWinPercentage()}" /></td>
+									<td><fmt:formatNumber type="number" value="${row.getScore()}" /></td>
 								</tr>
 							</c:forEach>
 						</tbody>
