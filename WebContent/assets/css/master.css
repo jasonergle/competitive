@@ -6,7 +6,7 @@ body {
 .italic{
 	font-style: italic;
 }
-.logoBase:hover,.navbar-default .logoBase:hover {
+.logoBase:hover, .navbar-default .logoBase:hover {
 	color: #679767;
 }
 .jumbotron > h1 {
@@ -18,5 +18,9 @@ body {
 }
 
 img.h2hlogo{
+	height: 25px;
+}
+.company-title .h2hlogo, .h2hlogo {
+	width: 29px;
 	height: 25px;
 }
