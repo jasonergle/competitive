@@ -53,10 +53,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<input type="email" name="email" id="email"
-								class="form-control input-lg" placeholder="Email Address"
-								tabindex="5" maxlength="50">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="form-group">
+									<input type="email" name="email" id="email"
+										class="form-control input-lg" placeholder="Email Address"
+										tabindex="5" maxlength="50">
+								</div>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6">
