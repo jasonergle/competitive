@@ -26,7 +26,7 @@ request.setAttribute("model", model);
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab_properties"><%@include file="leagueProperties.jsp" %></div>
 				<div class="tab-pane" id="tab_participants"><%@include file="leagueParticipants.jsp" %></div>
-				<div class="tab-pane" id="tab_logins"><h4>Associated Logins</h4></div>	
+				<div class="tab-pane" id="tab_logins"><%@include file="leagueLogins.jsp" %></div>	
 				<div class="tab-pane" id="tab_games"><%@include file="leagueGames.jsp" %></div>	
 			</div>	
 		</div>

@@ -1,12 +1,14 @@
 package com.erglesoft.jspmodel;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.LeagueGame;
+import com.erglesoft.dbo.LeagueLogin;
 import com.erglesoft.mgr.GameManager;
 import com.erglesoft.mgr.LeagueManager;
 
@@ -54,5 +56,9 @@ public class EditLeagueJspModel extends JspModel{
 			}
 		}
 		return false;
+	}
+	
+	public Set<LeagueLogin> getAssociatedLeagueLogins(){
+		return league.getLeagueLogins();
 	}
 }
