@@ -15,14 +15,14 @@ import com.erglesoft.mgr.LoginManager;
 /**
  * Servlet implementation class CreateNewAccount
  */
-@WebServlet("/createNewAccount")
-public class CreateNewAccount extends HttpServlet {
+@WebServlet("/users/update")
+public class UpdateAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateNewAccount() {
+    public UpdateAccount() {
         super();
     }
 
@@ -32,39 +32,40 @@ public class CreateNewAccount extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		LoginManager logMgr = new LoginManager(request);
-		
+		String userId = request.getParameter("userId");
+	
 		String first_name = request.getParameter("first_name");
 		String last_name = request.getParameter("last_name");
 		String display_name = request.getParameter("display_name");
 		String phone = request.getParameter("phone");
 		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String password_confirmation = request.getParameter("password_confirmation");
-		if(first_name == null || last_name == null || email == null || password == null || password_confirmation == null){
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Required data not found on post");
+		if(userId == null || first_name == null || last_name == null || email == null ){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"We're sorry, but we don't seem to understand some of your post.");
 			return;
 		}
+		Login login = logMgr.getLoginById(Integer.valueOf(userId));
+
 		if(first_name.equals("") || last_name.equals("")|| email.equals("")){
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"First Name, Last Name, and Email must be defined");
 			return;
 		}
-		if(!password.equals(password_confirmation) || password.length()<4){
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"New Password does not match confirmation password, or passwords are too short, min length 4 characters");
-			return;
-		}
 		Login target = logMgr.getLogin(email);
-		if(target!=null){
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"This Email is already in use, try a password reset instead");
+		if(target!=null &&  !login.getLogin().equalsIgnoreCase(email) ){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,"This Email is already in use.");
 			return;
 		}
+		login.setFirstName(first_name);
+		login.setLastName(last_name);
+		login.setPhone(phone);
+		login.setLogin(email);
 		try {
-			target= logMgr.createNewLogin(first_name, last_name, display_name, email, phone, password);
+			logMgr.commitLogin(login);
 		} catch (Exception e){
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-						"Login Creation failed");
+						"User profile update failed");
 			return;
 		}
-		UserLoginData userData = new UserLoginData(target);
+		UserLoginData userData = new UserLoginData(login);
 		UserLoginData.toHttpSession(request, userData);
 		response.sendRedirect(request.getContextPath()+"/");
 	}
