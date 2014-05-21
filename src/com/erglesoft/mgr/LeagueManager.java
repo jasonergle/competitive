@@ -16,6 +16,7 @@ import com.erglesoft.dbo.LeagueGame;
 import com.erglesoft.dbo.LeagueLogin;
 import com.erglesoft.dbo.Login;
 import com.erglesoft.login.UserLoginData;
+import com.erglesoft.servlet.LeaguePermission;
 
 public class LeagueManager extends BaseManager {
 
@@ -99,6 +100,23 @@ public class LeagueManager extends BaseManager {
 			session.getTransaction().commit();
 		}
 		
+	}
+
+	public void updateLeagueLogin(Integer leagueLoginId, Boolean toAdd, LeaguePermission perm) {
+		session.beginTransaction();
+		LeagueLogin ll = (LeagueLogin) session.get(LeagueLogin.class, leagueLoginId);
+		switch(perm){
+		case ADMIN:
+			ll.setIsAdmin(toAdd);
+			break;
+		case ENTER_SCORES:
+			ll.setCanEnterScores(toAdd);
+			break;
+		default:
+			break;
+		}
+		session.save(ll);
+		session.getTransaction().commit();
 	}
 
 }

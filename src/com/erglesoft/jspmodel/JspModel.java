@@ -1,5 +1,8 @@
 package com.erglesoft.jspmodel;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.login.UserLoginData;
@@ -22,6 +25,12 @@ public class JspModel {
 	}
 	public String getContextPath(){
 		return contextPath;
+	}
+	
+	public static Date getAsDate(Timestamp t){
+		if(t==null)
+			return null;
+		return new Date(t.getTime());
 	}
 
 }
