@@ -39,6 +39,10 @@ public class VersusMatchManager extends BaseManager {
 	public VersusMatchManager() {
 		super(HibernateUtil.currentSession(), null);
 	}
+	
+	public VersusMatch getVersusMatch(Integer matchId){
+		return (VersusMatch)session.get(VersusMatch.class, matchId);
+	}
 
 	public void createNewVersusMatch(String type,Set<VersusEntry> entries){
 		session.beginTransaction();
