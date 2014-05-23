@@ -2,6 +2,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<link rel="apple-touch-icon" href="<%=request.getContextPath()%>/assets/images/ram-apple-touch.png">
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/assets/images/ramHead_sq.ico" type="image/x-icon" />
 <link href="<%=request.getContextPath()%>/assets/libs/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">

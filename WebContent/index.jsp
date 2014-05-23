@@ -1,53 +1,46 @@
 <!DOCTYPE html>
-<!-- This site was created in Webflow. http://www.webflow.com-->
-<!-- Last Published: Tue May 06 2014 04:29:32 GMT+0000 (UTC) -->
-<html data-wf-site="535daa50e6ef15215d000418">
+<html>
 <head>
 <meta charset="utf-8">
 <title>Head To Head</title>
 <meta name="description"
 	content="Track games, series, seasons or whatever for everyone in your leagues.  Allow everyone to see up to date statistics with real-time standings and custom leader-boards.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="Webflow">
-<link rel="stylesheet" type="text/css" href="assets/css/normalize.css">
-<link rel="stylesheet" type="text/css" href="assets/css/webflow.css">
+
+<jsp:include page="header.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="assets/css/pong.webflow.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
 <script>
     WebFont.load({
       google: {
         families: ["Droid Sans:400,700","Roboto:regular,700,700italic,900","Dosis:regular,700"]
       }
     });
-  </script>
-<script type="text/javascript" src="assets/js/modernizr.js"></script>
-<link rel="shortcut icon" type="image/x-icon" href="assets/images/ramHead_sq.ico">
-<link rel="apple-touch-icon" href="assets/images/ram-apple-touch.png">
+	</script>
 </head>
 <body>
 	<div>
 		<div class="hero-bg">
-			<div class="section header">
-				<div class="w-container">
-					<div class="w-row">
-						<div class="w-col w-col-4 company-column">
+			<div class="section header jumbotron">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4 company-column">
 							<div class="company-title">
 								<img alt="head to head" src="assets/images/ramHead_l_sq.png"
 									class="h2hlogo" /> HeadToHead <img alt="head to head"
 									src="assets/images/ramHead_r_sq.png" class="h2hlogo" /> &nbsp;
 							</div>
 						</div>
-						<div class="w-col w-col-8 nav-bar">
-							<a class="nav-link" href="#page-nav-Section-1" target="_self">About</a>
+						<div class="col-sm-8 nav-bar">
 							<a class="nav-link" href="#page-nav-Section-2" target="_self">Search Leagues</a>
 							<a class="nav-link register" href="jsp/user/createAccount.jsp">Register</a>
+							<a class="nav-link" href="plans.jsp" target="_self">Plans</a>
 							<a class="nav-link sign-up" href="signin.jsp">Sign In</a>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="w-container">
+			<div class="container">
 				<h1 id="page-nav-Section-1">Track your League</h1>
 				<div class="subtitle">
 					All sized leagues:  From office teams, intramural, to even full sized professionally managed leagues.
@@ -55,9 +48,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="w-hidden-main w-hidden-medium">
-		<div class="w-row">
-			<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+	<div class="container visible-xs visible-sm">
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="snippet-text-section">
 					<div class="snippet-title">Most games supported</div>
 					<div class="snippet-text">
@@ -66,7 +59,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="snippet-text-section">
 					<div class="snippet-title">Easy entry of scores</div>
 					<div class="snippet-text">
@@ -75,7 +68,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="snippet-text-section">
 					<div class="snippet-title">Free to use</div>
 					<div class="snippet-text">
@@ -84,7 +77,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="snippet-text-section">
 					<div class="snippet-title">Mobile Device friendly</div>
 					<div class="snippet-text">Easy to track and view on the go.</div>
@@ -92,10 +85,10 @@
 			</div>
 		</div>
 	</div>
-	<div class="w-hidden-small w-hidden-tiny section">
-		<div class="w-container">
-			<div class="w-row new-class">
-				<div class="w-col w-col-9">
+	<div class="hidden-xs hidden-sm section">
+		<div class="container">
+			<div class="row new-class">
+				<div class="col-md-9">
 					<h4>League Tracking</h4>
 					<div class="section-description">
 					Easily track your league's record.  Whether you run a professionally managed sports league and need
@@ -105,92 +98,93 @@
 					choose to link them to.
 					</div>
 				</div>
-				<div class="w-col w-col-3 right-col">
-					<a class="more-link" href="plans.html" target="_self">View More</a>
+				<div class="col-md-3">
+					<a class="more-link pull-right" href="plans.jsp" target="_self">View More</a>
 				</div>
 			</div>
-			<div class="w-row snippet-row">
-				<div class="w-col w-col-4">
+			<div class="row snippet-row">
+				<div class="col-md-4">
 					<div class="snippet-title">Easy to Track a League</div>
 					<div class="snippet-text">
 					Simply create a league, pick games the league plays, name your teams, and you are ready to start 
 					tracking matches.
 					</div>
 					<a class="w-clearfix w-inline-block snippet" href="#"> 
-						<img class="example-image" src="assets/images/tennis_sm.jpg"
+						<img class="example-image img-rounded" src="assets/images/tennis_sm.jpg"
 						alt="tennis balls">
 					</a>
 				</div>
-				<div class="w-col w-col-4">
+				<div class="col-md-4">
 					<div class="snippet-title">Easy entry of scores</div>
 					<div class="snippet-text">
 					You can determine who can enter scores for matches in your league.  The scores can be entered by
 					computer or from your favorite smart phone.  It takes only a few seconds to enter a match.
 					</div>
 					<a class="w-clearfix w-inline-block snippet" href="#">
-						<img class="example-image" src="assets/images/scoreEntry_sm.png"
+						<img class="example-image img-rounded" src="assets/images/scoreEntry_sm.png"
 						alt="Head to Head Score entry">
 					</a>
 				</div>
-				<div class="w-col w-col-4">
+				<div class="col-md-4">
 					<div class="snippet-title">Free to use</div>
 					<div class="snippet-text">
 					Track your leagues matches, view leaderboards or standings for your league, manage it's player, all
 					for free!  If you are feeling frisky, we offer more advanced features as well.
 					</div>
-					<a class="w-clearfix w-inline-block snippet" href="plans.html">
-						<img class="example-image" src="assets/images/beerMugs_sm.jpg"
+					<a class="w-clearfix w-inline-block snippet" href="plans.jsp">
+						<img class="example-image img-rounded" src="assets/images/beerMugs_sm.jpg"
 						alt="Beer Mugs">
 					</a>
 				</div>
 			</div>
-			<div class="w-row secondary-row">
-				<div class="w-col w-col-8 w-col-small-6">
+			<div class="row secondary-row">
+				<div class="col-md-8 col-sm-6">
 					<h4>Build team excitement</h4>
 					<p>Bring together your team.&nbsp;&nbsp;Move your stats from
 						the whiteboard to online without fear of the cleaning lady wiping
 						your month's scores (or the guy who just got the mercy rule).</p>
 				</div>
-				<div class="w-col w-col-4 w-col-small-6 button-column">
-					<a class="button" href="plans.html">View Plans</a>
+				<div class="col-md-4 col-sm-6 button-column">
+					<a class="button" href="plans.jsp">View Plans</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="content-bg">
-		<div class="w-container">
+		<div class="container">
 			<h2 id="page-nav-Section-2">Get everyone on the same page...
 				Allowing for real-time updates and crowd sourced data entry.</h2>
 		</div>
 	</div>
 	<div class="section">
-		<div class="w-container">
-			<div class="w-row">
-				<div class="w-col w-col-6">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
 					<h4>Simple. With most game types supported</h4>
 					<p>We are continuously building more game types to support your
 						tracking.&nbsp;&nbsp;We will take requests for any aditional type
 						not found in our system already.</p>
-					<div class="w-row">
-						<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+					<div class="row">
+						<div class="col-sm-3 col-xs-6">
 							<p>
 								Bocce Ball <br>Flag Football <br>Dodge Ball <br>Billiards
 								<br>Darts
 							</p>
 						</div>
-						<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+						<div class="col-sm-3 col-xs-6">
 							<p>
 								Halo <br>Thumb Wrestling <br>Chop Sticks <br>House
 								Filping <br>Tennis
 							</p>
 						</div>
-						<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+						<div class="clearfix visible-xs"></div>
+						<div class="col-sm-3 col-xs-6">
 							<p>
 								Soccer <br>Pickup Games <br>Basketball <br>Softball
 								<br>Baseball
 							</p>
 						</div>
-						<div class="w-col w-col-3 w-col-small-6 w-col-tiny-6">
+						<div class="col-sm-3 col-xs-6">
 							<p>
 								Punch Bug <br>Kickball <br>Table Tennis <br>Fooseball
 								<br>Beer Pong
@@ -198,17 +192,20 @@
 						</div>
 					</div>
 				</div>
-				<div class="w-col w-col-6">
-					<div class="w-row">
-						<div class="w-col w-col-6">
-							<img class="img-example" src="assets/images/shuffleboard_sm.jpg"
-								alt="Shuffleboard"> <img
-								class="img-example" src="assets/images/pong_wide.jpg"
-								alt="Ping Pong Paddle">
-						</div>
-						<div class="w-col w-col-6">
+				<div class="hidden-xs col-sm-12 col-md-4">
+					<div class="row">
+						<div class="col-sm-4 col-md-6">
 							<img class="img-example" src="assets/images/flagfbPlaybook.jpg"
 								alt="Flag Football Playbook">
+						</div>
+						<div class="col-sm-4 col-md-6">
+							<img class="img-example" src="assets/images/shuffleboard_sm.jpg"
+								alt="Shuffleboard">
+						</div>
+						<div class="clearfix visible-xs"></div>
+						<div class="col-sm-4 col-md-6">
+							<img class="img-example" src="assets/images/pong_wide.jpg"
+								alt="Ping Pong Paddle">
 						</div>
 					</div>
 				</div>
@@ -216,52 +213,41 @@
 		</div>
 	</div>
 	<div class="content-bg two">
-		<div class="w-container">
+		<div class="container">
 			<h2 id="page-nav-Section-3">All sized leagues:&nbsp;&nbsp;From
 				office teams, intramural, and full sized corporate leagues.</h2>
 		</div>
 	</div>
 	<div class="section grey">
-		<div class="w-container">
-			<div class="w-row secondary-row">
-				<div class="w-col w-col-8 w-col-small-6">
+		<div class="container">
+			<div class="row secondary-row">
+				<div class="col-md-8 col-sm-6">
 					<h4>Try it out for free</h4>
 					<p>Easily add teams and/or players and start tracking your
 						conquests in a few minutes.&nbsp;&nbsp;Allow team members to log
 						games too, allowing you more time to win them.</p>
 				</div>
-				<div class="w-col w-col-4 w-col-small-6 button-column">
+				<div class="col-md-4 col-sm-6 button-column">
 					<a class="button" href="jsp/user/createAccount.jsp">Setup your league</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="section">
-		<div class="w-container">
-			<div class="w-row">
-				<div class="w-col w-col-6 left-footer-col">
-					<div class="footer-text">©&nbsp;kewtec, inc. All Rights
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 left-footer-col">
+					<div class="footer-text">&copy; &nbsp;kewtec, inc. All Rights
 						Reserved.</div>
 				</div>
-				<div class="w-col w-col-6 footer-nav-bar">
+				<div class="col-md-6 footer-nav-bar">
 					<a class="footer-link" href="http://www.kewtec.com">kewtec</a> 
 					<a class="footer-link" href="http://www.erglesoft.com">Erglesoft</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script type="text/javascript" src="assets/js/webflow.js"></script>
-	<!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
-	<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	ga('create', 'UA-50481107-1', 'headtohead.us');
-	ga('require', 'displayfeatures');
-	ga('send', 'pageview');
-</script>
+	<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
