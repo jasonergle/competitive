@@ -53,6 +53,7 @@ $(document).ready(function() {
 				, $newInputContainer = $container.clone();
 				$(this).attr('name', name + "_orig");
 				$newInputContainer.insertAfter($container);
+				$newInputContainer.find('input.score').val("");
 			});
 			lockScores($scores);
 		};
