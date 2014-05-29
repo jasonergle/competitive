@@ -21,7 +21,7 @@
 	<div class="container">
 		<c:choose>
 			<c:when test="${!model.hasCurrentLeague()}">
-		     You must be a member of a League to do anything interesting.  You can <ahref'">join
+		     You must be a member of a League to do anything interesting.  You can <a href="">join
 				an existing league</a> or you can <a
 					href="${pageContext.servletContext.contextPath}/jsp/league/editLeague.jsp?action=CREATE">create
 					a new league</a>. 

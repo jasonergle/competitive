@@ -50,6 +50,8 @@ public class EditLeagueJspModel extends JspModel{
 	}
 	
 	public Boolean isGameEnabled(Game game){
+		if(league==null || league.getLeagueGames()==null)
+			return false;
 		for(LeagueGame lg: league.getLeagueGames()){
 			if(lg.getGame().getId().equals(game.getId())){
 				return true;

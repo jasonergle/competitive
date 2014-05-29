@@ -77,7 +77,10 @@
 $(document).ready(function() { 
     // bind 'myForm' and provide a simple callback function 
     $('#league-properties').ajaxForm(function() { 
-        alert("League Saved"); 
+    	bootbox.alert("League Properties Saved!", 
+    				function(){
+    					location = location.href.replace("action=CREATE", "action=EDIT");
+    				})
     }); 
 }); 
 </script>

@@ -48,7 +48,7 @@
 							<div class="col-xs-6 col-sm-6 col-md-6">
 								<div class="form-group">
 									<input type="text" name="phone" id="phone"
-										class="form-control input-lg" placeholder="Phone Number"
+										class="form-control input-lg" placeholder="Phone Number(Optional)"
 										tabindex="4" maxlength="14">
 								</div>
 							</div>

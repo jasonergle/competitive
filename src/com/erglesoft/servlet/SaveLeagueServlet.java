@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.erglesoft.dbo.League;
+import com.erglesoft.dbo.Login;
 import com.erglesoft.jspmodel.JspModelAction;
 import com.erglesoft.login.UserLoginData;
 import com.erglesoft.mgr.LeagueManager;
@@ -62,9 +63,12 @@ public class SaveLeagueServlet extends HttpServlet {
 			lm.commitLeague(league);
 		}
 		else{
+			Login curLogin = loginMgr.getLogin(loginData.getLogin().getId());
 			league = lm.createNewLeague(loginData, name, abbr, password, enableLeaderboards, enableStandings, isPublic);
+			loginMgr.setCurrentLeague(curLogin, league);
+			UserLoginData newLoginData = new UserLoginData(curLogin);
+			UserLoginData.toHttpSession(request, newLoginData);
 		}
-		loginMgr.setCurrentLeague(loginMgr.getLogin(loginData.getLogin().getId()), league);
 	}
 
 }
