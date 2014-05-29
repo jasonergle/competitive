@@ -53,6 +53,7 @@ $(document).ready(function() {
 				, $newInputContainer = $container.clone();
 				$(this).attr('name', name + "_orig");
 				$newInputContainer.insertAfter($container);
+				$newInputContainer.find('input.score').val("");
 			});
 			lockScores($scores);
 		};
@@ -61,8 +62,16 @@ $(document).ready(function() {
 			.makeUniqueChoice();
 		
 		$('.setMax', $root).click(function(){
-			var $rowScore = $(this).closest('.row').find('.score');
-			$rowScore.val(gameData.maxScore);
+			var $scores = $('input.score', $root)
+				, $rowScore = $(this).closest('.row').find('input.score');
+
+			// Hacky way to make a quick deuce score.
+			if ($scores.not($rowScore).val() >= gameData.maxScore) {
+				$scores.not($rowScore).val(gameData.maxScore - 1);
+				$rowScore.val(gameData.absoluteMaxScore);
+			} else {
+				$rowScore.val(gameData.maxScore);
+			}
 			validateForm();
 			return false;
 		});
