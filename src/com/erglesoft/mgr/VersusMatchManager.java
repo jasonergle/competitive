@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -72,11 +73,13 @@ public class VersusMatchManager extends BaseManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<VersusMatch> getAllMatchesForGame(League league, Game game){
+	public List<VersusMatch> getAllMatchesForGame(League league, Game game, Date startDate, Date endDate){  
 		Criteria c = session.createCriteria(VersusMatch.class);
 		c.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		c.add(Restrictions.eq("game", game));
 		c.add(Restrictions.eq("league", league));
+		if(startDate!=null && endDate!=null)
+			c.add(Restrictions.between("matchDate", startDate, endDate)); 
 		c.createAlias("versusEntries", "matchEntries", JoinType.LEFT_OUTER_JOIN);
 		return c.list();
 	}

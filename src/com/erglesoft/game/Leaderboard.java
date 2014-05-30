@@ -1,7 +1,9 @@
 package com.erglesoft.game;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,20 +24,26 @@ public class Leaderboard {
 	private List<LeaderboardRow> rows;
 	private TeamManager pMgr;
 	private VersusMatchManager mMgr;
+	private Date startDate;
+	private Date endDate;
 	
-	public Leaderboard(League league, Game game) {
+	public Leaderboard(League league, Game game, Date startDate, Date endDate) {
 		this.league= league;
 		this.game = game;
 		this.title = String.format("%s - %s Leaderboards", league.getName(), game.getName());
 		rows = new ArrayList<LeaderboardRow>();
 		pMgr = new TeamManager();
 		mMgr = new VersusMatchManager();
+		
+		this.endDate = endDate;  
+		this.startDate = startDate;
+		
 		buildLeaderboardRows();
 		
 	}
 
 	private void buildLeaderboardRows() {
-		List<VersusMatch> matches = mMgr.getAllMatchesForGame(league, game);
+		List<VersusMatch> matches = mMgr.getAllMatchesForGame(league, game, startDate, endDate);
 		Map<Team, MatchResults> teams = new HashMap<Team, MatchResults>();
 		for(VersusMatch vm: matches){
 			Set<VersusEntry> entries = vm.getVersusEntries();
