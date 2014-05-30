@@ -2,7 +2,6 @@ package com.erglesoft.mgr;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,12 +43,6 @@ public class PlayerManager extends BaseManager{
 		players.addAll(l.getPlayers());
 		Collections.sort(players, new PlayerComparator());
 		return players;
-	}
-	
-	class PlayerComparator implements Comparator<Player> {
-	    public int compare(Player p1, Player p2) {
-	        return p1.getName().compareTo(p2.getName());
-	    }
 	}
 
 }

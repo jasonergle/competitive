@@ -9,12 +9,15 @@ import com.erglesoft.dbo.Game;
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.LeagueGame;
 import com.erglesoft.dbo.LeagueLogin;
+import com.erglesoft.dbo.Player;
 import com.erglesoft.mgr.GameManager;
 import com.erglesoft.mgr.LeagueManager;
+import com.erglesoft.mgr.PlayerManager;
 
 public class EditLeagueJspModel extends JspModel{
 	LeagueManager leagueMgr;
 	GameManager gMgr;
+	PlayerManager pMgr;
 	League league;
 	JspModelAction action;
 	
@@ -22,6 +25,7 @@ public class EditLeagueJspModel extends JspModel{
 		super(request);
 		leagueMgr = new LeagueManager(request);
 		gMgr = new GameManager(request);
+		pMgr = new PlayerManager(request);
 		action = JspModelAction.valueOf(request.getParameter("action"));
 		if(action==JspModelAction.EDIT){
 			if(!loginData.getIsLeagueAdmin()){
@@ -62,5 +66,9 @@ public class EditLeagueJspModel extends JspModel{
 	
 	public Set<LeagueLogin> getAssociatedLeagueLogins(){
 		return league.getLeagueLogins();
+	}
+	
+	public List<Player> getSortedPlayersForLeague(){
+		return pMgr.getAllPlayersForLeague(league);
 	}
 }
