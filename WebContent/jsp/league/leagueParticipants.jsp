@@ -6,26 +6,33 @@
 	<thead>
 		<tr>
 			<th>Name</th>
-			<th>Associated Login</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach var="player" items="${model.getSortedPlayersForLeague()}">
 			<tr>
 				<td>${player.name }</td>
-				<td>${player.associatedLogin.firstName } ${player.associatedLogin.lastName }</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
 
 <h4>Teams</h4>
-<table>
+<table id="teamTable" class="table table-striped">
 	<thead>
 		<tr>
-			<th></th>
+			<th>Name</th>
+			<th>Size</th>
 		</tr>
 	</thead>
+	<tbody>
+		<c:forEach var="team" items="${model.getSortedTeamsForLeague()}">
+			<tr>
+				<td>${team.name }</td>
+				<td>${team.teamPlayers.size() }</td>
+			</tr>
+		</c:forEach>
+	</tbody>
 </table>
 
 <script>

@@ -1,6 +1,7 @@
 package com.erglesoft.mgr;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +51,7 @@ public class TeamManager extends BaseManager{
 		League l = (League) session.get(League.class, league.getId());
 		List<Team> team = new ArrayList<Team>();
 		team.addAll(l.getTeams());
+		Collections.sort(team, new TeamComparator());
 		return team;
 	}
 	
