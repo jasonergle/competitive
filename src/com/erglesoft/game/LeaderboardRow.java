@@ -9,7 +9,7 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 	private Integer wins;
 	private Integer losses;
 	private BigDecimal winPercentage;
-	private String urlParam;
+	private Integer teamId;
 	private BigDecimal score;
 	private Integer rank;
 
@@ -22,7 +22,7 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 		else
 			winPercentage = BigDecimal.valueOf((double)wins/(wins+losses));
 		score = BigDecimal.valueOf(((wins * 10) + (losses)) * winPercentage.doubleValue());
-		urlParam = String.format("%s=%s", "participant", participant.getId());
+		teamId = participant.getId();
 		rank = 0;
 	}
 
@@ -40,10 +40,6 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 
 	public BigDecimal getWinPercentage() {
 		return winPercentage;
-	}
-
-	public String getUrlParam() {
-		return urlParam;
 	}
 
 	public BigDecimal getScore() {
@@ -68,6 +64,10 @@ public class LeaderboardRow implements Comparable<LeaderboardRow> {
 
 	public void setRank(int i) {
 		this.rank = i;
+	}
+
+	public Integer getTeamId() {
+		return teamId;
 	}
 	
 }

@@ -1,7 +1,6 @@
 package com.erglesoft.game;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,12 +17,12 @@ import com.erglesoft.mgr.TeamManager;
 import com.erglesoft.mgr.VersusMatchManager;
 
 public class Leaderboard {
-	private League league;
-	private Game game;
+	private transient League league;
+	private transient Game game;
 	private String title;
 	private List<LeaderboardRow> rows;
-	private TeamManager pMgr;
-	private VersusMatchManager mMgr;
+	private transient TeamManager pMgr;
+	private transient VersusMatchManager mMgr;
 	private Date startDate;
 	private Date endDate;
 	

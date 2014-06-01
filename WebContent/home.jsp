@@ -1,5 +1,4 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -7,8 +6,8 @@
 <%@page import="com.erglesoft.jspmodel.*"%>
 <%@page import="com.erglesoft.game.*"%>
 <%
-	HomeJspModel model = new HomeJspModel(request);
-	request.setAttribute("model", model);
+HomeJspModel model = new HomeJspModel(request);
+request.setAttribute("model", model);
 %>
 <html>
 <head>
@@ -28,47 +27,64 @@
 			</c:when>
 
 			<c:otherwise>
-				<c:forEach var="board" items="${model.getLeaderboards()}">
-					<h5>${board.getTitle() }</h5>
-					<table id="statTablePlayers" class="statTable table table-striped">
-						<thead>
-							<tr>
-								<th style="width: 40px;">Rank</th>
-								<th>Name</th>
-								<th style="width: 50px;">W/L</th>
-								<th style="width: 50px;">Win%</th>
-								<th style="width: 50px;">Score</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="row" items="${board.rows}">
-								<tr>
-									<td>${row.rank}</td>
-									<td><a class=""
-										href="${pageContext.servletContext.contextPath}/viewStats.jsp?${row.getUrlParam()}">
-											${row.getLabel()} </a></td>
-									<td>${row.getWins()}/${row.getLosses()}</td>
-									<td><fmt:formatNumber type="number" maxIntegerDigits="1" value="${row.getWinPercentage()}" /></td>
-									<td><fmt:formatNumber type="number" value="${row.getScore()}" /></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<br />
-
+				<div id="reportrange" class="pull-right">
+				    <i class="fa fa-calendar fa-lg"></i>
+				    <span>This Month</span> <b class="caret"></b>
+				</div>
+				<c:forEach var="game" items="${model.getAllowedGames()}">
+					<div class="lbContainer" data-league-id="${model.curLeague.id}" data-game-id="${game.id}" >
+					
+					</div>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
 	</div>
 	<script>
 		$(document).ready(function() {
-
-			$('.statTable').DataTable({
-				bFilter : false,
-				bLengthChange : false,
-				bPaginate : true,
-				aaSorting : [ [ 0, "asc" ] ]
-			});
+			var buildTables = function(start, end){
+				$('.lbContainer').each(function(){
+					var div = $(this);
+					var leagueId = $(this).attr("data-league-id");
+					var gameId = $(this).attr("data-game-id");
+					var postData = { leagueId: leagueId, gameId: gameId, start: start, end: end };
+					
+					$.ajax({
+						url: $.erglesoft.contextPath+'/jsp/leaderboard/leaderboardTable.jsp',
+						data: postData,
+						dataType: "html",
+						success:function(data){
+							div.empty();
+							div.append(data);
+							$('.lbTable', div).DataTable({
+								bFilter : false,
+								bLengthChange : false,
+								bPaginate : true,
+								aaSorting : [ [ 0, "asc" ] ]
+							});
+						}
+					});
+				});
+			};
+			buildTables(moment().startOf('month').valueOf(), moment().endOf('month').valueOf());
+			
+			$('#reportrange').daterangepicker(
+			    {
+			      ranges: {
+			         'Today': [moment(), moment()],
+			         'Last 7 Days': [moment().subtract('days', 6), moment()],
+			         'Last 30 Days': [moment().subtract('days', 29), moment()],
+			         'This Month': [moment().startOf('month'), moment().endOf('month')],
+			         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
+			         'All Time': [moment("Jan 1, 2000"), moment()]
+			      },
+			      startDate: moment().startOf('month'),
+			      endDate: moment().endOf('month')
+			    },
+			    function(start, end) {
+			        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+			        buildTables(start.valueOf(), end.valueOf());
+			    }
+			);
 
 		});
 
