@@ -32,7 +32,8 @@
 							</div>
 						</div>
 						<div class="col-sm-8 nav-bar">
-							<a class="nav-link" href="#page-nav-Section-2" target="_self">Search Leagues</a>
+							<a class="nav-link" href="#about" target="_self">About</a>
+							<a class="nav-link" href="#leaderboards" target="_self">View Leaderboards</a>
 							<a class="nav-link register" href="jsp/user/createAccount.jsp">Register</a>
 							<a class="nav-link" href="plans.jsp" target="_self">Plans</a>
 							<a class="nav-link sign-up" href="signin.jsp">Sign In</a>
@@ -41,7 +42,7 @@
 				</div>
 			</div>
 			<div class="container">
-				<h1 id="page-nav-Section-1">Track your League</h1>
+				<h1>Track your League</h1>
 				<div class="subtitle">
 					All sized leagues:  From office teams, intramural, to even full sized professionally managed leagues.
 				</div>
@@ -86,7 +87,7 @@
 		</div>
 	</div>
 	<div class="hidden-xs hidden-sm section">
-		<div class="container">
+		<div id="about" class="container">
 			<div class="row new-class">
 				<div class="col-md-9">
 					<h4>League Tracking</h4>
@@ -138,27 +139,6 @@
 				</div>
 			</div>
 			<div class="row secondary-row">
-				<div class="col-md-8 col-sm-6">
-					<h4>Build team excitement</h4>
-					<p>Bring together your team.&nbsp;&nbsp;Move your stats from
-						the whiteboard to online without fear of the cleaning lady wiping
-						your month's scores (or the guy who just got the mercy rule).</p>
-				</div>
-				<div class="col-md-4 col-sm-6 button-column">
-					<a class="button" href="plans.jsp">View Plans</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="content-bg">
-		<div class="container">
-			<h2 id="page-nav-Section-2">Get everyone on the same page...
-				Allowing for real-time updates and crowd sourced data entry.</h2>
-		</div>
-	</div>
-	<div class="section">
-		<div class="container">
-			<div class="row">
 				<div class="col-md-8">
 					<h4>Simple. With most game types supported</h4>
 					<p>We are continuously building more game types to support your
@@ -210,19 +190,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="content-bg two">
-		<div class="container">
-			<h2 id="page-nav-Section-3">All sized leagues:&nbsp;&nbsp;From
-				office teams, intramural, and full sized corporate leagues.</h2>
-		</div>
-	</div>
-	<div class="section grey">
-		<div class="container">
 			<div class="row secondary-row">
 				<div class="col-md-8 col-sm-6">
-					<h4>Try it out for free</h4>
+					<h4>Try <i>Head To Head</i> out for free</h4>
 					<p>Easily add teams and/or players and start tracking your
 						conquests in a few minutes.&nbsp;&nbsp;Allow team members to log
 						games too, allowing you more time to win them.</p>
@@ -233,12 +203,27 @@
 			</div>
 		</div>
 	</div>
+	<div id="leaderboards" class="content-bg">
+		<div class="container">
+			<h2>View Popular Public Leaderboards</h2>
+		</div>
+	</div>
+	<div class="section">
+		<div class="container">
+
+		</div>
+	</div>
+	<div class="content-bg two">
+		<div class="container">
+			<h2 id="page-nav-Section-3">All sized leagues:&nbsp;&nbsp;From
+				office teams, intramural, and full sized corporate leagues.</h2>
+		</div>
+	</div>
 	<div class="section">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 left-footer-col">
-					<div class="footer-text">&copy; &nbsp;kewtec, inc. All Rights
-						Reserved.</div>
+					<div class="footer-text">&copy; &nbsp;Erglesoft, Inc. All Rights Reserved.</div>
 				</div>
 				<div class="col-md-6 footer-nav-bar">
 					<a class="footer-link" href="http://www.erglesoft.com">Erglesoft</a>
