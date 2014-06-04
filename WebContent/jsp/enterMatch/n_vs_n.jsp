@@ -44,7 +44,7 @@
 				<div class="row">
 					<div class="col-xs-3 col-sm-2">
 						<input name="score${entryNum}" class="score form-control" data-entry-num="${entryNum}"
-								type="number" size="2" min="0" max="${game.maxScore}" value="" placeholder="${game.maxScore}"/>
+								type="number" size="2" min="0" max="${game.maxScore}" value=""/>
 					</div>
 					<div class="col-xs-1">
 						<button type="button" class="btn btn-sm btn-success setMax" title="Set Max">
