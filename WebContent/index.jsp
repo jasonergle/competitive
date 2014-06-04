@@ -241,8 +241,8 @@
 						Reserved.</div>
 				</div>
 				<div class="col-md-6 footer-nav-bar">
-					<a class="footer-link" href="http://www.kewtec.com">kewtec</a> 
 					<a class="footer-link" href="http://www.erglesoft.com">Erglesoft</a>
+					<a class="footer-link" href="http://www.kewtec.com">kewtec</a>
 				</div>
 			</div>
 		</div>

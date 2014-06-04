@@ -13,10 +13,10 @@ if(request.getSession().getAttribute("player")!=null){
 		<jsp:include page="header.jsp"></jsp:include>
 	</head>
 	<body>
-		<div class="jumbotron">
+		<div class="jumbotron" style="padding-top: 0">
 			<div class="container">
 				<h1 class="logoBase">Head<span class="text-muted">to</span>Head</h1>
-				<p><img class="img-thumbnail" src="assets/images/pongGuys.gif" /></p>
+				<p><img class="img-thumbnail" src="assets/images/pongGuys.gif" style="height:150px;"/></p>
 				<h3>Please Sign In</h3>
 				<div class="row">
 					<div class="col-xs-offset-1 col-xs-10 col-sm-offset-4 col-sm-4">
