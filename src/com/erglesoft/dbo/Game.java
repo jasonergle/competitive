@@ -41,6 +41,12 @@ public class Game implements Serializable {
 	private Integer minWinningScore;
 
 	private String name;
+	
+	@Column(name="description")
+	private String description;
+	
+	@Column(name="background_image")
+	private String backgroundImage;
 
 	@Column(name="team_size")
 	private Integer teamSize;
@@ -189,6 +195,22 @@ public class Game implements Serializable {
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", name=" + name + "]";
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(String backgroundImage) {
+		this.backgroundImage = backgroundImage;
 	}
 
 }

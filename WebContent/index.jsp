@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@page import="com.erglesoft.jspmodel.*"%>
+<%
+IndexJspModel model = new IndexJspModel(request);
+request.setAttribute("model", model);
+%>
 <html>
 <head>
 <meta charset="utf-8">
@@ -145,31 +152,17 @@
 						tracking.&nbsp;&nbsp;We will take requests for any aditional type
 						not found in our system already.</p>
 					<div class="row">
-						<div class="col-sm-3 col-xs-6">
-							<p>
-								Bocce Ball <br>Flag Football <br>Dodge Ball <br>Billiards
-								<br>Darts
-							</p>
-						</div>
-						<div class="col-sm-3 col-xs-6">
-							<p>
-								Halo <br>Thumb Wrestling <br>Chop Sticks <br>House
-								Filping <br>Tennis
-							</p>
-						</div>
-						<div class="clearfix visible-xs"></div>
-						<div class="col-sm-3 col-xs-6">
-							<p>
-								Soccer <br>Pickup Games <br>Basketball <br>Softball
-								<br>Baseball
-							</p>
-						</div>
-						<div class="col-sm-3 col-xs-6">
-							<p>
-								Punch Bug <br>Kickball <br>Table Tennis <br>Fooseball
-								<br>Beer Pong
-							</p>
-						</div>
+						<table class="table table-striped"><tbody>
+						<c:forEach var="game" items="${model.games}" varStatus="status" >
+							<c:if test="${status.index %5==0 }">
+								<c:if test="${status.index >0 }">
+									</tr>
+								</c:if>
+								<tr>
+							</c:if>
+							<td><b><a href="game/${game.type.toLowerCase()}">${game.name}</a></b></td>
+						</c:forEach>
+						</tbody></table>
 					</div>
 				</div>
 				<div class="hidden-xs col-sm-12 col-md-4">

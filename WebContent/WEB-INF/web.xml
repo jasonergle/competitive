@@ -17,4 +17,15 @@
     <param-name>configFile</param-name>
     <param-value>/nuttin</param-value>
   </context-param>
+  
+  <servlet>
+    <servlet-name>Games</servlet-name>
+    <jsp-file>/jsp/game/gameInfo.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Games</servlet-name>
+    <url-pattern>/game/*</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

@@ -43,6 +43,7 @@ public class AuthenticateFilter implements Filter {
 			HttpServletRequest httpRequest = (HttpServletRequest)request;
 			String path = httpRequest.getServletPath();
 			if(!path.equals("/") 
+					&& !path.startsWith("/game") 
 					&& !path.startsWith("/login") 
 					&& !path.startsWith("/assets/") 
 					&& !path.startsWith("/index.jsp")
