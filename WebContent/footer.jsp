@@ -1,3 +1,16 @@
+<div id ="footer" class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 left-footer-col">
+				<div class="footer-text">&copy; &nbsp;Erglesoft, Inc. All Rights Reserved.</div>
+			</div>
+			<div class="col-md-6 footer-nav-bar">
+				<a class="footer-link" href="http://www.erglesoft.com">Erglesoft</a>
+				<a class="footer-link" href="http://www.kewtec.com">kewtec</a>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/webflow.js"></script>
 <!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
 <script>

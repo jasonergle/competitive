@@ -11,35 +11,34 @@ request.setAttribute("model", model);
 	<head>
 		<title>Head To Head - ${model.game.name} Page</title>
 		<jsp:include page="/header.jsp"></jsp:include>
+		<meta name="description" content="Description of ${model.game.name}">
 		<style>
-			#main {
-   position: relative;
-}
-#bg {
-    content : "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url(${pageContext.servletContext.contextPath}${model.game.backgroundImage});
-    width: 100%;
-    height: 100%;
-    opacity : 0.2;
-    z-index: -1;
-}
+		#footer {
+		   position:absolute;
+		   bottom:0;
+		   width:100%;
+		   height:60px;   /* Height of the footer */
+		} 
 		</style>
 	</head>
 	<body>
+		
 		<div class="container">
-			<form><input type="button" value="Back" onClick="history.go(-1);return true;"></form>
-			<div id="main">
+			<div>
+				<a href="${pageContext.servletContext.contextPath}/">
+					<img alt="Head to Head Logo" 
+						src="${pageContext.servletContext.contextPath}/assets/images/h2hlogo.png" 
+						style="height:50px;padding:5px;">
+				</a>
+			</div>
+			<div id="game-info-main">
 				<h4>${model.game.name}</h4>
-			
+				<div style="padding:10px;box-shadow: 10px 10px 5px #888888;border: 2px solid;border-radius: 15px;">
 				${model.game.description }
+				</div>
 			</div>
-			<div id="bg">
-			</div>
+			<div id="game-info-bg" style="background-image: url(${pageContext.servletContext.contextPath}${model.game.backgroundImage});"></div>
+			<jsp:include page="/footer.jsp"></jsp:include>
 		</div>
-		<jsp:include page="/footer.jsp"></jsp:include>
 	</body>
 </html>

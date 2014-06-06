@@ -212,20 +212,6 @@ request.setAttribute("model", model);
 				office teams, intramural, and full sized corporate leagues.</h2>
 		</div>
 	</div>
-	<div class="section">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 left-footer-col">
-					<div class="footer-text">&copy; &nbsp;Erglesoft, Inc. All Rights Reserved.</div>
-				</div>
-				<div class="col-md-6 footer-nav-bar">
-					<a class="footer-link" href="http://www.erglesoft.com">Erglesoft</a>
-					<a class="footer-link" href="http://www.kewtec.com">kewtec</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
