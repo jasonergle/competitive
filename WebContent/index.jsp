@@ -151,18 +151,17 @@ request.setAttribute("model", model);
 					<p>We are continuously building more game types to support your
 						tracking.&nbsp;&nbsp;We will take requests for any aditional type
 						not found in our system already.</p>
-					<div class="row">
-						<table class="table table-striped"><tbody>
-						<c:forEach var="game" items="${model.games}" varStatus="status" >
-							<c:if test="${status.index %5==0 }">
-								<c:if test="${status.index >0 }">
-									</tr>
+						<div class="row">
+							<c:forEach var="game" items="${model.games}" varStatus="status" >
+								<c:if test="${status.index %4==0 }">
+									<c:if test="${status.index >0 }">
+										</p> </div>
+									</c:if>
+									<div class="col-sm-3 col-xs-6"> <p>
 								</c:if>
-								<tr>
-							</c:if>
-							<td><b><a href="game/${game.type.toLowerCase()}">${game.name}</a></b></td>
-						</c:forEach>
-						</tbody></table>
+								<a href="game/${game.type.toLowerCase()}">${game.name}</a> <br />
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 				<div class="hidden-xs col-sm-12 col-md-4">
