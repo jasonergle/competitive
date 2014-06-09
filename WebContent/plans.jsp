@@ -108,24 +108,6 @@
 	</div><!-- /container -->
 
 </div>
-	<div class="section">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 left-footer-col">
-					<div class="footer-text">&copy; &nbsp;kewtec, inc. All Rights
-						Reserved.</div>
-				</div>
-        <div class="col-md-4 center-footer-col">
-						<div class="company-title"><img src="assets/images/ramHead_l_sq.png" class="h2hlogo"  />HeadtoHead<img src="assets/images/ramHead_r_sq.png" class="h2hlogo" />&nbsp;</div>
-        </div>
-				<div class="col-md-4 footer-nav-bar">
-					<a class="footer-link" href="http://www.kewtec.com">kewtec</a> 
-					<a class="footer-link" href="http://www.erglesoft.com">Erglesoft</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<jsp:include page="footer.jsp"></jsp:include>
+<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
