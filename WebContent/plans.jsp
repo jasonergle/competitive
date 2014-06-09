@@ -1,23 +1,22 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html data-wf-site="535daa50e6ef15215d000418">
 <head>
   <meta charset="utf-8">
-  <title>HeadToHead :: Plans and Pricing</title>
-  <meta name="description" content="Track games, series, seasons or whatever for everyone in your leagues.  Allow everyone to see up to date statistics with real-time standings and custom leader-boards.">
+  <title>Head To Head :: Plans and Pricing</title>
+  	<meta name="description" content="Track games, series, seasons or whatever for everyone in your leagues.  Allow everyone to see up to date statistics with real-time standings and custom leader-boards.">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<jsp:include page="header.jsp"></jsp:include>
 	<link rel="stylesheet" type="text/css" href="assets/css/pong.webflow.css">
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
-  <script>
-    WebFont.load({
-      google: {
-        families: ["Droid Sans:400,700","Roboto:regular,700,700italic,900","Dosis:regular,700"]
-      }
-    });
-  </script>
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+	<script>
+	  WebFont.load({
+	    google: {
+	      families: ["Droid Sans:400,700","Roboto:regular,700,700italic,900","Dosis:regular,700"]
+	    }
+	  });
+	</script>
 </head>
 <body>
   <div class="hero-bg">
@@ -55,8 +54,10 @@
 							<h5 class="text-info users">up to 12 players/teams</h5>
 						</p>
 						<p class="action">
-							<a class="btn btn-primary" href="https://headtohead.us/session/signup?free" target="_blank">Sign Up</a>
-							<a href="#" class="btn btn-default" role="button">Try it.</a>
+							<a class="btn btn-primary" 
+								href="${pageContext.servletContext.contextPath}/jsp/user/createAccount.jsp">
+								Signup
+							</a>
 						</p>
 					</div>
 				</div>
@@ -76,8 +77,10 @@
 							<h5 class="text-info users">up to 50 players/teams</h5>
 						</p>
 						<p class="action">
-							<a class="btn btn-primary" href="https://headtohead.us/session/signup?basic" target="_blank">Sign Up</a>
-							<a href="#" class="btn btn-default" role="button">Try it.</a>
+							<a class="btn btn-primary" 
+								href="${pageContext.servletContext.contextPath}/jsp/user/createAccount.jsp">
+								Signup
+							</a>
 						</p>
 					</div>
 				</div>
@@ -98,8 +101,10 @@
 							<h5 class="text-info users">unlimited players/teams</h5>
 						</p>
 						<p class="action">
-							<a class="btn btn-primary" href="https://headtohead.us/session/signup?premium" target="_blank">Sign Up</a>
-							<a href="#" class="btn btn-default" role="button">Try it.</a>
+							<a class="btn btn-primary" 
+								href="${pageContext.servletContext.contextPath}/jsp/user/createAccount.jsp">
+								Signup
+							</a>
 						</p>
 					</div>
 				</div>

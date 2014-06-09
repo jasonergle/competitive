@@ -36,6 +36,13 @@ request.setAttribute("model", model);
 				<div style="padding:10px;box-shadow: 10px 10px 5px #888888;border: 2px solid;border-radius: 15px;">
 				${model.game.description }
 				</div>
+				<br>
+				<div class="col-md-4 col-sm-6 button-column pull-right">
+					<a class="btn btn-primary" 
+						href="${pageContext.servletContext.contextPath}/jsp/user/createAccount.jsp?game=${model.game.type.toLowerCase()}">
+							Setup League for ${model.game.name }
+					</a>
+				</div>
 			</div>
 			<div id="game-info-bg" style="background-image: url(${pageContext.servletContext.contextPath}${model.game.backgroundImage});"></div>
 			<jsp:include page="/footer.jsp"></jsp:include>

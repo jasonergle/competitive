@@ -29,7 +29,7 @@ request.setAttribute("model", model);
 			<c:otherwise>
 				<div id="reportrange" class="pull-right">
 				    <i class="fa fa-calendar fa-lg"></i>
-				    <span>Last 30 Days</span> <b class="caret"></b>
+				    <span id="date">REPORT RANGE</span> <b class="caret"></b>
 				</div>
 				<c:forEach var="game" items="${model.getAllowedGames()}">
 					<div class="lbContainer" data-league-id="${model.curLeague.id}" data-game-id="${game.id}" >
@@ -66,7 +66,8 @@ request.setAttribute("model", model);
 					});
 				});
 			};
-			buildTables(moment().subtract('days', 29).valueOf(), moment().valueOf());
+			$("#reportrange span").text(moment().format("MMMM"));
+			buildTables(moment().startOf('month').valueOf(), moment().endOf('month').valueOf());
 			
 			$('#reportrange').daterangepicker(
 			    {
@@ -78,8 +79,8 @@ request.setAttribute("model", model);
 			         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
 			         'All Time': [moment("Jan 1, 2000"), moment()]
 			      },
-			      startDate: moment().subtract('days', 29),
-			      endDate: moment()
+			      startDate: moment().startOf('month'),
+			      endDate: moment().endOf('month')
 			    },
 			    function(start, end) {
 			        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
