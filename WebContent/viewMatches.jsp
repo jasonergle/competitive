@@ -24,6 +24,7 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 					hidden=true>
 				<thead>
 					<tr>
+						<th>Id</th>
 						<th>Date</th>
 						<th>Game</th>
 						<th>Winner</th>
@@ -37,6 +38,7 @@ ViewMatchesJspModel model = new ViewMatchesJspModel(request);
 				<tbody>
 					<%for(VersusMatch match : model.getMatches()){%>
 					<tr class="">
+						<td><%=match.getId()%></td>
 						<td><%=VersusMatchManager.getFormattedDate(match.getMatchDate())%></td>
 						<td><%=match.getGame().getName()%></td>
 						<td class="winner">
