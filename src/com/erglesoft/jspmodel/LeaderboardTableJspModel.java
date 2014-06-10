@@ -31,14 +31,16 @@ public class LeaderboardTableJspModel extends JspModel{
 		String leagueId = request.getParameter("leagueId");
 		String gameId = request.getParameter("gameId");
 		
-		if(start == null || end == null || leagueId == null || gameId == null){
+		if(leagueId == null || gameId == null){
 			throw new ServletException("Required data not found on request");
 		}
 		try{
 			startDate = new Date(Long.parseLong(start));
 			endDate = new Date(Long.parseLong(end));
 		}catch(Exception e){
-			throw new ServletException("Start and End Date data could not be parsed");
+			
+			startDate = null;
+			endDate = null;
 		}
 		try{
 			league = lMgr.getLeagueById(Integer.parseInt(leagueId));
