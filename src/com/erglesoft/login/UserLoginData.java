@@ -1,13 +1,16 @@
 package com.erglesoft.login;
 
+import java.io.Serializable;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.erglesoft.dbo.League;
 import com.erglesoft.dbo.Login;
 import com.erglesoft.mgr.LoginManager;
 
-public class UserLoginData {
-	
+public class UserLoginData implements Serializable{
+
+	private static final long serialVersionUID = -178455897352791116L;
 	private Login login;
 	private League curLeague;
 	private Boolean isLeagueAdmin;
