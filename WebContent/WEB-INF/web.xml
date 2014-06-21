@@ -28,4 +28,5 @@
     <url-pattern>/game/*</url-pattern>
   </servlet-mapping>
   
+  <distributable />
 </web-app>

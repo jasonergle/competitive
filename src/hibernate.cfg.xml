@@ -13,7 +13,7 @@
 	<property name="hibernate.connection.characterEncoding">UTF-8</property>
 	<property name="hibernate.connection.charSet">UTF-8</property>
     
-    <property name="connection.provider_class">C3P0ConnectionProvider</property>
+<!--<property name="connection.provider_class">C3P0ConnectionProvider</property>
     <property name="c3po.max_size">5</property>
     <property name="c3po.min_size">1</property>
     <property name="c3po.timeout">120</property>
@@ -21,7 +21,22 @@
     <property name="c3po.idle_test_period">300</property>
     <property name="c3po.acquire_increment">1</property>
     <property name="c3p0.acquireRetryAttempts">10</property>
-	<property name="c3p0.breakAfterAcquireFailure">false</property>
+	<property name="c3p0.breakAfterAcquireFailure">false</property>-->
+    
+    <property name="hibernate.connection.provider_class">C3P0ConnectionProvider</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+	<property name="hibernate.c3p0.acquireIncrement">5</property><!-- Opens this many cxns at a time once the pool is exhausted -->
+	<property name="hibernate.c3p0.max_size">200</property>
+	<property name="hibernate.c3p0.timeout">600</property> <!-- Max time to keep idle cxns open -->
+	<property name="hibernate.c3p0.max_statements">20</property>
+	<property name="hibernate.c3p0.idle_test_period">300</property>
+	<property name="hibernate.c3p0.acquireRetryAttempts">1</property>
+	<property name="hibernate.c3p0.breakAfterAcquireFailure">false</property>
+	<property name="hibernate.c3p0.numHelperThreads">5</property> <!-- c3p0 is very asynchronous. Slow JDBC operations are generally performed 
+																		by helper threads that don't hold contended locks. Spreading these operations 
+																		over multiple threads can significantly improve performance by allowing multiple 
+																		operations to be performed simultaneously. -->
+ 
     
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 	<!-- <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property> -->
